@@ -108,6 +108,8 @@
     }
 }
 
+/* Dark mode overrides using the data-theme or .dark selector via standard CSS variables 
+   In Tailwind 4, we modify the variables inside the selector */
 @layer base {
     .dark {
         --color-background: hsl(222 47% 6%);
@@ -132,6 +134,7 @@
     }
 }
 
+/* Custom Utilities - keeping minimal set or porting those from previous components layer */
 @layer utilities {
     .glass-effect {
         @apply bg-card/85 backdrop-blur-2xl border-b border-border/60;

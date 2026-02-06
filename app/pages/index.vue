@@ -1,12 +1,23 @@
-<script setup>
-
+<script setup lang="ts">
+useHead({
+    title: 'HomeoDoctorsBD - Find & Book Expert Homeopathic Doctors Near You',
+    meta: [
+        { name: 'description', content: 'Connect with experienced homeopathic doctors across Bangladesh. Natural healing through holistic treatment. Book appointments instantly online.' },
+        { name: 'keywords', content: 'homeopathy, homeopathic doctors, natural healing, holistic treatment, BHMS, constitutional treatment, Bangladesh' }
+    ]
+})
 </script>
 
 <template>
-<div class="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-    <div class="text-center">
-        <h1 class="text-5xl font-bold text-indigo-900 mb-4">Welcome to HomeoBD</h1>
-        <p class="text-xl text-indigo-700">Your trusted source for homeopathic remedies and information.</p>
+    <div class="min-h-screen bg-background">
+        <AppHero />
+        <AppAdBanner size="leaderboard" class="bg-background" />
+        <AppSpecialties />
+        <AppAdBanner size="banner" class="bg-muted/30" />
+        <AppFeaturedDoctors />
+        <AppAdBanner size="leaderboard" class="bg-background" />
+        <AppHowItWorks />
+        <AppAdBanner size="banner" class="bg-muted/30" />
+        <AppLocations />
     </div>
-</div>
 </template>
