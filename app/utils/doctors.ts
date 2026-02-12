@@ -193,3 +193,129 @@ export const getFeaturedDoctors = (): Doctor[] => {
 export const getFemaleDoctors = (): Doctor[] => {
     return doctors.filter(doctor => doctor.gender === "female");
 };
+
+export const districts = [
+    { id: "all", name: "All Districts" },
+    { id: "dhaka", name: "Dhaka" },
+    { id: "chittagong", name: "Chittagong" },
+    { id: "sylhet", name: "Sylhet" },
+    { id: "rajshahi", name: "Rajshahi" },
+    { id: "khulna", name: "Khulna" },
+];
+
+export const locationInfo: Record<string, {
+    title: string;
+    description: string;
+    doctorCount: number;
+    hospitalCount: number
+}> = {
+    bangladesh: {
+        title: "Best Homeopathic Doctors in Bangladesh",
+        description: "Find and book appointments with the most experienced homeopathic doctors across Bangladesh. Natural healing through holistic treatment.",
+        doctorCount: 500,
+        hospitalCount: 120,
+    },
+    dhaka: {
+        title: "Best Homeopathic Doctors in Dhaka",
+        description: "Connect with top-rated homeopathic practitioners in Dhaka for personalized constitutional treatment and natural healing.",
+        doctorCount: 300,
+        hospitalCount: 75,
+    },
+    chittagong: {
+        title: "Best Homeopathic Doctors in Chittagong",
+        description: "Discover experienced homeopathic doctors in Chittagong offering holistic treatment for chronic and acute conditions.",
+        doctorCount: 80,
+        hospitalCount: 20,
+    },
+    sylhet: {
+        title: "Best Homeopathic Doctors in Sylhet",
+        description: "Book appointments with trusted homeopathic physicians in Sylhet for natural and gentle healing.",
+        doctorCount: 45,
+        hospitalCount: 12,
+    },
+    rajshahi: {
+        title: "Best Homeopathic Doctors in Rajshahi",
+        description: "Find qualified homeopathic doctors in Rajshahi specializing in constitutional and chronic disease treatment.",
+        doctorCount: 35,
+        hospitalCount: 10,
+    },
+    khulna: {
+        title: "Best Homeopathic Doctors in Khulna",
+        description: "Connect with experienced homeopathic practitioners in Khulna for holistic healthcare solutions.",
+        doctorCount: 30,
+        hospitalCount: 8,
+    },
+    // Dhaka Areas
+    uttara: {
+        title: "Best Homeopathic Doctors in Uttara",
+        description: "Find top homeopathic doctors in Uttara, Dhaka for natural healing and constitutional treatment.",
+        doctorCount: 28,
+        hospitalCount: 5,
+    },
+    dhanmondi: {
+        title: "Best Homeopathic Doctors in Dhanmondi",
+        description: "Connect with experienced homeopathic practitioners in Dhanmondi for personalized holistic care.",
+        doctorCount: 35,
+        hospitalCount: 8,
+    },
+    mohammadpur: {
+        title: "Best Homeopathic Doctors in Mohammadpur",
+        description: "Book appointments with trusted homeopathic doctors in Mohammadpur for gentle and effective treatment.",
+        doctorCount: 22,
+        hospitalCount: 4,
+    },
+    mohakhali: {
+        title: "Best Homeopathic Doctors in Mohakhali",
+        description: "Find renowned homeopathic specialists in Mohakhali offering comprehensive natural healthcare.",
+        doctorCount: 30,
+        hospitalCount: 6,
+    },
+    gulshan: {
+        title: "Best Homeopathic Doctors in Gulshan",
+        description: "Discover premium homeopathic clinics in Gulshan with highly qualified practitioners.",
+        doctorCount: 42,
+        hospitalCount: 10,
+    },
+    banani: {
+        title: "Best Homeopathic Doctors in Banani",
+        description: "Connect with experienced homeopathic doctors in Banani for holistic health solutions.",
+        doctorCount: 26,
+        hospitalCount: 5,
+    },
+    mirpur: {
+        title: "Best Homeopathic Doctors in Mirpur",
+        description: "Find affordable homeopathic treatment in Mirpur from experienced practitioners.",
+        doctorCount: 38,
+        hospitalCount: 6,
+    },
+    bashundhara: {
+        title: "Best Homeopathic Doctors in Bashundhara",
+        description: "Book appointments with qualified homeopathic doctors in Bashundhara R/A.",
+        doctorCount: 20,
+        hospitalCount: 3,
+    },
+    motijheel: {
+        title: "Best Homeopathic Doctors in Motijheel",
+        description: "Find trusted homeopathic practitioners in Motijheel for natural healing.",
+        doctorCount: 18,
+        hospitalCount: 4,
+    },
+    shyamoli: {
+        title: "Best Homeopathic Doctors in Shyamoli",
+        description: "Connect with experienced homeopathic doctors in Shyamoli for effective treatment.",
+        doctorCount: 15,
+        hospitalCount: 3,
+    },
+    tejgaon: {
+        title: "Best Homeopathic Doctors in Tejgaon",
+        description: "Find skilled homeopathic practitioners in Tejgaon for chronic and acute diseases.",
+        doctorCount: 12,
+        hospitalCount: 2,
+    },
+    lalmatia: {
+        title: "Best Homeopathic Doctors in Lalmatia",
+        description: "Book appointments with top-rated homeopathic doctors in Lalmatia.",
+        doctorCount: 16,
+        hospitalCount: 3,
+    },
+};

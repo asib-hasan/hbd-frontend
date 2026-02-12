@@ -78,23 +78,20 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
-const props = defineProps({
-    id: String,
-    name: String,
-    specialty: String,
-    hospital: String,
-    image: String,
-    rating: Number,
-    reviews: Number,
-    experience: String,
-    availability: String,
-    fee: String,
-    qualifications: Array as PropType<string[]>,
-    index: {
-        type: Number,
-        default: 0
-    }
-});
+const props = defineProps<{
+    id: string
+    name: string
+    specialty: string
+    hospital: string
+    image: string
+    rating: number
+    reviews: number
+    experience: string
+    availability: string
+    fee?: string
+    qualifications?: string[]
+    index: number
+}>();
 
 const isAvailableToday = computed(() => props.availability?.toLowerCase().includes("today"));
 </script>

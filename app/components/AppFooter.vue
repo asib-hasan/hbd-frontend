@@ -10,7 +10,7 @@ const footerLinks = {
         { name: "Find Doctors", href: "/doctors/bangladesh" },
         { name: "Online Consultation", href: "#" },
         { name: "Constitutional Treatment", href: "#" },
-        { name: "Health Articles", href: "#" },
+        { name: "Health Articles", href: "/blog" },
     ],
     support: [
         { name: "Help Center", href: "/help" },
