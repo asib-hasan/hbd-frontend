@@ -32,21 +32,7 @@ const formatTitle = (title: string) => {
 
         <div class="container mx-auto px-4 relative z-10">
             <!-- Breadcrumbs -->
-            <nav v-if="breadcrumbs" class="flex items-center gap-2 text-sm mb-6 animate-fade-up">
-                <NuxtLink to="/"
-                    class="text-muted-foreground hover:text-primary transition-colors flex items-center gap-1">
-                    <UIcon name="i-lucide-home" class="w-4 h-4" />
-                    Home
-                </NuxtLink>
-                <div v-for="(crumb, index) in breadcrumbs" :key="index" class="flex items-center gap-2">
-                    <UIcon name="i-lucide-chevron-right" class="w-4 h-4 text-muted-foreground/50" />
-                    <NuxtLink v-if="crumb.href" :to="crumb.href"
-                        class="text-muted-foreground hover:text-primary transition-colors">
-                        {{ crumb.label }}
-                    </NuxtLink>
-                    <span v-else class="text-foreground font-medium">{{ crumb.label }}</span>
-                </div>
-            </nav>
+
 
             <div class="max-w-4xl">
                 <h1

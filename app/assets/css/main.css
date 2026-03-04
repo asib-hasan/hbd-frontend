@@ -345,4 +345,64 @@
     .transition-smooth {
         transition: var(--transition-smooth);
     }
+
+    /* Card Styles */
+    .card-premium {
+        @apply bg-white rounded-2xl border border-border/40;
+        box-shadow: var(--shadow-soft);
+        transition: var(--transition-base);
+    }
+
+    .card-premium:hover {
+        box-shadow: var(--shadow-card);
+    }
+
+    /* Section Styles */
+    .section-padding {
+        @apply py-16 lg:py-24;
+    }
+
+    .section-header {
+        @apply text-center max-w-3xl mx-auto mb-14;
+    }
+
+    /* Badges */
+    .badge {
+        @apply inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold;
+    }
+
+    .badge-primary {
+        @apply bg-primary/5 border border-primary/10 text-primary;
+    }
+
+    /* Background Patterns */
+    .bg-hero-pattern {
+        background-image: radial-gradient(circle at 1px 1px, hsl(var(--primary) / 0.03) 1px, transparent 0);
+        background-size: 32px 32px;
+    }
+
+    .bg-gradient-radial {
+        background: radial-gradient(circle, var(--tw-gradient-stops));
+    }
+
+    /* Animation Stagger Delays */
+    .stagger-1 {
+        animation-delay: 0.1s;
+    }
+
+    .stagger-2 {
+        animation-delay: 0.2s;
+    }
+
+    .stagger-3 {
+        animation-delay: 0.3s;
+    }
+
+    .stagger-4 {
+        animation-delay: 0.4s;
+    }
+
+    .stagger-5 {
+        animation-delay: 0.5s;
+    }
 }
