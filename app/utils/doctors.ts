@@ -3,15 +3,17 @@ export interface Doctor {
     name: string;
     specialty: string;
     hospital: string;
+    chamber_name?: string | null;
     image: string;
     rating: number;
     reviews: number;
     experience: string;
     availability: string;
+    doctor_status?: string;
     location: string;
     area?: string; // Sub-area within a city
     fee?: string;
-    qualifications?: string[];
+    degree_name?: string | null;
     isFeatured?: boolean;
     gender?: "male" | "female";
 }
@@ -47,7 +49,7 @@ export const doctors: Doctor[] = [
         location: "dhaka",
         area: "uttara",
         fee: "800 BDT",
-        qualifications: ["BHMS", "DHMS", "MD (Hom)"],
+        degree_name: "BHMS, DHMS, MD (Hom)",
         isFeatured: true,
         gender: "male",
     },
@@ -64,7 +66,7 @@ export const doctors: Doctor[] = [
         location: "dhaka",
         area: "uttara",
         fee: "600 BDT",
-        qualifications: ["BHMS", "MD (Hom)"],
+        degree_name: "BHMS, MD (Hom)",
         gender: "female",
     },
     {
@@ -80,7 +82,7 @@ export const doctors: Doctor[] = [
         location: "dhaka",
         area: "uttara",
         fee: "500 BDT",
-        qualifications: ["BHMS", "DHMS"],
+        degree_name: "BHMS, DHMS",
         gender: "male",
     },
     // Dhanmondi Doctors
@@ -97,7 +99,7 @@ export const doctors: Doctor[] = [
         location: "dhaka",
         area: "dhanmondi",
         fee: "700 BDT",
-        qualifications: ["BHMS", "FCPS (Hom)", "MD (Hom)"],
+        degree_name: "BHMS, FCPS (Hom), MD (Hom)",
         isFeatured: true,
         gender: "female",
     },
@@ -114,7 +116,7 @@ export const doctors: Doctor[] = [
         location: "dhaka",
         area: "dhanmondi",
         fee: "800 BDT",
-        qualifications: ["BHMS", "MD (Hom)", "PhD"],
+        degree_name: "BHMS, MD (Hom), PhD",
         gender: "male",
     },
     {
@@ -130,7 +132,7 @@ export const doctors: Doctor[] = [
         location: "dhaka",
         area: "dhanmondi",
         fee: "900 BDT",
-        qualifications: ["BHMS", "MD (Hom)"],
+        degree_name: "BHMS, MD (Hom)",
         gender: "female",
     },
     // All other doctors are omitted for brevity but should be included in real implementation
@@ -148,7 +150,7 @@ export const doctors: Doctor[] = [
         location: "dhaka",
         area: "mohakhali",
         fee: "1000 BDT",
-        qualifications: ["BHMS", "MD (Hom)", "PhD"],
+        degree_name: "BHMS, MD (Hom), PhD",
         isFeatured: true,
         gender: "male",
     },
@@ -165,7 +167,7 @@ export const doctors: Doctor[] = [
         location: "dhaka",
         area: "mohakhali",
         fee: "1200 BDT",
-        qualifications: ["BHMS", "FCPS (Hom)", "MD (Hom)", "Fellow"],
+        degree_name: "BHMS, FCPS (Hom), MD (Hom), Fellow",
         isFeatured: true,
         gender: "male",
     }

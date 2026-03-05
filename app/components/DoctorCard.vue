@@ -8,18 +8,18 @@
             <div class="absolute inset-0 bg-gradient-to-t from-foreground/60 via-foreground/10 to-transparent" />
 
             <!-- Rating Badge -->
-            <div
+            <!-- <div
                 class="absolute top-4 right-4 bg-card/95 backdrop-blur-sm px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-soft">
                 <UIcon name="i-lucide-star" class="w-4 h-4 text-accent" />
                 <span class="font-bold text-sm text-foreground">{{ rating }}</span>
                 <span class="text-xs text-muted-foreground">({{ reviews }})</span>
-            </div>
+            </div> -->
 
-            <!-- Availability Badge -->
+            <!-- Status Badge -->
             <div class="absolute bottom-4 left-4 backdrop-blur-sm px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5"
-                :class="isAvailableToday ? 'bg-green-500/90 text-white' : 'bg-card/95 text-foreground'">
-                <UIcon name="i-lucide-clock" class="w-3.5 h-3.5" />
-                {{ availability }}
+                :class="doctor_status === 'Active' ? 'bg-green-500/90 text-white' : 'bg-red-500/90 text-white'">
+                <UIcon name="i-lucide-activity" class="w-3.5 h-3.5" />
+                {{ doctor_status || 'Unknown' }}
             </div>
 
             <!-- Verified Badge -->
@@ -34,25 +34,24 @@
         <div class="p-5">
             <div class="mb-4">
                 <div class="flex items-center gap-2 mb-2">
-                    <span
+                    <span v-if="fee"
                         class="inline-block bg-secondary text-secondary-foreground px-3 py-1 rounded-lg text-xs font-semibold">
-                        {{ specialty }}
+                        Fee: {{ fee }}
                     </span>
-                    <span v-if="fee" class="text-xs text-muted-foreground">• {{ fee }}</span>
                 </div>
                 <h3
                     class="font-display font-bold text-lg text-foreground group-hover:text-primary transition-colors line-clamp-1">
                     {{ name }}
                 </h3>
-                <p v-if="qualifications" class="text-xs text-muted-foreground mt-1 line-clamp-1">
-                    {{ qualifications.join(", ") }}
+                <p v-if="degree_name" class="text-xs text-muted-foreground mt-1 line-clamp-1">
+                    {{ degree_name }}
                 </p>
             </div>
 
             <div class="space-y-2 mb-5">
                 <div class="flex items-center gap-2 text-sm text-muted-foreground">
                     <UIcon name="i-lucide-map-pin" class="w-4 h-4 flex-shrink-0" />
-                    <span class="line-clamp-1">{{ hospital }}</span>
+                    <span class="line-clamp-1">{{ chamber_name || 'No Chamber' }}</span>
                 </div>
                 <div class="flex items-center gap-2 text-sm text-muted-foreground">
                     <UIcon name="i-lucide-calendar" class="w-4 h-4 flex-shrink-0" />
@@ -76,22 +75,20 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-
 const props = defineProps<{
-    id: string
+    id: string | number
     name: string
-    specialty: string
-    hospital: string
+    degree_name?: string | null
+    hospital?: string
+    chamber_name?: string | null
     image: string
-    rating: number
-    reviews: number
-    experience: string
-    availability: string
+    rating?: number | string
+    reviews?: number | string
+    experience: string | number
+    availability?: string
+    doctor_status?: string
     fee?: string
     qualifications?: string[]
     index: number
 }>();
-
-const isAvailableToday = computed(() => props.availability?.toLowerCase().includes("today"));
 </script>

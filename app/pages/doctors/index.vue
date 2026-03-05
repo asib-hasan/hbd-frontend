@@ -1,15 +1,19 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { districts } from '~/utils/doctors'
+import { ref, computed, watch, onMounted } from 'vue'
 import { useDoctors } from '~/composables/useDoctors'
 import type { Doctor } from '~/utils/doctors'
 
 const searchQuery = ref("")
-const selectedSpecialty = ref("all")
 const selectedDistrict = ref("all")
+const selectedArea = ref("all")
 
-const { fetchAllDoctors } = useDoctors()
-const { data: apiResponse, pending } = await fetchAllDoctors()
+const districtsData = ref<any[]>([])
+const areasData = ref<any[]>([])
+
+const { fetchAllDoctors, fetchDistricts, fetchAreas } = useDoctors()
+
+const apiResponse = ref<any>(null)
+const pending = ref(true)
 
 const doctors = computed<Doctor[]>(() => {
     const responseData = (apiResponse.value as any)?.data
@@ -19,42 +23,48 @@ const doctors = computed<Doctor[]>(() => {
         name: d.name,
         specialty: d.specialty || '',
         hospital: d.chamber_name || "Chamber N/A",
-        image: d.image || "https://ui-avatars.com/api/?name=" + encodeURIComponent(d.name),
+        chamber_name: d.chamber_name,
+        image: d.image,
         rating: Number(d.rating) || 0,
         reviews: Number(d.total_reviews) || 0,
         experience: d.experience ? `${d.experience} Years` : "",
-        availability: d.is_available_today ? "Available Today" : "Not Available",
+        doctor_status: d.doctor_status,
         fee: `${d.consultation_fee} BDT`,
-        qualifications: d.degrees ? d.degrees.split(',').map((s: string) => s.trim()) : [],
-        location: 'bangladesh', // Map from API if available
+        degree_name: d.degree_name,
+        location: 'bangladesh',
     }))
 })
 
-const info = {
-    title: "Find Doctors",
+const selectedLocationName = computed(() => {
+    let districtName = ""
+    let areaName = ""
+
+    if (selectedDistrict.value !== "all") {
+        const district = districtsData.value.find(d => d.id == selectedDistrict.value)
+        if (district) districtName = district.name_en || district.name
+    }
+
+    if (selectedArea.value !== "all") {
+        const area = areasData.value.find(a => a.id == selectedArea.value)
+        if (area) areaName = area.name_en || area.name
+    }
+
+    if (areaName && districtName) return `in ${areaName}, ${districtName}`
+    if (districtName) return `in ${districtName}`
+    return "in Bangladesh"
+})
+
+const infoTitle = computed(() => `Best Homeopathic Doctors ${selectedLocationName.value}`)
+
+const info = computed(() => ({
+    title: infoTitle.value,
     description: "Find and book appointments with the most experienced homeopathic doctors across Bangladesh. Natural healing through holistic treatment.",
     doctorCount: doctors.value.length || 0,
     hospitalCount: 0
-}
-
-const specialties = computed(() => {
-    const specs = new Set(doctors.value.map(d => d.specialty).filter(Boolean))
-    return ["all", ...Array.from(specs)]
-})
+}))
 
 const filteredDoctors = computed(() => {
-    return doctors.value.filter(doctor => {
-        const matchesSearch =
-            doctor.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-            doctor.specialty.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-            doctor.hospital.toLowerCase().includes(searchQuery.value.toLowerCase())
-
-        const matchesSpecialty = selectedSpecialty.value === 'all' || doctor.specialty === selectedSpecialty.value
-
-        const matchesDistrict = selectedDistrict.value === 'all' || doctor.location === selectedDistrict.value
-
-        return matchesSearch && matchesSpecialty && matchesDistrict
-    })
+    return doctors.value;
 })
 
 const breadcrumbs = computed(() => {
@@ -65,16 +75,76 @@ const breadcrumbs = computed(() => {
 useHead({
     title: computed(() => `Find Doctors | HomeoDoctorsBD`),
     meta: [
-        { name: 'description', content: info.description },
+        { name: 'description', content: info.value.description },
         { name: 'keywords', content: `homeopathy, homeopathic doctors, bangladesh, natural healing` }
     ]
 })
 
 const clearFilters = () => {
     searchQuery.value = ""
-    selectedSpecialty.value = "all"
     selectedDistrict.value = "all"
+    selectedArea.value = "all"
 }
+
+const loadDoctors = async () => {
+    pending.value = true
+    const params: any = {}
+    if (searchQuery.value) params.search = searchQuery.value
+    if (selectedDistrict.value !== 'all') params.district_id = selectedDistrict.value
+    if (selectedArea.value !== 'all') params.area_id = selectedArea.value
+
+    const { data } = await fetchAllDoctors(params)
+    apiResponse.value = data.value
+    pending.value = false
+}
+
+const loadDistricts = async () => {
+    const { data } = await fetchDistricts()
+    if (Array.isArray((data.value as any)?.data)) {
+        districtsData.value = (data.value as any).data
+    } else if ((data.value as any)?.data) {
+        districtsData.value = [(data.value as any).data]
+    }
+}
+
+const loadAreas = async (districtId: string | number) => {
+    const { data } = await fetchAreas(districtId)
+    // Map the nested list correctly given the response format
+    if ((data.value as any)?.data?.area) {
+        areasData.value = (data.value as any).data.area
+    } else if (Array.isArray((data.value as any)?.data)) {
+        areasData.value = (data.value as any).data
+    } else {
+        areasData.value = []
+    }
+}
+
+watch(selectedDistrict, async (newVal) => {
+    selectedArea.value = 'all'
+    if (newVal !== 'all') {
+        await loadAreas(newVal)
+    } else {
+        areasData.value = []
+    }
+    await loadDoctors()
+})
+
+watch(selectedArea, async () => {
+    await loadDoctors()
+})
+
+let searchTimeout: any;
+watch(searchQuery, (newVal) => {
+    clearTimeout(searchTimeout)
+    searchTimeout = setTimeout(() => {
+        loadDoctors()
+    }, 500)
+})
+
+onMounted(async () => {
+    await loadDistricts()
+    await loadDoctors()
+})
 </script>
 
 <template>
@@ -104,8 +174,26 @@ const clearFilters = () => {
                                     class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground z-10" />
                                 <select v-model="selectedDistrict"
                                     class="w-full h-12 pl-10 pr-4 bg-background border border-border rounded-xl text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/30 appearance-none cursor-pointer">
-                                    <option v-for="district in districts" :key="district.id" :value="district.id">
-                                        {{ district.name }}
+                                    <option value="all">All Districts</option>
+                                    <option v-for="district in districtsData" :key="district.id" :value="district.id">
+                                        {{ district.name_en }}
+                                    </option>
+                                </select>
+                                <UIcon name="i-lucide-chevron-down"
+                                    class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
+                            </div>
+                        </div>
+
+                        <!-- Area Filter -->
+                        <div class="w-full sm:w-48" v-if="selectedDistrict !== 'all' && areasData.length > 0">
+                            <div class="relative">
+                                <UIcon name="i-lucide-map"
+                                    class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground z-10" />
+                                <select v-model="selectedArea"
+                                    class="w-full h-12 pl-10 pr-4 bg-background border border-border rounded-xl text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/30 appearance-none cursor-pointer">
+                                    <option value="all">All Areas</option>
+                                    <option v-for="area in areasData" :key="area.id" :value="area.id">
+                                        {{ area.name_en }}
                                     </option>
                                 </select>
                                 <UIcon name="i-lucide-chevron-down"
@@ -115,7 +203,7 @@ const clearFilters = () => {
                     </div>
 
                     <!-- Specialty Filter -->
-                    <div class="flex items-center gap-3 overflow-x-auto pb-2 lg:pb-0 scrollbar-hide">
+                    <!-- <div class="flex items-center gap-3 overflow-x-auto pb-2 lg:pb-0 scrollbar-hide">
                         <UIcon name="i-lucide-sliders-horizontal" class="w-5 h-5 text-muted-foreground flex-shrink-0" />
                         <button v-for="specialty in specialties.slice(0, 6)" :key="specialty"
                             @click="selectedSpecialty = specialty"
@@ -124,7 +212,7 @@ const clearFilters = () => {
                                 : 'bg-muted hover:bg-muted/80 text-foreground'">
                             {{ specialty === 'all' ? 'All Specialties' : specialty }}
                         </button>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </section>
