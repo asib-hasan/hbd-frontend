@@ -1,80 +1,74 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { useRoute } from 'vue-router'
-import { 
-    getDoctorsByLocation, 
-    locationInfo, 
-    dhakaAreas, 
-    districts,
-    type Doctor 
-} from '~/utils/doctors'
-
-const route = useRoute()
-const location = computed(() => (route.params.location as string) || 'bangladesh')
+import { districts } from '~/utils/doctors'
+import { useDoctors } from '~/composables/useDoctors'
+import type { Doctor } from '~/utils/doctors'
 
 const searchQuery = ref("")
 const selectedSpecialty = ref("all")
 const selectedDistrict = ref("all")
 
-const doctors = computed(() => getDoctorsByLocation(location.value))
-const info = computed(() => locationInfo[location.value] || locationInfo.bangladesh || {
-    title: "Homeopathic Doctors",
-    description: "Find homeopathic doctors in Bangladesh",
-    doctorCount: 0,
-    hospitalCount: 0
+const { fetchAllDoctors } = useDoctors()
+const { data: apiResponse, pending } = await fetchAllDoctors()
+
+const doctors = computed<Doctor[]>(() => {
+    const responseData = (apiResponse.value as any)?.data
+    const rawDoctors = Array.isArray(responseData) ? responseData : (responseData?.data || [])
+    return rawDoctors.map((d: any) => ({
+        id: String(d.id),
+        name: d.name,
+        specialty: d.specialty || '',
+        hospital: d.chamber_name || "Chamber N/A",
+        image: d.image || "https://ui-avatars.com/api/?name=" + encodeURIComponent(d.name),
+        rating: Number(d.rating) || 0,
+        reviews: Number(d.total_reviews) || 0,
+        experience: d.experience ? `${d.experience} Years` : "",
+        availability: d.is_available_today ? "Available Today" : "Not Available",
+        fee: `${d.consultation_fee} BDT`,
+        qualifications: d.degrees ? d.degrees.split(',').map((s: string) => s.trim()) : [],
+        location: 'bangladesh', // Map from API if available
+    }))
 })
 
-const isDhaka = computed(() => location.value === 'dhaka')
-const isDhakaArea = computed(() => dhakaAreas.some(area => area.id === location.value))
-const isBangladesh = computed(() => location.value === 'bangladesh')
+const info = {
+    title: "Find Doctors",
+    description: "Find and book appointments with the most experienced homeopathic doctors across Bangladesh. Natural healing through holistic treatment.",
+    doctorCount: doctors.value.length || 0,
+    hospitalCount: 0
+}
 
 const specialties = computed(() => {
-    const specs = new Set(doctors.value.map(d => d.specialty))
+    const specs = new Set(doctors.value.map(d => d.specialty).filter(Boolean))
     return ["all", ...Array.from(specs)]
 })
 
 const filteredDoctors = computed(() => {
     return doctors.value.filter(doctor => {
-        const matchesSearch = 
+        const matchesSearch =
             doctor.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
             doctor.specialty.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
             doctor.hospital.toLowerCase().includes(searchQuery.value.toLowerCase())
-        
+
         const matchesSpecialty = selectedSpecialty.value === 'all' || doctor.specialty === selectedSpecialty.value
-        
+
         const matchesDistrict = selectedDistrict.value === 'all' || doctor.location === selectedDistrict.value
-        
+
         return matchesSearch && matchesSpecialty && matchesDistrict
     })
 })
 
 const breadcrumbs = computed(() => {
-    const crumbs: { label: string; href?: string }[] = [{ label: "Doctors", href: "/doctors/bangladesh" }]
-    
-    if (isDhakaArea.value) {
-        crumbs.push({ label: "Dhaka", href: "/doctors/dhaka" })
-        const areaInfo = dhakaAreas.find(a => a.id === location.value)
-        crumbs.push({ label: areaInfo?.name || location.value })
-    } else {
-        crumbs.push({ label: location.value.charAt(0).toUpperCase() + location.value.slice(1) })
-    }
-    
-    return crumbs
+    return [{ label: "Doctors", href: "/doctors" }]
 })
 
 // SEO
 useHead({
-    title: computed(() => `${info.value.title} | HomeoDoctorsBD`),
+    title: computed(() => `Find Doctors | HomeoDoctorsBD`),
     meta: [
-        { name: 'description', content: computed(() => info.value.description) },
-        { name: 'keywords', content: computed(() => `homeopathy, homeopathic doctors, ${location.value}, natural healing`) }
+        { name: 'description', content: info.description },
+        { name: 'keywords', content: `homeopathy, homeopathic doctors, bangladesh, natural healing` }
     ]
 })
-
-const formatDistrict = (id: string) => {
-    const district = districts.find(d => d.id === id)
-    return district ? district.name : id
-}
 
 const clearFilters = () => {
     searchQuery.value = ""
@@ -85,38 +79,9 @@ const clearFilters = () => {
 
 <template>
     <div class="min-h-screen bg-background">
-        <PageHeader 
-            :title="info.title" 
-            :description="info.description" 
-            :breadcrumbs="breadcrumbs"
-            :stats="[
-                { label: 'Verified Doctors', value: `${info.doctorCount}+` },
-                { label: 'Partner Clinics', value: `${info.hospitalCount}+` }
-            ]" 
-        />
-
-        <!-- Dhaka Areas Section -->
-        <section v-if="isDhaka" class="py-8 bg-card/50 border-b border-border">
-            <div class="container mx-auto px-4">
-                <h3 class="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
-                    <UIcon name="i-lucide-map-pin" class="w-5 h-5 text-primary" />
-                    Browse by Area in Dhaka
-                </h3>
-                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
-                    <NuxtLink v-for="area in dhakaAreas" :key="area.id" :to="`/doctors/${area.id}`"
-                        class="group p-4 bg-background border border-border rounded-xl hover:border-primary/30 hover:shadow-soft transition-all duration-300">
-                        <div class="flex flex-col gap-1">
-                            <span class="font-medium text-foreground group-hover:text-primary transition-colors">
-                                {{ area.name }}
-                            </span>
-                            <span class="text-xs text-muted-foreground">
-                                {{ area.doctorCount }} Doctors
-                            </span>
-                        </div>
-                    </NuxtLink>
-                </div>
-            </div>
-        </section>
+        <PageHeader :title="info.title" :description="info.description" :breadcrumbs="breadcrumbs" :stats="[
+            { label: 'Verified Doctors', value: `${info.doctorCount}` }
+        ]" />
 
         <!-- Filters Section -->
         <section class="py-8 border-b border-border bg-card/50">
@@ -133,7 +98,7 @@ const clearFilters = () => {
                         </div>
 
                         <!-- District Filter -->
-                        <div v-if="isBangladesh" class="w-full sm:w-48">
+                        <div class="w-full sm:w-48">
                             <div class="relative">
                                 <UIcon name="i-lucide-map-pin"
                                     class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground z-10" />
@@ -171,9 +136,6 @@ const clearFilters = () => {
                     <p class="text-muted-foreground">
                         Showing <span class="font-semibold text-foreground">{{ filteredDoctors.length }}</span> doctors
                     </p>
-                    <NuxtLink v-if="isDhakaArea" to="/doctors/dhaka" class="text-sm text-primary hover:underline">
-                        ← Back to all Dhaka doctors
-                    </NuxtLink>
                 </div>
 
                 <div v-if="filteredDoctors.length > 0" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">

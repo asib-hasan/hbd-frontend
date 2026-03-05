@@ -26,9 +26,15 @@ const handleLogout = async () => {
     // navigate to home
 }
 
-const navLinks = [
-    { name: "Find Doctors", href: "/doctors/bangladesh" },
-    { name: "Specialties", href: "/specialties" },
+interface NavLink {
+    name: string;
+    href: string;
+    children?: { name: string; href: string }[];
+}
+
+const navLinks: NavLink[] = [
+    { name: "Find Doctors", href: "/doctors" },
+    // { name: "Specialties", href: "/specialties" },
     {
         name: "Locations",
         href: "#",
@@ -43,6 +49,7 @@ const navLinks = [
     },
     { name: "Blog", href: "/blog" },
     { name: "About", href: "/about" },
+    { name: "Contact", href: "/contact" },
 ]
 </script>
 
@@ -62,28 +69,8 @@ const navLinks = [
 
                 <!-- Desktop Navigation -->
                 <nav class="hidden lg:flex items-center gap-1">
-                    <div v-for="link in navLinks" :key="link.name" class="relative"
-                        @mouseenter="link.children && (openDropdown = link.name)" @mouseleave="openDropdown = null">
-                        <div v-if="link.children">
-                            <button
-                                class="flex items-center gap-1 px-3 py-2 text-sm text-foreground/70 hover:text-foreground font-medium transition-colors rounded-md hover:bg-muted/50">
-                                {{ link.name }}
-                                <UIcon name="i-lucide-chevron-down"
-                                    class="w-3.5 h-3.5 transition-transform duration-200"
-                                    :class="{ 'rotate-180': openDropdown === link.name }" />
-                            </button>
-                            <div class="absolute top-full left-0 pt-2 transition-all duration-150"
-                                :class="openDropdown === link.name ? 'opacity-100 visible' : 'opacity-0 invisible'">
-                                <div
-                                    class="bg-background border border-border rounded-lg shadow-lg py-1.5 min-w-[160px]">
-                                    <NuxtLink v-for="child in link.children" :key="child.name" :to="child.href"
-                                        class="block px-3 py-2 text-sm text-foreground/70 hover:text-foreground hover:bg-muted/50 transition-colors">
-                                        {{ child.name }}
-                                    </NuxtLink>
-                                </div>
-                            </div>
-                        </div>
-                        <NuxtLink v-else :to="link.href"
+                    <div v-for="link in navLinks" :key="link.name" class="relative">
+                        <NuxtLink :to="link.href"
                             class="px-3 py-2 text-sm text-foreground/70 hover:text-foreground font-medium transition-colors rounded-md hover:bg-muted/50">
                             {{ link.name }}
                         </NuxtLink>
@@ -106,7 +93,7 @@ const navLinks = [
                     </template>
                     <template v-else>
                         <NuxtLink to="/auth">
-                            <UButton variant="ghost" color="gray" size="sm" class="h-9 px-3 text-sm">
+                            <UButton variant="ghost" color="neutral" size="sm" class="h-9 px-3 text-sm">
                                 Login
                                 <UIcon name="i-lucide-log-in" class="w-4 h-4 mr-1.5" />
                             </UButton>
@@ -131,19 +118,7 @@ const navLinks = [
             <div v-if="isMenuOpen" class="lg:hidden py-4 border-t border-border animate-fade-in">
                 <nav class="flex flex-col gap-1">
                     <div v-for="link in navLinks" :key="link.name">
-                        <div v-if="link.children" class="py-1">
-                            <span class="px-3 text-xs font-medium text-muted-foreground uppercase tracking-wide">{{
-                                link.name
-                                }}</span>
-                            <div class="mt-1">
-                                <NuxtLink v-for="child in link.children" :key="child.name" :to="child.href"
-                                    class="block px-3 py-2 text-sm text-foreground hover:text-primary hover:bg-muted/50 rounded-md transition-colors"
-                                    @click="isMenuOpen = false">
-                                    {{ child.name }}
-                                </NuxtLink>
-                            </div>
-                        </div>
-                        <NuxtLink v-else :to="link.href"
+                        <NuxtLink :to="link.href"
                             class="block w-full text-left px-3 py-2.5 text-sm text-foreground hover:text-primary hover:bg-muted/50 rounded-md font-medium transition-colors"
                             @click="isMenuOpen = false">
                             {{ link.name }}

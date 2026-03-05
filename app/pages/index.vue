@@ -37,19 +37,14 @@ useHead({
 
 <template>
     <div class="min-h-screen bg-background">
-        <!-- Hero Section -->
         <AppHero />
 
-        <!-- Specialties Section -->
-        <AppSpecialties />
+        <!-- <AppSpecialties /> -->
 
-        <!-- Featured Doctors -->
         <AppFeaturedDoctors />
 
-        <!-- How It Works -->
         <AppHowItWorks />
 
-        <!-- Testimonials Section -->
         <section class="py-20 lg:py-28 bg-background relative overflow-hidden">
             <!-- Background -->
             <div

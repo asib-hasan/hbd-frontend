@@ -6,14 +6,12 @@ const doctors = getFeaturedDoctors();
 
 <template>
     <section id="doctors" class="section-padding bg-muted/30 relative overflow-hidden">
-        <!-- Background Decoration -->
         <div
             class="absolute -top-40 -right-40 w-96 h-96 bg-gradient-radial from-primary/5 to-transparent rounded-full blur-3xl" />
         <div
             class="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-radial from-accent/5 to-transparent rounded-full blur-3xl" />
 
         <div class="container mx-auto px-4 relative z-10">
-            <!-- Section Header -->
             <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between mb-12 gap-6">
                 <div class="max-w-2xl">
                     <span class="badge badge-primary mb-4 animate-fade-up">
@@ -39,7 +37,6 @@ const doctors = getFeaturedDoctors();
                 </div>
             </div>
 
-            <!-- Doctors Grid -->
             <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 <DoctorCard v-for="(doctor, index) in doctors.slice(0, 4)" :key="doctor.id" v-bind="doctor"
                     :index="index" />

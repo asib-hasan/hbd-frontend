@@ -5,11 +5,37 @@ export default defineNuxtConfig({
   ssr: false,
 
   app: {
-    baseURL: '/',          // MUST be '/'
+    baseURL: '/',
     buildAssetsDir: '/_nuxt/'
   },
 
-  modules: ['@nuxt/ui'],
+  modules: ['@nuxt/ui', '@nuxtjs/google-fonts'],
+  googleFonts: {
+    families: {
+      Outfit: [300, 400, 500, 600, 700, 800],
+      'Plus Jakarta Sans': [400, 500, 600, 700],
+    },
+    display: 'swap',
+    prefetch: true,
+    preconnect: true,
+    preload: true,
+  },
   css: ['~/assets/css/main.css'],
 
+  nitro: {
+    compressPublicAssets: true,
+  },
+
+  experimental: {
+    payloadExtraction: false,
+    inlineRouteRules: true,
+    renderJsonPayloads: true,
+  },
+
+  vite: {
+    build: {
+      cssCodeSplit: true,
+      chunkSizeWarningLimit: 2000,
+    },
+  },
 })
