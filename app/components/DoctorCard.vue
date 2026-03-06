@@ -59,16 +59,15 @@
                 </div>
             </div>
 
-            <div class="flex gap-3">
-                <NuxtLink :to="`/doctor/${id}`" class="flex-1">
-                    <UButton variant="outline" size="sm" block class="w-full h-11">
-                        View Profile
+            <div class="mt-auto">
+                <NuxtLink :to="`/doctor/${slug || id}`" class="block w-full group/btn">
+                    <UButton variant="soft" size="md" block
+                        class="w-full h-11 justify-between px-4 bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 rounded-xl font-semibold">
+                        Visit Profile
+                        <UIcon name="i-lucide-arrow-right"
+                            class="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform" />
                     </UButton>
                 </NuxtLink>
-                <UButton size="sm" class="flex-1 h-11 gap-1 shadow-soft" block>
-                    Book Now
-                    <UIcon name="i-lucide-arrow-right" class="w-4 h-4" />
-                </UButton>
             </div>
         </div>
     </div>
@@ -77,6 +76,7 @@
 <script setup lang="ts">
 const props = defineProps<{
     id: string | number
+    slug?: string
     name: string
     degree_name?: string | null
     hospital?: string

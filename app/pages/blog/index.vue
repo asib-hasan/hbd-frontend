@@ -1,29 +1,72 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { blogPosts, blogCategories } from '~/utils/blogs'
-import PageHeader from '~/components/PageHeader.vue';
+import { ref, computed, watch, onMounted } from 'vue'
+import { useBlogs } from '~/composables/useBlogs'
+import PageHeader from '~/components/PageHeader.vue'
+import BlogCard from '~/components/BlogCard.vue'
 
-const selectedCategory = ref("All")
 const searchQuery = ref("")
+const selectedCategory = ref("all")
+const categoriesData = ref<any[]>([])
 
-const filteredPosts = computed(() => {
-    return blogPosts.filter((post) => {
-        const matchesCategory = selectedCategory.value === "All" || post.category === selectedCategory.value
-        const matchesSearch =
-            post.title.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-            post.excerpt.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-            post.tags.some(tag => tag.toLowerCase().includes(searchQuery.value.toLowerCase()))
-        return matchesCategory && matchesSearch
-    })
+const { fetchBlogs, fetchBlogCategories } = useBlogs()
+
+const apiResponse = ref<any>(null)
+const pending = ref(true)
+
+const processedBlogs = computed(() => {
+    const responseData = (apiResponse.value as any)?.data
+    const rawData = Array.isArray(responseData) ? responseData : (responseData?.data || [])
+    return rawData
 })
 
-const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric'
-    })
+const getBlogs = async (page = 1) => {
+    pending.value = true
+    try {
+        const { data, status } = await fetchBlogs({
+            search: searchQuery.value,
+            category_id: selectedCategory.value === 'all' ? '' : selectedCategory.value,
+            page: page
+        })
+
+        if (status.value === 'success') {
+            apiResponse.value = data.value
+        }
+    } catch (e) {
+        console.error('Failed to fetch blogs:', e)
+    } finally {
+        pending.value = false
+    }
 }
+
+const getCategories = async () => {
+    try {
+        const { data, status } = await fetchBlogCategories()
+        if (status.value === 'success') {
+            categoriesData.value = (data.value as any)?.data || []
+        }
+    } catch (e) {
+        console.error('Failed to fetch blog categories:', e)
+    }
+}
+
+onMounted(() => {
+    getCategories()
+    getBlogs()
+})
+
+const debouncedSearch = ref("")
+let timeoutId: any = null
+
+watch(searchQuery, (newVal) => {
+    if (timeoutId) clearTimeout(timeoutId)
+    timeoutId = setTimeout(() => {
+        debouncedSearch.value = newVal
+    }, 500)
+})
+
+watch([debouncedSearch, selectedCategory], () => {
+    getBlogs()
+})
 
 useHead({
     title: 'Health & Wellness Blog | HomeoDoctorsBD',
@@ -45,81 +88,88 @@ useHead({
         <section class="py-12 lg:py-16">
             <div class="container mx-auto px-4">
                 <!-- Search and Filter -->
-                <div class="flex flex-col lg:flex-row gap-4 mb-10">
-                    <div class="relative flex-1 max-w-md">
+                <div class="flex flex-col xl:flex-row gap-4 mb-10 items-stretch">
+                    <div class="relative flex-1 lg:max-w-md">
                         <UIcon name="i-lucide-search"
                             class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground z-10" />
-                        <input type="text" placeholder="Search articles..." v-model="searchQuery"
-                            class="w-full h-10 pl-10 pr-4 bg-background border border-input rounded-md text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/30 transition-all font-sans text-sm" />
+                        <input type="text" placeholder="Search articles by title..." v-model="searchQuery"
+                            class="w-full h-12 pl-10 pr-4 bg-background border border-input rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/30 transition-all font-sans text-sm" />
                     </div>
-                    <div class="flex flex-wrap gap-2">
-                        <button v-for="category in blogCategories" :key="category" @click="selectedCategory = category"
-                            class="px-4 py-2 rounded-full text-sm font-medium transition-colors"
-                            :class="selectedCategory === category
+
+                    <div class="flex gap-2 w-full overflow-x-auto pb-2 scrollbar-none snap-x mask-fade-edges">
+                        <button @click="selectedCategory = 'all'"
+                            class="whitespace-nowrap px-5 py-3 rounded-xl text-sm font-semibold transition-all snap-start shadow-sm active:scale-95"
+                            :class="selectedCategory === 'all'
                                 ? 'bg-primary text-primary-foreground hover:bg-primary/90'
                                 : 'bg-background border border-input text-foreground hover:bg-accent hover:text-accent-foreground'">
-                            {{ category }}
+                            All Articles
+                        </button>
+                        <button v-for="cat in categoriesData" :key="cat.id" @click="selectedCategory = String(cat.id)"
+                            class="whitespace-nowrap px-5 py-3 rounded-xl text-sm font-semibold transition-all snap-start shadow-sm active:scale-95"
+                            :class="selectedCategory === String(cat.id)
+                                ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+                                : 'bg-background border border-input text-foreground hover:bg-accent hover:text-accent-foreground'">
+                            {{ cat.name_en }}
                         </button>
                     </div>
                 </div>
 
-                <!-- Blog Grid -->
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-                    <article v-for="(post, index) in filteredPosts" :key="post.id"
-                        class="group card-premium hover-lift animate-fade-up"
-                        :style="{ animationDelay: `${(index % 6 + 1) * 0.1}s` }">
-                        <NuxtLink :to="`/blog/${post.slug}`">
-                            <div class="relative overflow-hidden rounded-t-2xl">
-                                <img :src="post.coverImage" :alt="post.title"
-                                    class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105" />
-                                <div
-                                    class="absolute top-4 left-4 bg-primary text-primary-foreground px-2.5 py-0.5 rounded-full text-xs font-semibold">
-                                    {{ post.category }}
-                                </div>
-                            </div>
-                            <div class="p-5">
-                                <div class="flex items-center gap-4 text-sm text-muted-foreground mb-3">
-                                    <span class="flex items-center gap-1.5">
-                                        <UIcon name="i-lucide-calendar" class="w-4 h-4" />
-                                        {{ formatDate(post.publishedAt) }}
-                                    </span>
-                                    <span class="flex items-center gap-1.5">
-                                        <UIcon name="i-lucide-clock" class="w-4 h-4" />
-                                        {{ post.readTime }}
-                                    </span>
-                                </div>
-                                <h3
-                                    class="font-display font-semibold text-lg text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">
-                                    {{ post.title }}
-                                </h3>
-                                <p class="text-muted-foreground text-sm line-clamp-2 mb-4">
-                                    {{ post.excerpt }}
-                                </p>
-                                <div class="flex items-center justify-between">
-                                    <div class="flex items-center gap-2">
-                                        <img :src="post.authorAvatar" :alt="post.author"
-                                            class="w-8 h-8 rounded-full object-cover" />
-                                        <span class="text-sm font-medium text-foreground">{{ post.author }}</span>
-                                    </div>
-                                    <span
-                                        class="text-primary font-medium text-sm flex items-center gap-1 group-hover:gap-2 transition-all">
-                                        Read More
-                                        <UIcon name="i-lucide-arrow-right" class="w-4 h-4" />
-                                    </span>
-                                </div>
-                            </div>
-                        </NuxtLink>
-                    </article>
+                <!-- Loading State -->
+                <div v-if="pending" class="flex justify-center items-center py-20">
+                    <UIcon name="i-lucide-loader-2" class="w-10 h-10 animate-spin text-primary" />
                 </div>
 
-                <div v-if="filteredPosts.length === 0" class="text-center py-16">
-                    <p class="text-muted-foreground text-lg">No articles found matching your criteria.</p>
-                    <button @click="selectedCategory = 'All'; searchQuery = ''"
-                        class="mt-4 px-4 py-2 border border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md text-sm font-medium transition-colors">
-                        Clear Filters
-                    </button>
+                <!-- Blog Grid -->
+                <div v-else-if="processedBlogs.length > 0">
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                        <BlogCard v-for="(post, index) in processedBlogs" :key="post.id" v-bind="post" :index="index" />
+                    </div>
+
+                    <!-- Pagination -->
+                    <!-- Wait API Pagination implementation inside (apiResponse.meta) -->
+                    <div v-if="(apiResponse?.meta?.last_page || 1) > 1" class="flex justify-center mt-12 gap-2">
+                        <UButton v-for="page in apiResponse.meta.last_page" :key="page"
+                            :variant="page === apiResponse.meta.current_page ? 'solid' : 'soft'" @click="getBlogs(page)"
+                            class="w-10 h-10 flex items-center justify-center font-bold">
+                            {{ page }}
+                        </UButton>
+                    </div>
+                </div>
+
+                <!-- Empty State -->
+                <div v-else class="text-center py-24 px-4 bg-muted/20 rounded-3xl border border-dashed border-border">
+                    <div
+                        class="bg-background w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-soft">
+                        <UIcon name="i-lucide-file-x" class="w-10 h-10 text-muted-foreground" />
+                    </div>
+                    <h3 class="text-2xl font-display font-bold text-foreground mb-3">No articles found</h3>
+                    <p class="text-muted-foreground text-lg max-w-md mx-auto">
+                        We couldn't find any articles matching your search criteria. Try a different term or select
+                        another category.
+                    </p>
+                    <UButton @click="selectedCategory = 'all'; searchQuery = ''"
+                        class="mt-8 px-6 shadow-soft font-bold rounded-xl h-12" size="lg">
+                        Clear all filters
+                        <UIcon name="i-lucide-refresh-cw" class="w-4 h-4 ml-2" />
+                    </UButton>
                 </div>
             </div>
         </section>
     </div>
 </template>
+
+<style scoped>
+.scrollbar-none::-webkit-scrollbar {
+    display: none;
+}
+
+.scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.mask-fade-edges {
+    mask-image: linear-gradient(to right, black 90%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, black 90%, transparent 100%);
+}
+</style>

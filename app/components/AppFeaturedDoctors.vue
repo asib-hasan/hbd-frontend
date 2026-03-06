@@ -1,7 +1,13 @@
 <script setup lang="ts">
-import { getFeaturedDoctors } from '../utils/doctors';
+import { computed } from 'vue'
+import { useDoctors } from '~/composables/useDoctors'
 
-const doctors = getFeaturedDoctors();
+const { fetchFeaturedDoctors } = useDoctors()
+const { data: apiResponse, pending } = await fetchFeaturedDoctors()
+
+const doctors = computed(() => {
+    return (apiResponse.value as any)?.data || []
+})
 </script>
 
 <template>
@@ -28,7 +34,7 @@ const doctors = getFeaturedDoctors();
                     </p>
                 </div>
                 <div class="animate-fade-up stagger-3">
-                    <NuxtLink to="/doctors/bangladesh">
+                    <NuxtLink to="/doctors">
                         <UButton variant="outline" size="lg" class="gap-2 w-fit">
                             View All Doctors
                             <UIcon name="i-lucide-arrow-right" class="w-5 h-5" />
@@ -37,7 +43,13 @@ const doctors = getFeaturedDoctors();
                 </div>
             </div>
 
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Loading State -->
+            <div v-if="pending" class="flex justify-center p-12">
+                <UIcon name="i-lucide-loader-2" class="w-10 h-10 animate-spin text-primary" />
+            </div>
+
+            <!-- Doctor Cards -->
+            <div v-else class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 <DoctorCard v-for="(doctor, index) in doctors.slice(0, 4)" :key="doctor.id" v-bind="doctor"
                     :index="index" />
             </div>

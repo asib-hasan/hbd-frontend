@@ -20,6 +20,7 @@ const doctors = computed<Doctor[]>(() => {
     const rawDoctors = Array.isArray(responseData) ? responseData : (responseData?.data || [])
     return rawDoctors.map((d: any) => ({
         id: String(d.id),
+        slug: d.slug,
         name: d.name,
         specialty: d.specialty || '',
         hospital: d.chamber_name || "Chamber N/A",
@@ -217,7 +218,6 @@ onMounted(async () => {
             </div>
         </section>
 
-        <!-- Doctors Grid -->
         <section class="section-padding bg-muted/30">
             <div class="container mx-auto px-4">
                 <div class="flex items-center justify-between mb-8">

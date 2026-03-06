@@ -9,6 +9,12 @@ export const useDoctors = () => {
         })
     }
 
+    const fetchFeaturedDoctors = async () => {
+        return await useFetch('/top-doctors', {
+            baseURL: apiBaseUrl
+        })
+    }
+
     const fetchDistricts = async () => {
         return await useFetch('/district', {
             baseURL: apiBaseUrl,
@@ -22,9 +28,17 @@ export const useDoctors = () => {
         })
     }
 
+    const fetchDoctor = async (slug: string) => {
+        return await useFetch(`/doctors/${slug}`, {
+            baseURL: apiBaseUrl,
+        })
+    }
+
     return {
         fetchAllDoctors,
+        fetchFeaturedDoctors,
         fetchDistricts,
-        fetchAreas
+        fetchAreas,
+        fetchDoctor
     }
 }
