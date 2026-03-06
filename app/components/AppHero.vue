@@ -1,57 +1,11 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 
-const searchQuery = ref('')
-const selectedLocation = ref('dhaka')
-
-const locations = [
-    { id: 'dhaka', name: 'Dhaka' },
-    { id: 'chittagong', name: 'Chittagong' },
-    { id: 'sylhet', name: 'Sylhet' },
-    { id: 'rajshahi', name: 'Rajshahi' },
-    { id: 'khulna', name: 'Khulna' },
-]
-
-const stats = [
-    { value: '500+', label: 'Verified Doctors', icon: 'i-lucide-user-check' },
-    { value: '50K+', label: 'Happy Patients', icon: 'i-lucide-heart' },
-    { value: '64', label: 'Districts', icon: 'i-lucide-map-pin' },
-    { value: '4.8', label: 'Avg Rating', icon: 'i-lucide-star' },
-]
-
 const trustBadges = [
     'Government Registered',
     'BHMS Certified',
     'Verified Reviews',
 ]
-
-// Animated counter
-const counters = ref(stats.map(() => 0))
-const animateCounters = () => {
-    stats.forEach((stat, index) => {
-        const target = parseInt(stat.value.replace(/[^0-9]/g, ''))
-        const duration = 2000
-        const steps = 60
-        const increment = target / steps
-        let current = 0
-        const timer = setInterval(() => {
-            current += increment
-            if (current >= target) {
-                current = target
-                clearInterval(timer)
-            }
-            counters.value[index] = Math.floor(current)
-        }, duration / steps)
-    })
-}
-
-onMounted(() => {
-    setTimeout(animateCounters, 500)
-})
-
-const handleSearch = () => {
-    navigateTo(`/doctors/${selectedLocation.value}`)
-}
 </script>
 
 <template>
@@ -111,38 +65,15 @@ const handleSearch = () => {
                         Natural healing through holistic treatment — book instantly online.
                     </p>
 
-                    <!-- Search Box -->
-                    <div
-                        class="relative bg-white rounded-2xl shadow-[0_8px_40px_-12px_rgba(0,0,0,0.12)] border border-border/40 p-2 mb-8 animate-fade-up stagger-2">
-                        <div class="flex flex-col sm:flex-row gap-2">
-                            <div class="relative flex-1">
-                                <div class="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none">
-                                    <UIcon name="i-lucide-search" class="w-5 h-5 text-muted-foreground/50" />
-                                </div>
-                                <input v-model="searchQuery" type="text" placeholder="Search doctor, specialty..."
-                                    class="w-full h-12 pl-11 pr-4 bg-transparent text-foreground placeholder:text-muted-foreground/50 focus:outline-none rounded-xl text-[15px]" />
-                            </div>
-                            <div class="flex gap-2">
-                                <div class="relative">
-                                    <div class="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">
-                                        <UIcon name="i-lucide-map-pin" class="w-4 h-4 text-muted-foreground/50" />
-                                    </div>
-                                    <select v-model="selectedLocation"
-                                        class="h-12 pl-9 pr-8 bg-muted/40 border border-border/40 rounded-xl text-foreground text-sm font-medium appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/20">
-                                        <option v-for="loc in locations" :key="loc.id" :value="loc.id">
-                                            {{ loc.name }}
-                                        </option>
-                                    </select>
-                                    <UIcon name="i-lucide-chevron-down"
-                                        class="absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/50 pointer-events-none" />
-                                </div>
-                                <button @click="handleSearch"
-                                    class="h-12 px-6 bg-primary text-primary-foreground font-semibold rounded-xl shadow-glow hover:shadow-glow-accent transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-2 whitespace-nowrap">
-                                    <span class="hidden sm:inline">Find Doctors</span>
-                                    <UIcon name="i-lucide-arrow-right" class="w-4 h-4" />
-                                </button>
-                            </div>
-                        </div>
+                    <!-- CTA Button instead of Search Box -->
+                    <div class="mb-10 animate-fade-up stagger-2">
+                        <NuxtLink to="/doctors">
+                            <button
+                                class="h-14 px-8 bg-primary text-primary-foreground font-semibold rounded-xl shadow-glow hover:shadow-glow-accent transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-2 text-lg">
+                                Find Doctors Now
+                                <UIcon name="i-lucide-arrow-right" class="w-5 h-5" />
+                            </button>
+                        </NuxtLink>
                     </div>
 
                     <!-- Trust Badges -->
@@ -158,99 +89,46 @@ const handleSearch = () => {
                 <!-- Right Column - Visual -->
                 <div class="hidden lg:block relative animate-fade-up stagger-2">
                     <div class="relative">
-                        <!-- Main Card Stack -->
-                        <div class="relative bg-white rounded-3xl shadow-elevated border border-border/30 p-6 z-10">
-                            <!-- Top Doctor Preview -->
-                            <div class="flex items-center gap-4 mb-6">
-                                <div class="w-16 h-16 rounded-2xl overflow-hidden shadow-soft flex-shrink-0">
-                                    <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=200&h=200&fit=crop&crop=faces"
-                                        alt="Doctor" class="w-full h-full object-cover" />
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <h3 class="font-display font-bold text-foreground text-lg">Dr. Abdul Karim
-                                    </h3>
-                                    <p class="text-sm text-muted-foreground">Constitutional Treatment •
-                                        Uttara</p>
-                                    <div class="flex items-center gap-1 mt-1">
-                                        <UIcon v-for="i in 5" :key="i" name="i-lucide-star"
-                                            class="w-3.5 h-3.5 text-amber-400" />
-                                        <span class="text-xs text-muted-foreground ml-1">(312)</span>
-                                    </div>
-                                </div>
-                                <div
-                                    class="bg-emerald-50 text-emerald-600 text-xs font-semibold px-3 py-1.5 rounded-full whitespace-nowrap">
-                                    Available
-                                </div>
-                            </div>
-
-                            <!-- Mini Schedule -->
-                            <div class="bg-muted/30 rounded-2xl p-4 mb-6 border border-border/30">
-                                <div class="flex items-center gap-2 mb-3">
-                                    <UIcon name="i-lucide-calendar" class="w-4 h-4 text-primary" />
-                                    <span class="text-sm font-semibold text-foreground">Available Slots Today</span>
-                                </div>
-                                <div class="grid grid-cols-4 gap-2">
-                                    <div v-for="(time, i) in ['10:00', '11:30', '2:00', '4:30']" :key="i"
-                                        class="text-center py-2 rounded-lg text-xs font-medium transition-all duration-200 cursor-pointer"
-                                        :class="i === 1 ? 'bg-primary text-primary-foreground shadow-soft' : 'bg-white border border-border/60 text-foreground hover:border-primary/30'">
-                                        {{ time }}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Book Button -->
-                            <button
-                                class="w-full h-12 bg-primary text-primary-foreground font-semibold rounded-xl shadow-glow flex items-center justify-center gap-2">
-                                <UIcon name="i-lucide-calendar-check" class="w-5 h-5" />
-                                Book Appointment
-                            </button>
-                        </div>
-
-                        <!-- Floating Badge - Reviews -->
+                        <!-- Top Areas in Dhaka -->
                         <div
-                            class="absolute -left-6 top-16 bg-white rounded-2xl shadow-card border border-border/20 p-4 z-20 animate-float">
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center">
-                                    <UIcon name="i-lucide-star" class="w-5 h-5 text-amber-500" />
+                            class="relative bg-white/95 backdrop-blur-2xl rounded-[2rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] border border-white/50 p-8 z-10 overflow-hidden group">
+                            <!-- Background Map Pattern/Gradient -->
+                            <div
+                                class="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-radial from-primary/10 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 opacity-50 group-hover:opacity-100 transition-opacity duration-700" />
+                            <div
+                                class="absolute bottom-0 left-0 w-64 h-64 bg-gradient-radial from-accent/5 to-transparent rounded-full blur-2xl translate-y-1/2 -translate-x-1/2" />
+
+                            <div class="flex items-center gap-4 mb-8 relative z-10">
+                                <div
+                                    class="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center border border-primary/10 flex-shrink-0 shadow-sm">
+                                    <UIcon name="i-lucide-map-pin" class="w-7 h-7 text-primary" />
                                 </div>
                                 <div>
-                                    <p class="text-sm font-bold text-foreground">4.8/5</p>
-                                    <p class="text-xs text-muted-foreground">50K+ Reviews</p>
+                                    <h3 class="font-display font-bold text-foreground text-2xl tracking-tight mb-1">Top
+                                        Areas in Dhaka</h3>
+                                    <p class="text-sm text-muted-foreground font-medium flex items-center gap-1.5">
+                                        <UIcon name="i-lucide-search" class="w-3.5 h-3.5" />
+                                        Find doctors in your neighborhood
+                                    </p>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Floating Badge - Patients -->
-                        <div class="absolute -right-4 bottom-20 bg-white rounded-2xl shadow-card border border-border/20 p-4 z-20 animate-float"
-                            style="animation-delay: -3s">
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
-                                    <UIcon name="i-lucide-users" class="w-5 h-5 text-emerald-500" />
-                                </div>
-                                <div>
-                                    <p class="text-sm font-bold text-foreground">500+</p>
-                                    <p class="text-xs text-muted-foreground">Doctors Online</p>
-                                </div>
+                            <div class="flex flex-wrap gap-3 relative z-10">
+                                <NuxtLink
+                                    v-for="(area, i) in ['Uttara', 'Mirpur', 'Mohammadpur', 'Puran Dhaka', 'Kamalapur', 'Motijheel', 'Gulistan', 'Badda', 'Dhanmondi', 'Mohakhali', 'Banani', 'Basundhara']"
+                                    :key="area" :to="`/doctors?search=${area}`"
+                                    class="group/tag relative px-4 py-2.5 rounded-xl border border-border/50 bg-white/80 backdrop-blur-sm hover:border-primary/50 hover:bg-primary/5 shadow-sm hover:shadow-md text-[15px] font-semibold text-foreground hover:text-primary transition-all duration-300 transform hover:-translate-y-0.5 overflow-hidden"
+                                    :style="{ animationDelay: `${i * 0.05}s` }">
+                                    <!-- Subtle shine effect on hover -->
+                                    <div
+                                        class="absolute inset-0 -translate-x-full group-hover/tag:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/40 to-transparent" />
+                                    <span class="relative z-10 flex items-center gap-1.5">
+                                        {{ area }}
+                                        <UIcon name="i-lucide-arrow-up-right"
+                                            class="w-3.5 h-3.5 opacity-0 group-hover/tag:opacity-100 -translate-x-1 translate-y-1 group-hover/tag:translate-x-0 group-hover/tag:translate-y-0 transition-all duration-300" />
+                                    </span>
+                                </NuxtLink>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Bottom Stats Bar -->
-        <div class="absolute bottom-0 left-0 right-0 bg-white/80 backdrop-blur-xl border-t border-border/30 py-5">
-            <div class="container mx-auto px-4">
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                    <div v-for="(stat, index) in stats" :key="stat.label" class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-primary/8 flex items-center justify-center flex-shrink-0">
-                            <UIcon :name="stat.icon" class="w-5 h-5 text-primary" />
-                        </div>
-                        <div>
-                            <p class="font-display font-bold text-lg text-foreground leading-none">
-                                {{ counters[index] }}{{ stat.value.replace(/[0-9]/g, '') }}
-                            </p>
-                            <p class="text-xs text-muted-foreground mt-0.5">{{ stat.label }}</p>
                         </div>
                     </div>
                 </div>

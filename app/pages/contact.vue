@@ -83,7 +83,7 @@ const contactInfo = [
     {
         icon: 'i-lucide-map-pin',
         title: "Address",
-        details: ["House 123, Road 12", "Banani, Dhaka-1213, Bangladesh"],
+        details: ["Dhaka, Bangladesh"],
         gradient: "from-orange-500/10 to-amber-500/10",
         iconColor: "text-orange-600",
         iconBg: "bg-orange-500/15",

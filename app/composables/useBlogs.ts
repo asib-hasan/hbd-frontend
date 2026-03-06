@@ -1,16 +1,16 @@
 export const useBlogs = () => {
     const config = useRuntimeConfig()
-    const apiBaseUrl = (config.public?.apiBaseUrl as string) || 'http://127.0.0.1:8000/api'
+    const apiBaseUrl = (config.public?.apiBaseUrl as string)
 
     const fetchBlogs = async (params: { search?: string, category_id?: string, page?: number } = {}) => {
-        return await useFetch('/blogs', {
+        return await $fetch<any>('/blogs', {
             baseURL: apiBaseUrl,
             params
         })
     }
 
     const fetchBlogCategories = async () => {
-        return await useFetch('/blogs/categories', {
+        return await $fetch<any>('/blogs/categories', {
             baseURL: apiBaseUrl
         })
     }
@@ -21,9 +21,17 @@ export const useBlogs = () => {
         })
     }
 
+    const fetchRelatedBlogs = async (slug: string) => {
+        return await $fetch<any>(`/blogs/${slug}/related`, {
+            baseURL: apiBaseUrl
+        })
+    }
+
     return {
         fetchBlogs,
         fetchBlogCategories,
-        fetchBlog
+        fetchBlog,
+        fetchRelatedBlogs
     }
 }
+

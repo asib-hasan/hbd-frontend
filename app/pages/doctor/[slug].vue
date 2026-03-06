@@ -70,9 +70,9 @@ const scrollToChambers = () => {
         </div>
     </div>
 
-    <div v-else class="min-h-screen bg-background pt-16">
+    <div v-else class="min-h-screen bg-background">
         <!-- Hero Section -->
-        <section class="relative bg-gradient-hero-subtle overflow-hidden">
+        <section class="relative bg-gradient-hero-subtle overflow-hidden pt-20 pb-12 lg:pt-24 lg:pb-16">
             <div
                 class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,hsl(var(--primary)/0.08),transparent_50%)]" />
 
@@ -151,7 +151,7 @@ const scrollToChambers = () => {
                                 <div class="flex items-center gap-2 text-muted-foreground">
                                     <UIcon name="i-lucide-building-2" class="w-4 h-4" />
                                     <span class="text-sm line-clamp-1">{{ activeChamber ? activeChamber.name_en : 'N/A'
-                                    }}</span>
+                                        }}</span>
                                 </div>
                                 <div class="flex items-center gap-2 text-muted-foreground">
                                     <UIcon name="i-lucide-calendar" class="w-4 h-4" />

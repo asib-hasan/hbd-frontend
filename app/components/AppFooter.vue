@@ -1,13 +1,13 @@
 <script setup lang="ts">
 const footerLinks = {
     locations: [
-        { name: "Best in Bangladesh", href: "/doctors/bangladesh" },
+        { name: "Best in Bangladesh", href: "/doctors" },
         { name: "Best in Dhaka", href: "/doctors/dhaka" },
         { name: "Best in Chittagong", href: "/doctors/chittagong" },
         { name: "Best in Sylhet", href: "/doctors/sylhet" },
     ],
     services: [
-        { name: "Find Doctors", href: "/doctors/bangladesh" },
+        { name: "Find Doctors", href: "/doctors" },
         { name: "Online Consultation", href: "#" },
         { name: "Constitutional Treatment", href: "#" },
         { name: "Health Articles", href: "/blog" },
@@ -110,7 +110,7 @@ const currentYear = new Date().getFullYear();
                                 class="w-10 h-10 bg-primary-foreground/10 rounded-lg flex items-center justify-center flex-shrink-0">
                                 <UIcon name="i-lucide-map-pin" class="w-5 h-5" />
                             </div>
-                            <span>House 123, Road 12, Banani, Dhaka-1213, Bangladesh</span>
+                            <span>Dhaka, Bangladesh</span>
                         </div>
                     </div>
                 </div>

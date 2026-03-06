@@ -58,10 +58,10 @@ useHead({
 </script>
 
 <template>
-    <div class="min-h-screen bg-background pt-16">
+    <div class="min-h-screen bg-background">
         <!-- Hero Section -->
         <section
-            class="relative bg-gradient-to-br from-primary/5 via-background to-secondary/10 py-16 md:py-24 overflow-hidden">
+            class="relative bg-gradient-to-br from-primary/5 via-background to-secondary/10 pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden">
             <div
                 class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,hsl(var(--primary)/0.08),transparent_50%)]" />
             <div class="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />
@@ -162,6 +162,7 @@ useHead({
         </section>
 
         <!-- Team Section -->
+        <!-- 
         <section class="py-16 md:py-24">
             <div class="container mx-auto px-4">
                 <div class="text-center max-w-2xl mx-auto mb-12 animate-fade-up">
@@ -186,6 +187,7 @@ useHead({
                 </div>
             </div>
         </section>
+        -->
 
         <!-- Contact Section -->
         <section class="py-16 md:py-24 bg-gradient-to-br from-primary/5 via-background to-secondary/10">
@@ -219,7 +221,7 @@ useHead({
                         </div>
                     </div>
 
-                    <NuxtLink to="/doctors/bangladesh">
+                    <NuxtLink to="/doctors">
                         <UButton size="xl" class="shadow-glow-accent px-8 font-semibold">
                             Find a Doctor Near You
                         </UButton>

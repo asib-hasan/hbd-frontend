@@ -109,7 +109,7 @@ const locations = [
 
             <!-- View All -->
             <div class="text-center mt-12">
-                <NuxtLink to="/doctors/bangladesh">
+                <NuxtLink to="/doctors">
                     <UButton variant="outline" size="lg" class="gap-2">
                         View All Locations
                         <UIcon name="i-lucide-arrow-right" class="w-5 h-5" />

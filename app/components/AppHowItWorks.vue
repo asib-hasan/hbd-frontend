@@ -36,95 +36,88 @@ const steps = [
 </script>
 
 <template>
-    <section class="py-20 lg:py-32 bg-white relative overflow-hidden">
+    <section class="py-24 lg:py-32 bg-muted/20 relative overflow-hidden">
         <!-- Background Elements -->
+        <div class="absolute inset-0 bg-hero-pattern opacity-30" />
         <div
-            class="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top_right,hsl(var(--primary)/0.05),transparent_50%)] pointer-events-none" />
+            class="absolute top-0 right-0 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[100px] opacity-70 translate-x-1/3 -translate-y-1/2 pointer-events-none" />
         <div
-            class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-background via-background/80 to-transparent pointer-events-none" />
-
-        <!-- Decorative Blurs -->
-        <div
-            class="absolute top-20 -left-20 w-72 h-72 bg-primary/5 rounded-full blur-3xl mix-blend-multiply opacity-70 animate-float" />
-        <div class="absolute bottom-20 -right-20 w-96 h-96 bg-accent/5 rounded-full blur-3xl mix-blend-multiply opacity-70 animate-float"
-            style="animation-delay: -2s" />
+            class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-accent/5 rounded-full blur-[80px] opacity-60 -translate-x-1/3 translate-y-1/3 pointer-events-none" />
 
         <div class="container mx-auto px-4 relative z-10">
             <!-- Section Header -->
-            <div class="text-center max-w-3xl mx-auto mb-20">
-                <div
-                    class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/5 border border-primary/10 text-primary text-sm font-semibold mb-6 animate-fade-up">
-                    <span class="w-2 h-2 rounded-full bg-primary animate-pulse" />
+            <div class="text-center max-w-3xl mx-auto mb-20 lg:mb-28">
+                <span class="badge badge-primary mb-6 animate-fade-up">
+                    <UIcon name="i-lucide-activity" class="w-4 h-4 mr-1.5" />
                     Simple Process
-                </div>
+                </span>
                 <h2
-                    class="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-tight animate-fade-up stagger-1">
-                    Your Journey to <span class="text-gradient">Better Health</span>
+                    class="font-display text-4xl md:text-5xl lg:text-[4rem] font-bold text-foreground mb-6 leading-[1.15] tracking-tight animate-fade-up stagger-1">
+                    Your Journey to <br class="hidden md:block" />
+                    <span class="text-gradient">Better Health</span>
                 </h2>
-                <p class="text-xl text-muted-foreground animate-fade-up stagger-2 leading-relaxed">
-                    Experience seamless healthcare with our simple 4-step process designed for your convenience
+                <p
+                    class="text-lg md:text-xl text-muted-foreground animate-fade-up stagger-2 leading-relaxed max-w-2xl mx-auto">
+                    Experience seamless healthcare with our simple 4-step process designed for your convenience and
+                    well-being.
                 </p>
             </div>
 
-            <!-- Steps -->
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
-                <div v-for="(step, index) in steps" :key="step.title" class="relative group animate-fade-up"
-                    :style="{ animationDelay: `${index * 0.15}s` }">
+            <!-- Steps Container -->
+            <div class="relative max-w-7xl mx-auto">
+                <!-- Desktop Connecting Line -->
+                <div class="hidden lg:block absolute top-[120px] left-[10%] right-[10%] h-[2px] bg-border/50" />
+                <div
+                    class="hidden lg:block absolute top-[120px] left-[10%] right-[10%] h-[2px] bg-gradient-to-r from-primary via-accent to-primary opacity-50 origin-left animate-shimmer scale-x-0" />
 
-                    <!-- Connector Line (Desktop) -->
-                    <div v-if="index < steps.length - 1"
-                        class="hidden lg:block absolute top-16 left-1/2 w-full h-[2px] bg-gradient-to-r from-transparent via-border to-transparent -z-10 opacity-50"
-                        style="transform: translateX(50%)">
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6 relative">
+                    <div v-for="(step, index) in steps" :key="step.title" class="group animate-fade-up"
+                        :style="{ animationDelay: `${index * 0.15}s` }">
+
+                        <!-- Card UI -->
                         <div
-                            class="absolute inset-0 bg-gradient-to-r from-transparent via-primary/20 to-transparent w-1/2 animate-shimmer" />
-                    </div>
+                            class="relative h-full z-10 p-8 rounded-[2rem] bg-background border border-border/50 shadow-soft hover:shadow-elevated transition-all duration-500 overflow-hidden hover:-translate-y-2">
+                            <!-- Animated Top Border Glow -->
+                            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                                :class="step.color" />
 
-                    <!-- Card Content -->
-                    <div class="relative z-10 flex flex-col items-center text-center">
-                        <!-- Icon Container -->
-                        <div
-                            class="relative mb-8 group-hover:-translate-y-2 transition-transform duration-500 ease-out">
-                            <!-- Glow Effect -->
-                            <div class="absolute inset-0 rounded-3xl blur-2xl opacity-0 group-hover:opacity-40 transition-opacity duration-500"
-                                :class="step.bgColor.replace('/10', '/30')" />
-
-                            <!-- Icon Box -->
-                            <div class="w-32 h-32 rounded-3xl flex items-center justify-center backdrop-blur-sm border border-white/50 shadow-soft relative overflow-hidden"
-                                :class="step.bgColor">
-                                <div
-                                    class="absolute inset-0 bg-white/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                                <UIcon :name="step.icon"
-                                    class="w-14 h-14 relative z-10 transition-transform duration-500 group-hover:scale-110"
-                                    :class="step.iconColor" />
-                            </div>
-
-                            <!-- Step Number Badge -->
-                            <div class="absolute -top-3 -right-3 w-10 h-10 rounded-2xl flex items-center justify-center text-sm font-bold shadow-lg text-white bg-gradient-to-br ring-4 ring-white"
-                                :class="step.color">
+                            <!-- Massive Watermark Number -->
+                            <div
+                                class="absolute -right-4 -bottom-10 font-display font-black text-[10rem] leading-none text-muted/30 group-hover:text-primary/10 transition-colors duration-500 pointer-events-none select-none">
                                 {{ index + 1 }}
                             </div>
+
+                            <!-- Icon Container -->
+                            <div class="relative mb-8">
+                                <div class="w-20 h-20 rounded-2xl flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 shadow-sm bg-gradient-to-br border border-white/20"
+                                    :class="[step.bgColor, step.color.replace('from-', 'from-').replace('to-', 'to-').replace('500', '100').replace('600', '50')]">
+                                    <UIcon :name="step.icon" class="w-10 h-10 transition-colors duration-500"
+                                        :class="step.iconColor" />
+                                </div>
+                            </div>
+
+                            <!-- Content -->
+                            <div class="relative z-10">
+                                <h3
+                                    class="font-display font-bold text-2xl text-foreground mb-4 group-hover:text-primary transition-colors duration-300">
+                                    {{ step.title }}
+                                </h3>
+                                <p class="text-muted-foreground leading-relaxed">
+                                    {{ step.description }}
+                                </p>
+                            </div>
                         </div>
 
-                        <!-- Text Content -->
-                        <div class="space-y-3 px-4">
-                            <h3
-                                class="font-display font-bold text-2xl text-foreground group-hover:text-primary transition-colors duration-300">
-                                {{ step.title }}
-                            </h3>
-                            <p class="text-muted-foreground leading-relaxed">
-                                {{ step.description }}
-                            </p>
-                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Bottom CTA -->
-            <div class="mt-20 text-center animate-fade-up stagger-3">
-                <NuxtLink to="/doctors/bangladesh">
+            <div class="mt-24 flex justify-center animate-fade-up stagger-3">
+                <NuxtLink to="/doctors">
                     <UButton size="xl"
-                        class="px-10 h-14 text-base shadow-glow hover:shadow-glow-accent transition-all duration-300 font-semibold rounded-2xl">
-                        Find a Doctor Now
+                        class="h-14 px-10 rounded-full font-bold text-base shadow-glow hover:shadow-glow-accent hover:-translate-y-1 transition-all duration-300">
+                        Start Your Healing Journey
                         <UIcon name="i-lucide-arrow-right" class="w-5 h-5 ml-2" />
                     </UButton>
                 </NuxtLink>

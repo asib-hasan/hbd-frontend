@@ -151,8 +151,7 @@ useHead({
         <section class="py-12 lg:py-16 bg-background">
             <div class="container mx-auto px-4">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <NuxtLink v-for="(specialty, index) in specialties" :key="specialty.slug"
-                        :to="`/doctors/bangladesh`"
+                    <NuxtLink v-for="(specialty, index) in specialties" :key="specialty.slug" :to="`/doctors`"
                         class="group card-premium p-6 transition-all duration-300 hover:-translate-y-1 animate-fade-up"
                         :style="{ animationDelay: `${index * 0.05}s` }">
                         <div class="flex items-start gap-4">

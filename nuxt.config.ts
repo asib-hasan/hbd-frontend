@@ -9,6 +9,12 @@ export default defineNuxtConfig({
     buildAssetsDir: '/_nuxt/'
   },
 
+  runtimeConfig: {
+    public: {
+      apiBaseUrl: 'https://globalcartsbd.com/api' // Note: using without trailing slash as backend routes are usually constructed with it
+    }
+  },
+
   modules: ['@nuxt/ui', '@nuxtjs/google-fonts'],
   googleFonts: {
     families: {

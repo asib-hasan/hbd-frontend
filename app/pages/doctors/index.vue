@@ -94,28 +94,39 @@ const loadDoctors = async () => {
     if (selectedDistrict.value !== 'all') params.district_id = selectedDistrict.value
     if (selectedArea.value !== 'all') params.area_id = selectedArea.value
 
-    const { data } = await fetchAllDoctors(params)
-    apiResponse.value = data.value
-    pending.value = false
-}
-
-const loadDistricts = async () => {
-    const { data } = await fetchDistricts()
-    if (Array.isArray((data.value as any)?.data)) {
-        districtsData.value = (data.value as any).data
-    } else if ((data.value as any)?.data) {
-        districtsData.value = [(data.value as any).data]
+    try {
+        const response = await fetchAllDoctors(params)
+        apiResponse.value = response
+    } catch (e) {
+        console.error(e)
+    } finally {
+        pending.value = false
     }
 }
 
+const loadDistricts = async () => {
+    try {
+        const response = await fetchDistricts()
+        if (Array.isArray(response?.data)) {
+            districtsData.value = response.data
+        } else if (response?.data) {
+            districtsData.value = [response.data]
+        }
+    } catch (e) { console.error(e) }
+}
+
 const loadAreas = async (districtId: string | number) => {
-    const { data } = await fetchAreas(districtId)
-    // Map the nested list correctly given the response format
-    if ((data.value as any)?.data?.area) {
-        areasData.value = (data.value as any).data.area
-    } else if (Array.isArray((data.value as any)?.data)) {
-        areasData.value = (data.value as any).data
-    } else {
+    try {
+        const response = await fetchAreas(districtId)
+        if (response?.data?.area) {
+            areasData.value = response.data.area
+        } else if (Array.isArray(response?.data)) {
+            areasData.value = response.data
+        } else {
+            areasData.value = []
+        }
+    } catch (e) {
+        console.error(e)
         areasData.value = []
     }
 }

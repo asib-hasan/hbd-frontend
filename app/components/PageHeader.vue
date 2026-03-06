@@ -21,7 +21,7 @@ const formatTitle = (title: string) => {
 </script>
 
 <template>
-    <section class="relative pt-24 pb-16 lg:pt-28 lg:pb-20 overflow-hidden">
+    <section class="relative pt-20 pb-12 lg:pt-28 lg:pb-20 overflow-hidden">
         <!-- Background -->
         <div class="absolute inset-0 bg-gradient-hero-subtle" />
         <div class="absolute inset-0 bg-hero-pattern opacity-40" />
@@ -32,9 +32,20 @@ const formatTitle = (title: string) => {
 
         <div class="container mx-auto px-4 relative z-10">
             <!-- Breadcrumbs -->
+            <nav v-if="breadcrumbs && breadcrumbs.length > 0"
+                class="flex items-center gap-2 text-sm text-muted-foreground mb-6 animate-fade-up">
+                <NuxtLink to="/" class="hover:text-primary transition-colors">Home</NuxtLink>
+                <UIcon name="i-lucide-chevron-right" class="w-3.5 h-3.5" />
+                <template v-for="(crumb, idx) in breadcrumbs" :key="idx">
+                    <NuxtLink v-if="crumb.href" :to="crumb.href" class="hover:text-primary transition-colors">
+                        {{ crumb.label }}
+                    </NuxtLink>
+                    <span v-else class="text-foreground font-medium line-clamp-1 max-w-[200px]">{{ crumb.label }}</span>
+                    <UIcon v-if="idx < breadcrumbs.length - 1" name="i-lucide-chevron-right" class="w-3.5 h-3.5" />
+                </template>
+            </nav>
 
-
-            <div class="max-w-4xl">
+            <div class="max-w-4xl" :class="!breadcrumbs ? 'mt-4' : ''">
                 <h1
                     class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4 animate-fade-up stagger-1">
                     <template v-if="title.includes('Best')">

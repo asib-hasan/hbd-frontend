@@ -14,7 +14,7 @@ const apiResponse = ref<any>(null)
 const pending = ref(true)
 
 const processedBlogs = computed(() => {
-    const responseData = (apiResponse.value as any)?.data
+    const responseData = apiResponse.value?.data
     const rawData = Array.isArray(responseData) ? responseData : (responseData?.data || [])
     return rawData
 })
@@ -22,15 +22,12 @@ const processedBlogs = computed(() => {
 const getBlogs = async (page = 1) => {
     pending.value = true
     try {
-        const { data, status } = await fetchBlogs({
+        const response = await fetchBlogs({
             search: searchQuery.value,
             category_id: selectedCategory.value === 'all' ? '' : selectedCategory.value,
             page: page
         })
-
-        if (status.value === 'success') {
-            apiResponse.value = data.value
-        }
+        apiResponse.value = response
     } catch (e) {
         console.error('Failed to fetch blogs:', e)
     } finally {
@@ -40,10 +37,8 @@ const getBlogs = async (page = 1) => {
 
 const getCategories = async () => {
     try {
-        const { data, status } = await fetchBlogCategories()
-        if (status.value === 'success') {
-            categoriesData.value = (data.value as any)?.data || []
-        }
+        const response = await fetchBlogCategories()
+        categoriesData.value = response?.data || []
     } catch (e) {
         console.error('Failed to fetch blog categories:', e)
     }
@@ -89,7 +84,7 @@ useHead({
             <div class="container mx-auto px-4">
                 <!-- Search and Filter -->
                 <div class="flex flex-col xl:flex-row gap-4 mb-10 items-stretch">
-                    <div class="relative flex-1 lg:max-w-md">
+                    <div class="relative flex-1 min-w-[280px] lg:max-w-md shrink-0">
                         <UIcon name="i-lucide-search"
                             class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground z-10" />
                         <input type="text" placeholder="Search articles by title..." v-model="searchQuery"
