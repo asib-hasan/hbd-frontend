@@ -21,8 +21,8 @@ useHead({
         <!-- Why Choose Homeopathy -->
         <AppWhyHomeopathy />
 
-        <!-- Locations -->
-        <AppLocations />
+        <!-- Banners -->
+        <AppBanners />
 
         <!-- Bottom CTA Section -->
         <section class="py-20 lg:py-28 relative overflow-hidden">

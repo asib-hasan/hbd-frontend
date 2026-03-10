@@ -11,7 +11,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      apiBaseUrl: 'https://globalcartsbd.com/api' // Note: using without trailing slash as backend routes are usually constructed with it
+      apiBaseUrl: 'http://127.0.0.1:8000/api' // Note: using without trailing slash as backend routes are usually constructed with it
     }
   },
 
