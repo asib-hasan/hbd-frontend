@@ -72,11 +72,11 @@ const scrollToChambers = () => {
 
     <div v-else class="min-h-screen bg-background">
         <!-- Hero Section -->
-        <section class="relative bg-gradient-hero-subtle overflow-hidden pt-20 pb-12 lg:pt-24 lg:pb-16">
+        <section class="relative bg-gradient-hero-subtle overflow-hidden pt-20 pb-8 lg:pt-24 lg:pb-12">
             <div
                 class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,hsl(var(--primary)/0.08),transparent_50%)]" />
 
-            <div class="container mx-auto px-4 py-8 relative z-10">
+            <div class="container mx-auto px-4 pt-2 pb-8 relative z-10">
                 <!-- Breadcrumb -->
                 <nav class="flex items-center gap-2 text-sm text-muted-foreground mb-6">
                     <NuxtLink to="/" class="hover:text-primary transition-colors">Home</NuxtLink>
@@ -125,8 +125,13 @@ const scrollToChambers = () => {
                                     <h1 class="font-display text-2xl md:text-3xl font-bold text-foreground mb-1">
                                         {{ doctor.name_en }}
                                     </h1>
-                                    <p v-if="qualifications.length > 0" class="text-muted-foreground text-sm">
-                                        {{ qualifications[0] }}
+                                    <div v-if="activeChamber" class="flex items-center gap-1.5 text-foreground font-medium mb-1.5">
+                                        <UIcon name="i-lucide-building-2" class="w-4 h-4 text-primary shrink-0" />
+                                        <span class="line-clamp-1">{{ activeChamber.name_en }}</span>
+                                    </div>
+                                    <p v-if="qualifications.length > 0" class="text-muted-foreground text-sm flex items-start gap-1.5">
+                                        <UIcon name="i-lucide-graduation-cap" class="w-4 h-4 shrink-0 mt-0.5" />
+                                        <span class="leading-tight">{{ qualifications[0] }}</span>
                                     </p>
                                 </div>
                             </div>
@@ -147,12 +152,7 @@ const scrollToChambers = () => {
                                 </div>
                             </div>
 
-                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-                                <div class="flex items-center gap-2 text-muted-foreground">
-                                    <UIcon name="i-lucide-building-2" class="w-4 h-4" />
-                                    <span class="text-sm line-clamp-1">{{ activeChamber ? activeChamber.name_en : 'N/A'
-                                        }}</span>
-                                </div>
+                            <div class="flex flex-wrap gap-x-6 gap-y-3 mb-4">
                                 <div class="flex items-center gap-2 text-muted-foreground">
                                     <UIcon name="i-lucide-calendar" class="w-4 h-4" />
                                     <span class="text-sm">{{ doctor.experience || 0 }} Years Exp</span>
@@ -178,7 +178,7 @@ const scrollToChambers = () => {
         </section>
 
         <!-- Details Section -->
-        <section class="py-12 bg-background">
+        <section class="pb-10 bg-background">
             <div class="container mx-auto px-4">
                 <div class="grid lg:grid-cols-3 gap-8">
                     <!-- Left Column: Details -->
@@ -194,9 +194,6 @@ const scrollToChambers = () => {
                                 specialist.` }}
                             </p>
                         </div>
-
-                        <!-- AI Insights -->
-                        <DoctorAIInsights v-if="doctor" :doctor="doctor" />
 
                         <!-- Services -->
                         <div class="card-premium p-6" v-if="doctor.services && doctor.services.length > 0">
@@ -372,7 +369,7 @@ const scrollToChambers = () => {
                                         </a>
                                         <a v-if="chamber.map_link" :href="chamber.map_link" target="_blank"
                                             class="block w-full">
-                                            <UButton block size="md" variant="soft" color="gray"
+                                            <UButton block size="md" variant="soft" color="neutral"
                                                 icon="i-lucide-navigation"
                                                 class="w-full justify-center font-semibold border border-border hover:border-primary/40 hover:bg-primary/5">
                                                 Get Directions

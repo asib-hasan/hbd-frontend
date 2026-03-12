@@ -2,9 +2,9 @@
 const footerLinks = {
     locations: [
         { name: "Best in Bangladesh", href: "/doctors" },
-        { name: "Best in Dhaka", href: "/doctors/dhaka" },
-        { name: "Best in Chittagong", href: "/doctors/chittagong" },
-        { name: "Best in Sylhet", href: "/doctors/sylhet" },
+        { name: "Best in Dhaka", href: "/doctors?district=Dhaka" },
+        { name: "Best in Chittagong", href: "/doctors?district=Chittagong" },
+        { name: "Best in Sylhet", href: "/doctors?district=Sylhet" },
     ],
     services: [
         { name: "Find Doctors", href: "/doctors" },
@@ -57,7 +57,7 @@ const currentYear = new Date().getFullYear();
                                 <input type="email" placeholder="Enter your email"
                                     class="h-14 pl-12 pr-6 bg-primary-foreground/15 backdrop-blur-sm border border-primary-foreground/20 rounded-xl text-primary-foreground placeholder:text-primary-foreground/50 focus:outline-none focus:border-primary-foreground/40 min-w-[280px] transition-colors" />
                             </div>
-                            <UButton color="white" variant="solid" size="lg"
+                            <UButton variant="solid" size="lg"
                                 class="h-14 px-8 gap-2 shadow-glow-accent bg-accent text-accent-foreground hover:bg-accent/90 border-none">
                                 Subscribe
                                 <UIcon name="i-lucide-send" class="w-4 h-4" />
@@ -75,13 +75,9 @@ const currentYear = new Date().getFullYear();
                 <div class="lg:col-span-2">
                     <NuxtLink to="/" class="flex items-center gap-3 mb-6 group">
                         <div
-                            class="w-12 h-12 bg-gradient-hero rounded-xl flex items-center justify-center shadow-soft group-hover:scale-105 transition-transform">
-                            <UIcon name="i-lucide-leaf" class="w-7 h-7 text-primary-foreground" />
-                        </div>
-                        <div>
-                            <span class="font-display font-bold text-2xl text-primary-foreground">HomeoDoctorsBD</span>
-                            <span class="block text-xs text-primary-foreground/60 font-medium tracking-wide">HOMEOPATHY
-                                PLATFORM</span>
+                            class="bg-white/10 p-2 rounded-xl backdrop-blur-sm group-hover:scale-105 transition-transform">
+                            <img src="~/assets/images/logo.png" alt="HomeoDoctorsBD Logo"
+                                class="h-10 w-auto brightness-0 invert" />
                         </div>
                     </NuxtLink>
                     <p class="text-primary-foreground/70 mb-6 max-w-sm leading-relaxed">

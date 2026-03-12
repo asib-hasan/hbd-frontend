@@ -3,7 +3,9 @@ import { ref, computed, watch, onMounted } from 'vue'
 import { useDoctors } from '~/composables/useDoctors'
 import type { Doctor } from '~/utils/doctors'
 
-const searchQuery = ref("")
+const route = useRoute()
+const searchQuery = ref(route.query.search?.toString() || "")
+const districtQuery = computed(() => route.query.district?.toString() || "")
 const selectedDistrict = ref("all")
 const selectedArea = ref("all")
 
@@ -43,12 +45,16 @@ const selectedLocationName = computed(() => {
     if (selectedDistrict.value !== "all") {
         const district = districtsData.value.find(d => d.id == selectedDistrict.value)
         if (district) districtName = district.name_en || district.name
+    } else if (districtQuery.value) {
+        districtName = districtQuery.value.charAt(0).toUpperCase() + districtQuery.value.slice(1)
     }
 
     if (selectedArea.value !== "all") {
         const area = areasData.value.find(a => a.id == selectedArea.value)
         if (area) areaName = area.name_en || area.name
     }
+
+
 
     if (areaName && districtName) return `in ${areaName}, ${districtName}`
     if (districtName) return `in ${districtName}`
@@ -73,25 +79,85 @@ const breadcrumbs = computed(() => {
 })
 
 // SEO
+const pageTitle = computed(() => `${info.value.title} | HomeoDoctorsBD`)
+const pageDescription = computed(() => info.value.description)
+
+useSeoMeta({
+    title: pageTitle,
+    ogTitle: pageTitle,
+    description: pageDescription,
+    ogDescription: pageDescription,
+    ogType: 'website',
+    ogSiteName: 'HomeoDoctorsBD',
+    twitterCard: 'summary_large_image',
+    twitterTitle: pageTitle,
+    twitterDescription: pageDescription,
+})
+
 useHead({
-    title: computed(() => `Find Doctors | HomeoDoctorsBD`),
+    link: [
+        // Setting a canonical URL that adjusts per-district if clicked from the hero sections
+        {
+            rel: 'canonical',
+            href: computed(() => `https://homeodoctorsbd.com/doctors${districtQuery.value ? '?district=' + districtQuery.value : ''}`)
+        }
+    ],
     meta: [
-        { name: 'description', content: info.value.description },
-        { name: 'keywords', content: `homeopathy, homeopathic doctors, bangladesh, natural healing` }
+        { name: 'keywords', content: computed(() => `best homeopathic doctor in bangladesh, homeopathic doctors, homeopathy ${districtQuery.value || 'dhaka'}, natural healing, homeopathy clinic`) }
+    ],
+    script: [
+        {
+            type: 'application/ld+json',
+            innerHTML: computed(() => {
+                const itemListElement = filteredDoctors.value.map((doc, index) => ({
+                    "@type": "ListItem",
+                    "position": index + 1,
+                    "item": {
+                        "@type": "Physician",
+                        "name": doc.name,
+                        "medicalSpecialty": doc.specialty || "Homeopathy",
+                        "image": doc.image,
+                        "url": `https://homeodoctorsbd.com/doctor/${doc.slug}`,
+                        "address": {
+                            "@type": "PostalAddress",
+                            "addressCountry": "BD"
+                        }
+                    }
+                }))
+
+                return JSON.stringify({
+                    "@context": "https://schema.org",
+                    "@type": "ItemList",
+                    "itemListElement": itemListElement
+                })
+            })
+        }
     ]
 })
 
+const router = useRouter()
 const clearFilters = () => {
     searchQuery.value = ""
     selectedDistrict.value = "all"
     selectedArea.value = "all"
+    if (districtQuery.value) {
+        const newQuery = { ...route.query }
+        delete newQuery.district
+        router.replace({ query: newQuery })
+    }
 }
 
 const loadDoctors = async () => {
     pending.value = true
     const params: any = {}
     if (searchQuery.value) params.search = searchQuery.value
-    if (selectedDistrict.value !== 'all') params.district_id = selectedDistrict.value
+
+    if (selectedDistrict.value !== 'all') {
+        params.district_id = selectedDistrict.value
+    } else if (districtQuery.value) {
+        params.district = districtQuery.value
+    }
+
     if (selectedArea.value !== 'all') params.area_id = selectedArea.value
 
     try {

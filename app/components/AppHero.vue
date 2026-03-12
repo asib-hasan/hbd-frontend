@@ -28,7 +28,7 @@ const trustBadges = [
         <div class="absolute inset-0 opacity-[0.02]"
             style="background-image: radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0); background-size: 40px 40px;" />
 
-        <div class="container mx-auto px-4 relative z-10 py-16 lg:py-0">
+        <div class="container mx-auto px-4 relative z-10 pt-20 pb-12 lg:pt-32 lg:pb-12">
             <div class="grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
                 <!-- Left Column - Content -->
                 <div class="max-w-2xl">
@@ -105,7 +105,7 @@ const trustBadges = [
                                 </div>
                                 <div>
                                     <h3 class="font-display font-bold text-foreground text-2xl tracking-tight mb-1">Top
-                                        Areas in Dhaka</h3>
+                                        Areas in Bangladesh</h3>
                                     <p class="text-sm text-muted-foreground font-medium flex items-center gap-1.5">
                                         <UIcon name="i-lucide-search" class="w-3.5 h-3.5" />
                                         Find doctors in your neighborhood
@@ -115,8 +115,8 @@ const trustBadges = [
 
                             <div class="flex flex-wrap gap-3 relative z-10">
                                 <NuxtLink
-                                    v-for="(area, i) in ['Uttara', 'Mirpur', 'Mohammadpur', 'Puran Dhaka', 'Kamalapur', 'Motijheel', 'Gulistan', 'Badda', 'Dhanmondi', 'Mohakhali', 'Banani', 'Basundhara']"
-                                    :key="area" :to="`/doctors?search=${area}`"
+                                    v-for="(area, i) in ['Dhaka', 'Chittagong', 'Rajshahi', 'Khulna', 'Barishal', 'Sylhet', 'Rangpur', 'Mymensingh', 'Comilla', 'Narayanganj', 'Gazipur', 'Bogra']"
+                                    :key="area" :to="`/doctors?district=${area}`"
                                     class="group/tag relative px-4 py-2.5 rounded-xl border border-border/50 bg-white/80 backdrop-blur-sm hover:border-primary/50 hover:bg-primary/5 shadow-sm hover:shadow-md text-[15px] font-semibold text-foreground hover:text-primary transition-all duration-300 transform hover:-translate-y-0.5 overflow-hidden"
                                     :style="{ animationDelay: `${i * 0.05}s` }">
                                     <!-- Subtle shine effect on hover -->

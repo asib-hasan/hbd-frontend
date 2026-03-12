@@ -6,6 +6,7 @@ colorMode.preference = 'light'
 </script>
 
 <template>
+  <NuxtLoadingIndicator />
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>

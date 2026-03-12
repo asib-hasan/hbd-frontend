@@ -11,7 +11,8 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      apiBaseUrl: 'http://127.0.0.1:8000/api' // Note: using without trailing slash as backend routes are usually constructed with it
+      // apiBaseUrl: 'http://127.0.0.1:8000/api' 
+      apiBaseUrl: 'http://admin.homeodoctorsbd.com/api'
     }
   },
 
