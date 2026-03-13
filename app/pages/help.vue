@@ -8,14 +8,6 @@ useHead({
     ]
 })
 
-const categories = [
-    { icon: 'i-lucide-search', title: 'Finding Doctors', desc: 'Search by specialty, district, or name', count: 6 },
-    { icon: 'i-lucide-calendar-check', title: 'Appointments', desc: 'Booking, rescheduling, and cancellations', count: 8 },
-    { icon: 'i-lucide-user-circle', title: 'Your Account', desc: 'Profile, settings, and preferences', count: 5 },
-    { icon: 'i-lucide-credit-card', title: 'Payments & Fees', desc: 'Consultation fees and payment methods', count: 4 },
-    { icon: 'i-lucide-shield-check', title: 'Safety & Privacy', desc: 'Data security and doctor verification', count: 7 },
-    { icon: 'i-lucide-stethoscope', title: 'Doctor Registration', desc: 'How to register as a homeopathic doctor', count: 5 },
-];
 
 const faqs = [
     {
@@ -110,38 +102,6 @@ const toggle = (key: string) => {
                         HomeoDoctorsBD platform.
                     </p>
                     <!-- Search Bar removed -->
-                </div>
-            </div>
-        </section>
-
-        <!-- Category Cards -->
-        <section class="py-16 md:py-20">
-            <div class="container mx-auto px-4">
-                <div class="text-center max-w-2xl mx-auto mb-12 animate-fade-up">
-                    <h2 class="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
-                        Browse by Category
-                    </h2>
-                    <p class="text-muted-foreground">Select a topic to find relevant answers quickly</p>
-                </div>
-                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-                    <div v-for="(cat, idx) in categories" :key="idx"
-                        class="card-premium p-6 flex items-start gap-4 cursor-pointer hover:-translate-y-1 transition-all duration-300 group animate-fade-up"
-                        :style="{ animationDelay: `${idx * 0.08}s` }">
-                        <div
-                            class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
-                            <UIcon :name="cat.icon" class="w-6 h-6 text-primary" />
-                        </div>
-                        <div>
-                            <h3 class="font-display font-bold text-foreground mb-1 group-hover:text-primary transition-colors">
-                                {{ cat.title }}
-                            </h3>
-                            <p class="text-sm text-muted-foreground mb-2">{{ cat.desc }}</p>
-                            <span
-                                class="inline-block bg-primary/10 text-primary text-xs font-semibold px-2 py-0.5 rounded-lg">
-                                {{ cat.count }} articles
-                            </span>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>

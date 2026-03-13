@@ -5,10 +5,13 @@ import { useDoctors } from '~/composables/useDoctors'
 import AppFooter from '~/components/AppFooter.vue';
 
 const route = useRoute()
-const { slug } = route.params // This is the slug
+const slug = computed(() => {
+    const s = route.params.slug;
+    return Array.isArray(s) ? s[0] : s;
+})
 const { fetchDoctor } = useDoctors()
 
-const { data: apiResponse, pending, error } = await fetchDoctor(slug as string)
+const { data: apiResponse, pending, error } = await fetchDoctor(slug)
 const doctor = computed(() => {
     return (apiResponse.value as any)?.data || null
 })

@@ -28,9 +28,10 @@ export const useDoctors = () => {
         })
     }
 
-    const fetchDoctor = async (slug: string) => {
-        return await useFetch(`/doctors/${slug}`, {
+    const fetchDoctor = async (slug: string | any) => {
+        return await useFetch(() => `/doctors/${unref(slug)}`, {
             baseURL: apiBaseUrl,
+            key: `doctor-${unref(slug)}`,
         })
     }
 
