@@ -2,7 +2,7 @@
     <div class="group card-premium transition-all duration-500 hover:-translate-y-2 animate-fade-up"
         :style="{ animationDelay: `${index * 0.08}s` }">
         <!-- Image Container -->
-        <div class="relative h-52 overflow-hidden">
+        <NuxtLink :to="`/doctor/${slug || id}`" class="relative h-52 overflow-hidden block w-full">
             <img :src="image" :alt="name"
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
             <div class="absolute inset-0 bg-gradient-to-t from-foreground/60 via-foreground/10 to-transparent" />
@@ -28,7 +28,7 @@
                 <UIcon name="i-lucide-badge-check" class="w-3.5 h-3.5" />
                 Verified
             </div>
-        </div>
+        </NuxtLink>
 
         <!-- Content -->
         <div class="p-5">
