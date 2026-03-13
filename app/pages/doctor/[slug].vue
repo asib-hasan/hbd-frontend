@@ -142,9 +142,7 @@ const scrollToChambers = () => {
                             <div class="flex items-center gap-4 mb-4">
                                 <div class="flex items-center gap-1.5 bg-accent/10 text-accent px-3 py-1.5 rounded-xl">
                                     <UIcon name="i-lucide-star" class="w-5 h-5 text-accent" />
-                                    <span class="font-bold">{{ doctor.rating || 'New' }}</span>
-                                    <span class="text-sm text-muted-foreground">({{ doctor.total_reviews || 0 }}
-                                        reviews)</span>
+                                    <span v-if="doctor.rating" class="font-bold">{{ doctor.rating }}</span>
                                 </div>
                                 <div class="px-3 py-1.5 rounded-xl text-sm font-semibold flex items-center gap-1.5"
                                     :class="isAvailableToday

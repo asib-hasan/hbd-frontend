@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:is(.dark *));
+
 @theme {
     --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
     --font-display: 'Outfit', system-ui, sans-serif;
@@ -108,31 +110,7 @@
     }
 }
 
-/* Dark mode overrides using the data-theme or .dark selector via standard CSS variables 
-   In Tailwind 4, we modify the variables inside the selector */
-@layer base {
-    .dark {
-        --color-background: hsl(222 47% 6%);
-        --color-foreground: hsl(210 20% 98%);
-        --color-card: hsl(222 40% 10%);
-        --color-card-foreground: hsl(210 20% 98%);
-        --color-popover: hsl(222 40% 10%);
-        --color-popover-foreground: hsl(210 20% 98%);
-        --color-primary: hsl(173 70% 42%);
-        --color-primary-foreground: hsl(222 47% 6%);
-        --color-secondary: hsl(222 30% 15%);
-        --color-secondary-foreground: hsl(173 70% 50%);
-        --color-muted: hsl(222 30% 15%);
-        --color-muted-foreground: hsl(215 20% 60%);
-        --color-accent: hsl(25 90% 50%);
-        --color-accent-foreground: hsl(25 95% 95%);
-        --color-destructive: hsl(0 70% 45%);
-        --color-destructive-foreground: hsl(0 0% 100%);
-        --color-border: hsl(222 30% 18%);
-        --color-input: hsl(222 30% 18%);
-        --color-ring: hsl(173 70% 42%);
-    }
-}
+/* Dark mode has been intentionally removed to enforce a light-only design. */
 
 /* Custom Utilities - keeping minimal set or porting those from previous components layer */
 @layer utilities {
