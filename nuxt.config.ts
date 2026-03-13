@@ -10,7 +10,10 @@ export default defineNuxtConfig({
   },
 
   colorMode: {
-    preference: 'light'
+    preference: 'light',
+    fallback: 'light',
+    classSuffix: '',
+    storageKey: 'nuxt-color-mode'
   },
 
   runtimeConfig: {
