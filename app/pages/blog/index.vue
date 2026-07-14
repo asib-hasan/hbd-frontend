@@ -76,7 +76,6 @@ useHead({
         <PageHeader title="Health & Wellness Blog"
             description="Explore articles, tips, and insights about homeopathy and natural healing from our expert practitioners."
             :breadcrumbs="[
-                { label: 'Home', href: '/' },
                 { label: 'Blog' }
             ]" />
 

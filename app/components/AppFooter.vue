@@ -32,41 +32,7 @@ const currentYear = new Date().getFullYear();
 
 <template>
     <footer id="about" class="bg-gradient-dark text-primary-foreground">
-        <!-- Newsletter Section -->
-        <div class="border-b border-primary-foreground/10">
-            <div class="container mx-auto px-4 py-16">
-                <div class="bg-gradient-hero rounded-3xl p-8 lg:p-12 relative overflow-hidden">
-                    <!-- Background decoration -->
-                    <div class="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl" />
-                    <div class="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full blur-2xl" />
 
-                    <div class="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8">
-                        <div class="text-center lg:text-left">
-                            <h3 class="font-display text-2xl lg:text-3xl font-bold text-primary-foreground mb-2">
-                                Subscribe to Our Newsletter
-                            </h3>
-                            <p class="text-primary-foreground/80 max-w-md">
-                                Get homeopathy health tips, new doctor updates, and exclusive offers directly in your
-                                inbox.
-                            </p>
-                        </div>
-                        <div class="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
-                            <div class="relative">
-                                <UIcon name="i-lucide-mail"
-                                    class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-primary-foreground/60" />
-                                <input type="email" placeholder="Enter your email"
-                                    class="h-14 pl-12 pr-6 bg-primary-foreground/15 backdrop-blur-sm border border-primary-foreground/20 rounded-xl text-primary-foreground placeholder:text-primary-foreground/50 focus:outline-none focus:border-primary-foreground/40 min-w-[280px] transition-colors" />
-                            </div>
-                            <UButton variant="solid" size="lg"
-                                class="h-14 px-8 gap-2 shadow-glow-accent bg-accent text-accent-foreground hover:bg-accent/90 border-none">
-                                Subscribe
-                                <UIcon name="i-lucide-send" class="w-4 h-4" />
-                            </UButton>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <!-- Main Footer -->
         <div class="container mx-auto px-4 py-16">
@@ -76,8 +42,8 @@ const currentYear = new Date().getFullYear();
                     <NuxtLink to="/" class="flex items-center gap-3 mb-6 group">
                         <div
                             class="bg-white/10 p-2 rounded-xl backdrop-blur-sm group-hover:scale-105 transition-transform">
-                            <img src="~/assets/images/logo.png" alt="HomeoDoctorsBD Logo"
-                                class="h-10 w-auto brightness-0 invert" />
+                            <img src="~/assets/images/logo-new.png" alt="HomeoDoctorsBD Logo"
+                                class="h-16 w-auto scale-125 lg:scale-150 origin-left brightness-0 invert" />
                         </div>
                     </NuxtLink>
                     <p class="text-primary-foreground/70 mb-6 max-w-sm leading-relaxed">

@@ -42,116 +42,129 @@ const navLinks: NavLink[] = [
 </script>
 
 <template>
-    <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
-        :class="isScrolled || isMenuOpen ? 'bg-background/95 backdrop-blur-xl shadow-sm border-b border-border/40' : 'bg-transparent'">
-        <div class="container mx-auto px-4">
-            <div class="flex items-center justify-between h-16">
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 transition-shadow duration-300"
+        :class="isScrolled ? 'shadow-md py-2' : 'shadow-sm py-3'">
+        <div class="container mx-auto px-4 lg:px-8">
+            <div class="flex items-center justify-between h-16 lg:h-20">
                 <!-- Logo -->
-                <NuxtLink to="/" class="flex items-center gap-2.5 group">
-                    <img src="~/assets/images/logo.png" alt="HomeoDoctorsBD Logo"
-                        class="h-11 w-auto group-hover:scale-105 transition-transform duration-200" />
+                <NuxtLink to="/" class="flex items-center gap-2.5 flex-shrink-0 h-14 lg:h-20" style="clip-path: inset(0 -150px 0 0);">
+                    <img src="~/assets/images/logo-new.png" alt="HomeoDoctorsBD Logo"
+                        class="h-full w-auto scale-150 lg:scale-[1.6] origin-left mix-blend-multiply" />
                 </NuxtLink>
 
                 <!-- Desktop Navigation -->
-                <nav class="hidden lg:flex items-center gap-1">
+                <nav class="hidden lg:flex items-center gap-8 flex-1 justify-center">
                     <div v-for="link in navLinks" :key="link.name" class="relative group"
                         @mouseenter="link.children && (openDropdown = link.name)"
                         @mouseleave="link.children && (openDropdown = null)">
                         <!-- Normal Link -->
                         <NuxtLink v-if="!link.children" :to="link.href"
-                            class="px-3 py-2 text-md text-foreground/70 hover:text-foreground font-medium transition-colors rounded-md hover:bg-muted/50">
+                            class="text-[16px] font-medium text-gray-700 hover:text-primary transition-colors py-2"
+                            active-class="text-primary font-semibold">
                             {{ link.name }}
                         </NuxtLink>
+
+                        <div v-else class="relative">
+                            <button class="flex items-center gap-1 text-[16px] font-medium text-gray-700 hover:text-primary transition-colors py-2">
+                                {{ link.name }}
+                                <UIcon name="i-lucide-chevron-down" class="w-4 h-4" />
+                            </button>
+                            <div v-show="openDropdown === link.name" class="absolute top-full left-0 w-48 bg-white border border-gray-200 shadow-lg rounded-lg py-2 mt-1">
+                                <NuxtLink v-for="child in link.children" :key="child.name" :to="child.href"
+                                    class="block px-4 py-2 text-[15px] text-gray-700 hover:bg-gray-50 hover:text-primary transition-colors">
+                                    {{ child.name }}
+                                </NuxtLink>
+                            </div>
+                        </div>
                     </div>
                 </nav>
 
                 <!-- Desktop Actions -->
-                <div class="hidden lg:flex items-center gap-2">
+                <div class="hidden lg:flex items-center gap-3 flex-shrink-0">
                     <template v-if="user">
                         <NuxtLink to="/profile">
-                            <UButton variant="ghost" size="sm" class="h-9 px-3 text-sm">
-                                <UIcon name="i-lucide-user" class="w-4 h-4 mr-1.5" />
-                                Profile
+                            <UButton variant="soft" color="primary" size="md" class="font-medium">
+                                <UIcon name="i-lucide-user" class="w-4 h-4 mr-2" />
+                                My Profile
                             </UButton>
                         </NuxtLink>
-                        <UButton variant="outline" size="sm" @click="handleLogout" class="h-9 px-3 text-sm">
-                            <UIcon name="i-lucide-log-out" class="w-4 h-4 mr-1.5" />
+                        <UButton variant="outline" color="gray" size="md" @click="handleLogout" class="font-medium">
                             Logout
                         </UButton>
                     </template>
                     <template v-else>
                         <NuxtLink to="#">
-                            <UButton variant="ghost" color="neutral" size="sm" class="h-9 px-3 text-sm">
+                            <UButton variant="ghost" color="primary" size="md" class="font-medium hover:bg-primary-50">
                                 Join as Doctor
-                                <UIcon name="i-lucide-user-plus" class="w-4 h-4 mr-1.5" />
                             </UButton>
                         </NuxtLink>
                         <NuxtLink to="#">
-                            <UButton size="sm" class="h-9 px-4 text-sm">
-                                Book Now
+                            <UButton color="primary" size="md" class="font-medium px-6 shadow-sm text-white">
+                                Book Appointment
                             </UButton>
                         </NuxtLink>
                     </template>
                 </div>
 
                 <!-- Mobile Menu Button -->
-                <button class="lg:hidden p-2 hover:bg-muted rounded-lg transition-colors"
-                    @click="isMenuOpen = !isMenuOpen">
-                    <UIcon v-if="isMenuOpen" name="i-lucide-x" class="w-5 h-5" />
-                    <UIcon v-else name="i-lucide-menu" class="w-5 h-5" />
+                <button class="lg:hidden p-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-primary/50"
+                    @click="isMenuOpen = !isMenuOpen" aria-label="Toggle Menu">
+                    <UIcon v-if="isMenuOpen" name="i-lucide-x" class="w-6 h-6" />
+                    <UIcon v-else name="i-lucide-menu" class="w-6 h-6" />
                 </button>
             </div>
 
             <!-- Mobile Menu -->
-            <div v-if="isMenuOpen" class="lg:hidden py-4 border-t border-border animate-fade-in">
+            <div v-if="isMenuOpen" class="lg:hidden py-4 border-t border-gray-100 mt-2">
                 <nav class="flex flex-col gap-1">
                     <div v-for="link in navLinks" :key="link.name">
                         <NuxtLink v-if="!link.children" :to="link.href"
-                            class="block w-full text-left px-3 py-2.5 text-sm text-foreground hover:text-primary hover:bg-muted/50 rounded-md font-medium transition-colors"
+                            class="block w-full px-4 py-3 text-[16px] font-medium text-gray-700 hover:text-primary hover:bg-primary-50 rounded-lg transition-colors"
+                            active-class="text-primary bg-primary-50"
                             @click="isMenuOpen = false">
                             {{ link.name }}
                         </NuxtLink>
-
+                        
                         <div v-else class="flex flex-col gap-1">
                             <button @click="openDropdown = openDropdown === link.name ? null : link.name"
-                                class="flex items-center justify-between w-full px-3 py-2.5 text-sm font-medium text-foreground hover:bg-muted/50 rounded-lg transition-colors">
+                                class="flex items-center justify-between w-full px-4 py-3 text-[16px] font-medium text-gray-700 hover:text-primary hover:bg-primary-50 rounded-lg transition-colors">
                                 {{ link.name }}
-                                <UIcon name="i-lucide-chevron-down" class="w-4 h-4 transition-transform duration-200"
+                                <UIcon name="i-lucide-chevron-down" class="w-5 h-5 transition-transform"
                                     :class="openDropdown === link.name ? 'rotate-180 text-primary' : ''" />
                             </button>
-
                             <div v-show="openDropdown === link.name" class="flex flex-col gap-1 pl-4 pr-2 pb-2">
                                 <NuxtLink v-for="child in link.children" :key="child.name" :to="child.href"
-                                    class="block w-full text-left px-3 py-2.5 text-sm text-muted-foreground hover:text-primary hover:bg-primary/5 rounded-md transition-colors"
+                                    class="block w-full px-4 py-2 text-[15px] text-gray-600 hover:text-primary hover:bg-primary-50 rounded-lg transition-colors"
                                     @click="isMenuOpen = false; openDropdown = null">
                                     {{ child.name }}
                                 </NuxtLink>
                             </div>
                         </div>
                     </div>
-                    <div class="flex flex-col gap-2 pt-3 mt-3 border-t border-border">
+                    
+                    <!-- Mobile Actions -->
+                    <div class="flex flex-col gap-3 pt-4 mt-2 border-t border-gray-100 px-2">
                         <template v-if="user">
                             <NuxtLink to="/profile" @click="isMenuOpen = false">
-                                <UButton variant="outline" size="sm" block class="justify-center w-full">
-                                    <UIcon name="i-lucide-user" class="w-4 h-4 mr-1.5" />
-                                    Profile
+                                <UButton variant="soft" color="primary" size="lg" block class="justify-center font-medium">
+                                    <UIcon name="i-lucide-user" class="w-5 h-5 mr-2" />
+                                    My Profile
                                 </UButton>
                             </NuxtLink>
-                            <UButton variant="ghost" size="sm" block class="justify-center w-full"
+                            <UButton variant="outline" color="gray" size="lg" block class="justify-center font-medium"
                                 @click="handleLogout(); isMenuOpen = false">
-                                <UIcon name="i-lucide-log-out" class="w-4 h-4 mr-1.5" />
                                 Logout
                             </UButton>
                         </template>
                         <template v-else>
                             <NuxtLink to="#" @click="isMenuOpen = false">
-                                <UButton variant="outline" size="sm" block class="justify-center w-full">
+                                <UButton variant="soft" color="primary" size="lg" block class="justify-center font-medium">
                                     Join as Doctor
                                 </UButton>
                             </NuxtLink>
                             <NuxtLink to="#" @click="isMenuOpen = false">
-                                <UButton size="sm" block class="justify-center w-full">
-                                    Book Consultation
+                                <UButton color="primary" size="lg" block class="justify-center font-medium shadow-sm text-white">
+                                    Book Appointment
                                 </UButton>
                             </NuxtLink>
                         </template>

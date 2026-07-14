@@ -76,7 +76,7 @@ const sections = [
 const highlights = [
     { icon: 'i-lucide-stethoscope', color: 'text-orange-600', bg: 'bg-orange-500/10', text: 'We are a directory, not a medical provider' },
     { icon: 'i-lucide-scale', color: 'text-blue-600', bg: 'bg-blue-500/10', text: 'Governed by Bangladesh law' },
-    { icon: 'i-lucide-user-check', color: 'text-green-600', bg: 'bg-green-500/10', text: 'You are responsible for your use of the platform' },
+    { icon: 'i-lucide-user-check', color: 'text-primary', bg: 'bg-primary/10', text: 'You are responsible for your use of the platform' },
 ];
 </script>
 
@@ -89,6 +89,11 @@ const highlights = [
             <div class="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />
 
             <div class="container mx-auto px-4 relative z-10">
+                <nav class="flex items-center gap-2 text-sm text-muted-foreground mb-6 animate-fade-up">
+                    <NuxtLink to="/" class="hover:text-primary transition-colors">Home</NuxtLink>
+                    <UIcon name="i-lucide-chevron-right" class="w-3.5 h-3.5" />
+                    <span class="text-foreground font-medium">Terms of Service</span>
+                </nav>
                 <div class="max-w-3xl mx-auto text-center animate-fade-up">
                     <div
                         class="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-6">

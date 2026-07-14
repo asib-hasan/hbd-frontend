@@ -25,7 +25,7 @@ const doctors = computed(() => {
                         Top Rated Practitioners
                     </span>
                     <h2
-                        class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4 animate-fade-up stagger-1">
+                        class="font-display text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-4 animate-fade-up stagger-1">
                         Meet Our <span class="text-gradient">Expert</span> Homeopaths
                     </h2>
                     <p class="text-lg text-muted-foreground animate-fade-up stagger-2">
@@ -43,16 +43,23 @@ const doctors = computed(() => {
                 </div>
             </div>
 
-            <!-- Loading State -->
-            <div v-if="pending" class="flex justify-center p-12">
-                <UIcon name="i-lucide-loader-2" class="w-10 h-10 animate-spin text-primary" />
-            </div>
+            <ClientOnly>
+                <!-- Loading State -->
+                <div v-if="pending" class="flex justify-center p-12">
+                    <UIcon name="i-lucide-loader-2" class="w-10 h-10 animate-spin text-primary" />
+                </div>
 
-            <!-- Doctor Cards -->
-            <div v-else class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                <DoctorCard v-for="(doctor, index) in doctors.slice(0, 4)" :key="doctor.id" v-bind="doctor"
-                    :index="index" />
-            </div>
+                <!-- Doctor Cards -->
+                <div v-else class="grid md:grid-cols-2 xl:grid-cols-3 gap-5">
+                    <DoctorCard v-for="(doctor, index) in doctors.slice(0, 6)" :key="doctor.id" v-bind="doctor"
+                        :index="index" />
+                </div>
+                <template #fallback>
+                    <div class="flex justify-center p-12">
+                        <UIcon name="i-lucide-loader-2" class="w-10 h-10 animate-spin text-primary" />
+                    </div>
+                </template>
+            </ClientOnly>
         </div>
     </section>
 </template>

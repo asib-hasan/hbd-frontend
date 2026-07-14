@@ -67,9 +67,9 @@ const contactInfo = [
         title: "Phone",
         details: ["+880 1700-000000", "+880 1800-000000"],
         action: "tel:+8801700000000",
-        gradient: "from-emerald-500/10 to-teal-500/10",
-        iconColor: "text-emerald-600",
-        iconBg: "bg-emerald-500/15",
+        gradient: "from-primary/10 to-cyan-500/10",
+        iconColor: "text-primary",
+        iconBg: "bg-primary/15",
     },
     {
         icon: 'i-lucide-mail',
@@ -109,7 +109,8 @@ useHead({
 <template>
     <div class="min-h-screen bg-background">
         <PageHeader title="Contact Us"
-            description="Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible." />
+            description="Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible." 
+            :breadcrumbs="[{ label: 'Contact Us' }]" />
 
         <!-- Success Toast -->
         <Transition enter-active-class="transition-all duration-500 ease-out"
@@ -117,13 +118,13 @@ useHead({
             leave-active-class="transition-all duration-300 ease-in"
             leave-from-class="translate-y-0 opacity-100 scale-100" leave-to-class="-translate-y-4 opacity-0 scale-95">
             <div v-if="showSuccess"
-                class="fixed top-24 left-1/2 -translate-x-1/2 z-50 bg-emerald-50 border border-emerald-200 text-emerald-800 px-6 py-4 rounded-2xl shadow-xl flex items-center gap-3">
-                <div class="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center flex-shrink-0">
+                class="fixed top-24 left-1/2 -translate-x-1/2 z-50 bg-blue-50 border border-blue-200 text-blue-800 px-6 py-4 rounded-2xl shadow-xl flex items-center gap-3">
+                <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
                     <UIcon name="i-lucide-check" class="w-5 h-5 text-white" />
                 </div>
                 <div>
                     <p class="font-semibold">Message Sent!</p>
-                    <p class="text-sm text-emerald-600">We'll get back to you within 24 hours.</p>
+                    <p class="text-sm text-primary">We'll get back to you within 24 hours.</p>
                 </div>
             </div>
         </Transition>

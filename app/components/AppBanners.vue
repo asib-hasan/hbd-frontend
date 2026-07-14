@@ -37,52 +37,54 @@ const onImageError = (e: Event) => {
                 </span>
                 <h2
                     class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4 animate-fade-up stagger-1">
-                    Featured <span class="text-gradient">Highlights</span>
+                    Latest <span class="text-gradient">Updates</span>
                 </h2>
             </div>
 
             <!-- Banners Slider -->
-            <div class="relative group mt-8">
-                <!-- Wrapper for horizontal scrolling -->
-                <div class="flex overflow-x-auto snap-x snap-mandatory gap-6 hide-scrollbar pb-6 pt-2 px-2"
-                    id="banner-slider">
-                    <!-- Individual Banner Card -->
-                    <div v-for="(banner, index) in banners" :key="banner.id"
-                        class="snap-start shrink-0 w-[85%] sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] group/banner relative rounded-2xl overflow-hidden shadow-soft hover:shadow-card transition-all duration-300 h-56 md:h-64 cursor-pointer">
+            <ClientOnly>
+                <div class="relative group mt-8">
+                    <!-- Wrapper for horizontal scrolling -->
+                    <div class="flex overflow-x-auto snap-x snap-mandatory gap-6 hide-scrollbar pb-6 pt-2 px-2"
+                        id="banner-slider">
+                        <!-- Individual Banner Card -->
+                        <div v-for="(banner, index) in banners" :key="banner.id"
+                            class="snap-start shrink-0 w-[85%] sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] group/banner relative rounded-2xl overflow-hidden shadow-soft hover:shadow-card transition-all duration-300 h-56 md:h-64 cursor-pointer">
 
-                        <!-- Image Section -->
-                        <div class="w-full h-full relative bg-muted">
-                            <img :src="banner.photo" :alt="banner.title"
-                                class="absolute inset-0 w-full h-full object-cover group-hover/banner:scale-105 transition-transform duration-700"
-                                @error="onImageError" />
-
-                            <!-- Hover Overlay -->
-                            <div
-                                class="absolute inset-0 bg-black/40 opacity-0 group-hover/banner:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
-                                <NuxtLink :to="banner.url" target="_blank"
-                                    class="inline-flex items-center justify-center px-8 py-3 bg-white text-primary font-bold rounded-full shadow-xl hover:scale-105 transition-transform duration-300 gap-2">
-                                    Learn More
-                                    <UIcon name="i-lucide-arrow-right" class="w-4 h-4" />
-                                </NuxtLink>
+                            <!-- Image Section -->
+                            <NuxtLink v-if="banner.url" :to="banner.url" :target="banner.url.startsWith('http') ? '_blank' : undefined" class="w-full h-full relative block bg-muted">
+                                <img :src="banner.photo" :alt="banner.title"
+                                    class="absolute inset-0 w-full h-full object-cover group-hover/banner:scale-105 transition-transform duration-700"
+                                    @error="onImageError" />
+                            </NuxtLink>
+                            <div v-else class="w-full h-full relative bg-muted">
+                                <img :src="banner.photo" :alt="banner.title"
+                                    class="absolute inset-0 w-full h-full object-cover group-hover/banner:scale-105 transition-transform duration-700"
+                                    @error="onImageError" />
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Navigation Buttons -->
-                <button
-                    onclick="document.getElementById('banner-slider').scrollBy({left: -window.innerWidth * 0.3, behavior: 'smooth'})"
-                    class="absolute top-1/2 -translate-y-1/2 -left-5 w-12 h-12 bg-white dark:bg-gray-800 rounded-full shadow-lg flex items-center justify-center text-gray-800 dark:text-gray-200 border border-gray-100 dark:border-gray-700 hover:scale-105 transition-transform z-10 hidden md:flex focus:outline-none"
-                    aria-label="Previous Banner">
-                    <UIcon name="i-lucide-chevron-left" class="w-6 h-6" />
-                </button>
-                <button
-                    onclick="document.getElementById('banner-slider').scrollBy({left: window.innerWidth * 0.3, behavior: 'smooth'})"
-                    class="absolute top-1/2 -translate-y-1/2 -right-5 w-12 h-12 bg-white dark:bg-gray-800 rounded-full shadow-lg flex items-center justify-center text-gray-800 dark:text-gray-200 border border-gray-100 dark:border-gray-700 hover:scale-105 transition-transform z-10 hidden md:flex focus:outline-none"
-                    aria-label="Next Banner">
-                    <UIcon name="i-lucide-chevron-right" class="w-6 h-6" />
-                </button>
-            </div>
+                    <!-- Navigation Buttons -->
+                    <button
+                        onclick="document.getElementById('banner-slider').scrollBy({left: -window.innerWidth * 0.3, behavior: 'smooth'})"
+                        class="absolute top-1/2 -translate-y-1/2 -left-5 w-12 h-12 bg-white dark:bg-gray-800 rounded-full shadow-lg flex items-center justify-center text-gray-800 dark:text-gray-200 border border-gray-100 dark:border-gray-700 hover:scale-105 transition-transform z-10 hidden md:flex focus:outline-none"
+                        aria-label="Previous Banner">
+                        <UIcon name="i-lucide-chevron-left" class="w-6 h-6" />
+                    </button>
+                    <button
+                        onclick="document.getElementById('banner-slider').scrollBy({left: window.innerWidth * 0.3, behavior: 'smooth'})"
+                        class="absolute top-1/2 -translate-y-1/2 -right-5 w-12 h-12 bg-white dark:bg-gray-800 rounded-full shadow-lg flex items-center justify-center text-gray-800 dark:text-gray-200 border border-gray-100 dark:border-gray-700 hover:scale-105 transition-transform z-10 hidden md:flex focus:outline-none"
+                        aria-label="Next Banner">
+                        <UIcon name="i-lucide-chevron-right" class="w-6 h-6" />
+                    </button>
+                </div>
+                <template #fallback>
+                    <div class="flex justify-center p-12">
+                        <UIcon name="i-lucide-loader-2" class="w-8 h-8 animate-spin text-primary" />
+                    </div>
+                </template>
+            </ClientOnly>
         </div>
     </section>
 </template>

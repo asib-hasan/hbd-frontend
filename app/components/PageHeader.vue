@@ -21,7 +21,7 @@ const formatTitle = (title: string) => {
 </script>
 
 <template>
-    <section class="relative pt-20 pb-12 lg:pt-28 lg:pb-20 overflow-hidden">
+    <section class="relative pt-28 pb-12 lg:pt-32 lg:pb-20 overflow-hidden">
         <!-- Background -->
         <div class="absolute inset-0 bg-gradient-hero-subtle" />
         <div class="absolute inset-0 bg-hero-pattern opacity-40" />

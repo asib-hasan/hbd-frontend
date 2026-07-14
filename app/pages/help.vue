@@ -88,6 +88,11 @@ const toggle = (key: string) => {
             <div class="absolute bottom-10 right-10 w-96 h-96 bg-secondary/10 rounded-full blur-3xl" />
 
             <div class="container mx-auto px-4 relative z-10">
+                <nav class="flex items-center gap-2 text-sm text-muted-foreground mb-6 animate-fade-up">
+                    <NuxtLink to="/" class="hover:text-primary transition-colors">Home</NuxtLink>
+                    <UIcon name="i-lucide-chevron-right" class="w-3.5 h-3.5" />
+                    <span class="text-foreground font-medium">Help Center</span>
+                </nav>
                 <div class="max-w-3xl mx-auto text-center animate-fade-up">
                     <div
                         class="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-6">

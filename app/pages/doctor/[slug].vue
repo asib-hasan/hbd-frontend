@@ -146,7 +146,7 @@ const scrollToChambers = () => {
                                 </div>
                                 <div class="px-3 py-1.5 rounded-xl text-sm font-semibold flex items-center gap-1.5"
                                     :class="isAvailableToday
-                                        ? 'bg-green-500/10 text-green-600'
+                                        ? 'bg-blue-500/10 text-blue-600'
                                         : 'bg-muted text-muted-foreground'">
                                     <UIcon name="i-lucide-clock" class="w-4 h-4" />
                                     {{ isAvailableToday ? 'Active' : 'Unavailable' }}
@@ -403,7 +403,7 @@ const scrollToChambers = () => {
                 </button>
                 <a v-if="activeChamber && (activeChamber.hotline_number || activeChamber.hotline_number_en)"
                     :href="`tel:${activeChamber.hotline_number || activeChamber.hotline_number_en}`"
-                    class="flex flex-col items-center gap-0.5 text-green-600 active:scale-90 transition-transform px-3">
+                    class="flex flex-col items-center gap-0.5 text-primary active:scale-90 transition-transform px-3">
                     <UIcon name="i-lucide-phone-call" class="w-5 h-5" />
                     <span class="text-[10px] font-semibold">Hotline</span>
                 </a>

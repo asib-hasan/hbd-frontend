@@ -155,6 +155,11 @@ const sections = [
             <div class="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />
 
             <div class="container mx-auto px-4 relative z-10">
+                <nav class="flex items-center gap-2 text-sm text-muted-foreground mb-6 animate-fade-up">
+                    <NuxtLink to="/" class="hover:text-primary transition-colors">Home</NuxtLink>
+                    <UIcon name="i-lucide-chevron-right" class="w-3.5 h-3.5" />
+                    <span class="text-foreground font-medium">Privacy Policy</span>
+                </nav>
                 <div class="max-w-3xl mx-auto text-center animate-fade-up">
                     <div
                         class="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-6">
@@ -182,8 +187,8 @@ const sections = [
             <div class="container mx-auto px-4">
                 <div class="grid sm:grid-cols-3 gap-6 max-w-4xl mx-auto text-center">
                     <div class="flex flex-col items-center gap-2">
-                        <div class="w-12 h-12 bg-green-500/10 rounded-xl flex items-center justify-center">
-                            <UIcon name="i-lucide-x-circle" class="w-6 h-6 text-green-600" />
+                        <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
+                            <UIcon name="i-lucide-x-circle" class="w-6 h-6 text-primary" />
                         </div>
                         <p class="font-semibold text-foreground text-sm">We never sell your data</p>
                     </div>

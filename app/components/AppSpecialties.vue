@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const specialties = [
-    { icon: 'i-lucide-leaf', name: "Constitutional Treatment", doctors: 65, color: "bg-emerald-500/10 text-emerald-500 group-hover:bg-emerald-500 group-hover:text-white" },
+    { icon: 'i-lucide-leaf', name: "Constitutional Treatment", doctors: 65, color: "bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white" },
     { icon: 'i-lucide-activity', name: "Chronic Diseases", doctors: 52, color: "bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white" },
     { icon: 'i-lucide-heart', name: "Heart & Circulation", doctors: 38, color: "bg-rose-500/10 text-rose-500 group-hover:bg-rose-500 group-hover:text-white" },
     { icon: 'i-lucide-brain', name: "Mental Health", doctors: 32, color: "bg-violet-500/10 text-violet-500 group-hover:bg-violet-500 group-hover:text-white" },

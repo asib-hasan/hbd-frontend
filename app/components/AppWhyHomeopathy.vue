@@ -11,8 +11,8 @@ const reasons = [
         title: "Safe & Natural",
         description: "Homeopathic remedies are derived from natural sources. They are highly diluted, making them non-toxic, non-addictive, and safe for patients of all ages, including infants.",
         icon: "i-lucide-leaf",
-        color: "text-emerald-500",
-        bg: "bg-emerald-500/10"
+        color: "text-primary",
+        bg: "bg-primary/10"
     },
     {
         title: "Root Cause Resolution",
@@ -46,7 +46,7 @@ const reasons = [
 </script>
 
 <template>
-    <section class="py-20 lg:py-28 bg-muted/20 relative overflow-hidden">
+    <section class="py-12 lg:py-16 bg-muted/20 relative overflow-hidden">
         <!-- Background Accents -->
         <div
             class="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-radial from-primary/5 to-transparent rounded-full blur-3xl" />
@@ -62,7 +62,7 @@ const reasons = [
                     Healing Philosophy
                 </div>
                 <h2
-                    class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4 animate-fade-up stagger-1 tracking-tight">
+                    class="font-display text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-4 animate-fade-up stagger-1 tracking-tight">
                     Why Choose <span class="text-gradient">Homeopathy?</span>
                 </h2>
                 <p class="text-lg text-muted-foreground animate-fade-up stagger-2 leading-relaxed">

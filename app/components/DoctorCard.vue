@@ -1,73 +1,71 @@
 <template>
-    <div class="group card-premium transition-all duration-500 hover:-translate-y-2 animate-fade-up"
+    <div class="group bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 animate-fade-up overflow-hidden"
         :style="{ animationDelay: `${index * 0.08}s` }">
-        <!-- Image Container -->
-        <NuxtLink :to="`/doctor/${slug || id}`" class="relative h-52 overflow-hidden block w-full">
-            <img :src="image" :alt="name"
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-            <div class="absolute inset-0 bg-gradient-to-t from-foreground/60 via-foreground/10 to-transparent" />
-
-            <!-- Rating Badge -->
-            <!-- <div
-                class="absolute top-4 right-4 bg-card/95 backdrop-blur-sm px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-soft">
-                <UIcon name="i-lucide-star" class="w-4 h-4 text-accent" />
-                <span class="font-bold text-sm text-foreground">{{ rating }}</span>
-                <span class="text-xs text-muted-foreground">({{ reviews }})</span>
-            </div> -->
-
-            <!-- Status Badge -->
-            <div class="absolute bottom-4 left-4 backdrop-blur-sm px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5"
-                :class="doctor_status === 'Active' ? 'bg-green-500/90 text-white' : 'bg-red-500/90 text-white'">
-                <UIcon name="i-lucide-activity" class="w-3.5 h-3.5" />
-                {{ doctor_status || 'Unknown' }}
-            </div>
-
-            <!-- Verified Badge -->
-            <div
-                class="absolute top-4 left-4 bg-primary/90 backdrop-blur-sm text-primary-foreground px-2 py-1 rounded-lg text-xs font-medium flex items-center gap-1">
-                <UIcon name="i-lucide-badge-check" class="w-3.5 h-3.5" />
+        <div class="flex flex-row p-4 gap-4 h-full relative">
+            
+            <!-- Verified Badge (Floating Top Right) -->
+            <div class="absolute top-4 right-4 bg-primary/10 text-primary px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 shadow-sm border border-primary/20 z-10">
+                <UIcon name="i-lucide-shield-check" class="w-3 h-3" />
                 Verified
             </div>
-        </NuxtLink>
 
-        <!-- Content -->
-        <div class="p-5">
-            <div class="mb-4">
-                <div class="flex items-center gap-2 mb-2">
-                    <span v-if="fee"
-                        class="inline-block bg-secondary text-secondary-foreground px-3 py-1 rounded-lg text-xs font-semibold">
-                        Fee: {{ fee }}
+            <!-- Image Container -->
+            <NuxtLink :to="`/doctor/${slug || id}`" class="relative w-28 h-28 sm:w-32 sm:h-32 shrink-0 rounded-lg overflow-hidden bg-gray-50 border border-gray-100/50">
+                <img :src="image" :alt="name"
+                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                
+                <!-- Status Badge -->
+                <div class="absolute bottom-1.5 left-1/2 -translate-x-1/2 bg-white/95 backdrop-blur-md px-2 py-0.5 rounded-full text-[9px] font-bold flex items-center gap-1 shadow-sm border border-gray-100/50 whitespace-nowrap"
+                    :class="doctor_status === 'Active' ? 'text-blue-600' : 'text-rose-600'">
+                    <span class="relative flex h-1.5 w-1.5">
+                        <span v-if="doctor_status === 'Active'" class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-1.5 w-1.5" :class="doctor_status === 'Active' ? 'bg-blue-500' : 'bg-rose-500'"></span>
                     </span>
+                    {{ doctor_status || 'Unknown' }}
                 </div>
-                <h3
-                    class="font-display font-bold text-lg text-foreground group-hover:text-primary transition-colors line-clamp-1">
-                    {{ name }}
-                </h3>
-                <p v-if="degree_name" class="text-xs text-muted-foreground mt-1 line-clamp-1">
-                    {{ degree_name }}
-                </p>
-            </div>
+            </NuxtLink>
 
-            <div class="space-y-2 mb-5">
-                <div class="flex items-center gap-2 text-sm text-muted-foreground">
-                    <UIcon name="i-lucide-map-pin" class="w-4 h-4 flex-shrink-0" />
-                    <span class="line-clamp-1">{{ chamber_name || 'No Chamber' }}</span>
+            <!-- Content -->
+            <div class="flex flex-col flex-1 min-w-0 py-1">
+                <div class="mb-2">
+                    <NuxtLink :to="`/doctor/${slug || id}`">
+                        <h3 class="font-display font-bold text-base text-gray-900 group-hover:text-primary transition-colors flex items-center gap-1 truncate pr-16">
+                            {{ name }}
+                        </h3>
+                    </NuxtLink>
+                    <p v-if="degree_name" class="text-xs text-gray-600 mt-0.5 font-medium truncate">
+                        {{ degree_name }}
+                    </p>
+                    <div v-if="qualifications && qualifications.length" class="text-[11px] text-primary/80 mt-1 flex items-center gap-1">
+                        <UIcon name="i-lucide-stethoscope" class="w-3 h-3 shrink-0" />
+                        <span class="truncate">{{ qualifications.join(', ') }}</span>
+                    </div>
                 </div>
-                <div class="flex items-center gap-2 text-sm text-muted-foreground">
-                    <UIcon name="i-lucide-calendar" class="w-4 h-4 flex-shrink-0" />
-                    <span>{{ experience }} Experience</span>
-                </div>
-            </div>
 
-            <div class="mt-auto">
-                <NuxtLink :to="`/doctor/${slug || id}`" class="block w-full group/btn">
-                    <UButton variant="soft" size="md" block
-                        class="w-full h-11 justify-between px-4 bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 rounded-xl font-semibold">
-                        Visit Profile
-                        <UIcon name="i-lucide-arrow-right"
-                            class="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform" />
-                    </UButton>
-                </NuxtLink>
+                <div class="space-y-1.5 mb-3 mt-auto">
+                    <div class="flex items-start gap-1.5 text-xs text-gray-600">
+                        <UIcon name="i-lucide-map-pin" class="w-3.5 h-3.5 text-gray-400 shrink-0 mt-0.5" />
+                        <span class="line-clamp-1 font-medium">{{ chamber_name || 'No Chamber' }}</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 text-xs font-semibold text-primary bg-primary/10 w-fit px-2 py-0.5 rounded">
+                        <UIcon name="i-lucide-briefcase-medical" class="w-3.5 h-3.5 shrink-0" />
+                        <span>{{ experience }} Exp.</span>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="grid grid-cols-2 gap-2 mt-2">
+                    <NuxtLink :to="`/doctor/${slug || id}`" class="block">
+                        <UButton color="primary" variant="solid" block class="h-8 text-xs font-semibold shadow-sm hover:shadow transition-shadow px-0 text-white">
+                            Book Appt.
+                        </UButton>
+                    </NuxtLink>
+                    <NuxtLink :to="`/doctor/${slug || id}`" class="block">
+                        <UButton color="gray" variant="soft" block class="h-8 text-xs font-semibold hover:bg-gray-100 transition-colors px-0">
+                            View Profile
+                        </UButton>
+                    </NuxtLink>
+                </div>
             </div>
         </div>
     </div>

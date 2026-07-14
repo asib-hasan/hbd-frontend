@@ -43,17 +43,12 @@ export default defineNuxtConfig({
     }
   },
 
-  modules: ['@nuxt/ui', '@nuxtjs/google-fonts'],
-  googleFonts: {
-    families: {
-      Outfit: [300, 400, 500, 600, 700, 800],
-      'Plus Jakarta Sans': [400, 500, 600, 700],
-    },
-    display: 'block', // 'block' prevents FOUT (shaking) by hiding text until font loads
-    download: true,
-    prefetch: true,
-    preconnect: true,
-    preload: true,
+  modules: ['@nuxt/ui', '@nuxt/fonts'],
+  fonts: {
+    families: [
+      { name: 'Outfit', provider: 'google', weights: [300, 400, 500, 600, 700, 800] },
+      { name: 'Plus Jakarta Sans', provider: 'google', weights: [400, 500, 600, 700] },
+    ]
   },
   css: ['~/assets/css/main.css'],
 

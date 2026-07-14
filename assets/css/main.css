@@ -8,15 +8,15 @@
 
     --color-border: hsl(214 20% 91%);
     --color-input: hsl(214 20% 91%);
-    --color-ring: hsl(173 80% 30%);
+    --color-ring: hsl(221 83% 53%);
     --color-background: hsl(210 30% 99%);
     --color-foreground: hsl(222 47% 11%);
 
-    --color-primary: hsl(173 80% 30%);
+    --color-primary: hsl(221 83% 53%);
     --color-primary-foreground: hsl(0 0% 100%);
 
-    --color-secondary: hsl(173 35% 94%);
-    --color-secondary-foreground: hsl(173 80% 25%);
+    --color-secondary: hsl(214 80% 96%);
+    --color-secondary-foreground: hsl(221 83% 30%);
 
     --color-destructive: hsl(0 84% 60%);
     --color-destructive-foreground: hsl(0 0% 100%);
@@ -24,8 +24,8 @@
     --color-muted: hsl(210 20% 96%);
     --color-muted-foreground: hsl(215 16% 47%);
 
-    --color-accent: hsl(25 95% 53%);
-    --color-accent-foreground: hsl(25 95% 10%);
+    --color-accent: hsl(199 89% 48%);
+    --color-accent-foreground: hsl(0 0% 100%);
 
     --color-popover: hsl(0 0% 100%);
     --color-popover-foreground: hsl(222 47% 11%);
@@ -141,20 +141,21 @@
 /* Nuxt Transitions */
 .page-enter-active,
 .page-leave-active {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1), transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), filter 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 .page-enter-from,
 .page-leave-to {
   opacity: 0;
-  transform: translateY(10px) scale(0.99);
+  transform: translateY(15px);
+  filter: blur(4px);
 }
 
 .layout-enter-active,
 .layout-leave-active {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1), filter 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 .layout-enter-from,
 .layout-leave-to {
   opacity: 0;
-  filter: blur(2px);
+  filter: blur(8px);
 }

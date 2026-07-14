@@ -8,7 +8,7 @@ const specialties = [
         name: "Constitutional Treatment",
         slug: "constitutional-treatment",
         doctors: 65,
-        colorClass: "bg-emerald-500/10 text-emerald-500 group-hover:bg-emerald-500 group-hover:text-white",
+        colorClass: "bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white",
         description: "Holistic treatment based on individual constitution and symptom patterns for long-term health improvement."
     },
     {

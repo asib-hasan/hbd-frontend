@@ -4,9 +4,9 @@ const steps = [
         icon: 'i-lucide-search',
         title: "Search Doctors",
         description: "Find homeopathic specialists by name, specialty, or location using our smart search.",
-        color: "from-emerald-500 to-green-600",
-        bgColor: "bg-emerald-500/10",
-        iconColor: "text-emerald-500",
+        color: "from-primary to-blue-600",
+        bgColor: "bg-primary/10",
+        iconColor: "text-primary",
     },
     {
         icon: 'i-lucide-user-check',
@@ -28,15 +28,15 @@ const steps = [
         icon: 'i-lucide-leaf',
         title: "Get Natural Healing",
         description: "Receive personalized homeopathic treatment for holistic wellness.",
-        color: "from-green-500 to-emerald-600",
-        bgColor: "bg-green-500/10",
-        iconColor: "text-green-500",
+        color: "from-cyan-500 to-primary",
+        bgColor: "bg-primary/10",
+        iconColor: "text-primary",
     },
 ];
 </script>
 
 <template>
-    <section class="py-24 lg:py-32 bg-muted/20 relative overflow-hidden">
+    <section class="py-12 lg:py-16 bg-muted/20 relative overflow-hidden">
         <!-- Background Elements -->
         <div class="absolute inset-0 bg-hero-pattern opacity-30" />
         <div
@@ -52,7 +52,7 @@ const steps = [
                     Simple Process
                 </span>
                 <h2
-                    class="font-display text-4xl md:text-5xl lg:text-[4rem] font-bold text-foreground mb-6 leading-[1.15] tracking-tight animate-fade-up stagger-1">
+                    class="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6 leading-[1.15] tracking-tight animate-fade-up stagger-1">
                     Your Journey to <br class="hidden md:block" />
                     <span class="text-gradient">Better Health</span>
                 </h2>
@@ -116,7 +116,7 @@ const steps = [
             <div class="mt-24 flex justify-center animate-fade-up stagger-3">
                 <NuxtLink to="/doctors">
                     <UButton size="xl"
-                        class="h-14 px-10 rounded-full font-bold text-base shadow-glow hover:shadow-glow-accent hover:-translate-y-1 transition-all duration-300">
+                        class="h-14 px-10 rounded-full font-bold text-base text-white shadow-glow hover:shadow-glow-accent hover:-translate-y-1 transition-all duration-300">
                         Start Your Healing Journey
                         <UIcon name="i-lucide-arrow-right" class="w-5 h-5 ml-2" />
                     </UButton>
