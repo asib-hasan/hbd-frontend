@@ -1,14 +1,17 @@
 <script setup lang="ts">
-const areas = [
-    { name: 'Dhaka', image: '/images/divisions/dhaka.png', subtitle: '320+ Doctors' },
-    { name: 'Chittagong', image: '/images/divisions/chittagong.png', subtitle: '150+ Doctors' },
-    { name: 'Sylhet', image: '/images/divisions/sylhet.png', subtitle: '85+ Doctors' },
-    { name: 'Rajshahi', image: '/images/divisions/rajshahi.png', subtitle: '60+ Doctors' },
-    { name: 'Khulna', image: '/images/divisions/khulna.png', subtitle: '55+ Doctors' },
-    { name: 'Barishal', image: '/images/divisions/barishal.png', subtitle: '45+ Doctors' },
-    { name: 'Rangpur', image: '/images/divisions/rangpur.png', subtitle: '40+ Doctors' },
-    { name: 'Mymensingh', image: '/images/divisions/mymensingh.png', subtitle: '35+ Doctors' },
-]
+const { t } = useI18n()
+const localePath = useLocalePath()
+
+const areas = computed(() => [
+    { name: t('app_hero.areas.dhaka'), query: 'dhaka', image: '/images/divisions/dhaka.png', count: 320 },
+    { name: t('app_hero.areas.chittagong'), query: 'chittagong', image: '/images/divisions/chittagong.png', count: 150 },
+    { name: t('app_hero.areas.sylhet'), query: 'sylhet', image: '/images/divisions/sylhet.png', count: 85 },
+    { name: t('app_hero.areas.rajshahi'), query: 'rajshahi', image: '/images/divisions/rajshahi.png', count: 60 },
+    { name: t('app_hero.areas.khulna'), query: 'khulna', image: '/images/divisions/khulna.png', count: 55 },
+    { name: t('app_hero.areas.barishal'), query: 'barishal', image: '/images/divisions/barishal.png', count: 45 },
+    { name: t('app_hero.areas.rangpur'), query: 'rangpur', image: '/images/divisions/rangpur.png', count: 40 },
+    { name: t('app_hero.areas.mymensingh'), query: 'mymensingh', image: '/images/divisions/mymensingh.png', count: 35 },
+])
 </script>
 
 <template>
@@ -26,10 +29,10 @@ const areas = [
             <div class="max-w-6xl mx-auto mb-10 text-center animate-fade-up">
 
                 <h1 class="text-3xl md:text-4xl font-display font-bold text-gray-900 mb-4">
-                    Top <span class="text-primary">Areas</span> in Bangladesh
+                    {{ $t('app_hero.title_start') }} <span class="text-primary">{{ $t('app_hero.title_highlight') }}</span> {{ $t('app_hero.title_end') }}
                 </h1>
                 <p class="text-gray-600 text-lg max-w-2xl mx-auto">
-                    Select your area to find and book appointments with the best verified homeopathic doctors near you.
+                    {{ $t('app_hero.description') }}
                 </p>
             </div>
 
@@ -38,7 +41,7 @@ const areas = [
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 animate-fade-up stagger-1">
                     <NuxtLink
                         v-for="(area, i) in areas"
-                        :key="area.name" :to="`/doctors?district=${area.name}`"
+                        :key="area.name" :to="localePath(`/doctors?district=${area.query}`)"
                         class="group relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1"
                         :style="{ animationDelay: `${i * 0.05}s` }">
                         
@@ -57,7 +60,7 @@ const areas = [
                                 </h3>
                                 <div class="flex items-center gap-1.5 text-white/80 text-sm font-medium">
                                     <UIcon name="i-lucide-users" class="w-4 h-4" />
-                                    {{ area.subtitle }}
+                                    {{ area.count }}+ {{ $t('app_hero.doctors') }}
                                 </div>
                             </div>
                             
@@ -70,9 +73,9 @@ const areas = [
                 </div>
 
                 <div class="mt-12 text-center animate-fade-up stagger-2">
-                    <NuxtLink to="/doctors">
+                    <NuxtLink :to="localePath('/doctors')">
                         <UButton color="primary" variant="solid" size="lg" class="h-12 px-8 rounded-full shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all font-bold text-white">
-                            View All Doctors Nationwide
+                            {{ $t('app_hero.view_all') }}
                             <UIcon name="i-lucide-search" class="w-5 h-5 ml-2" />
                         </UButton>
                     </NuxtLink>

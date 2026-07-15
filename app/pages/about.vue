@@ -1,35 +1,38 @@
 <script setup lang="ts">
 import AppFooter from '~/components/AppFooter.vue';
 
-const values = [
+const { t } = useI18n()
+const localePath = useLocalePath()
+
+const values = computed(() => [
     {
         icon: 'i-lucide-heart',
-        title: "Patient-Centered Care",
-        description: "We prioritize the well-being of patients by connecting them with qualified homeopathic practitioners who treat the whole person, not just symptoms."
+        title: t('about_page.values.patient_centered.title'),
+        description: t('about_page.values.patient_centered.description')
     },
     {
         icon: 'i-lucide-award',
-        title: "Quality Assurance",
-        description: "Every doctor on our platform is verified for their qualifications, experience, and commitment to ethical homeopathic practice."
+        title: t('about_page.values.quality_assurance.title'),
+        description: t('about_page.values.quality_assurance.description')
     },
     {
         icon: 'i-lucide-users',
-        title: "Accessibility",
-        description: "We believe everyone deserves access to natural healing. Our platform makes finding and booking homeopathic care simple and affordable."
+        title: t('about_page.values.accessibility.title'),
+        description: t('about_page.values.accessibility.description')
     },
     {
         icon: 'i-lucide-check-circle-2',
-        title: "Trust & Transparency",
-        description: "Genuine patient reviews, clear pricing, and verified credentials help you make informed decisions about your healthcare."
+        title: t('about_page.values.trust_transparency.title'),
+        description: t('about_page.values.trust_transparency.description')
     }
-];
+]);
 
-const stats = [
-    { value: "500+", label: "Verified Doctors" },
-    { value: "50,000+", label: "Patients Helped" },
-    { value: "64", label: "Districts Covered" },
-    { value: "4.8", label: "Average Rating" }
-];
+const stats = computed(() => [
+    { value: "500+", label: t('about_page.stats.verified_doctors') },
+    { value: "50,000+", label: t('about_page.stats.patients_helped') },
+    { value: "64", label: t('about_page.stats.districts_covered') },
+    { value: "4.8", label: t('about_page.stats.average_rating') }
+]);
 
 const team = [
     {
@@ -50,9 +53,9 @@ const team = [
 ];
 
 useHead({
-    title: 'About Us | HomeoDoctorsBD - Bangladesh\'s Leading Homeopathy Platform',
+    title: computed(() => t('about_page.meta_title')),
     meta: [
-        { name: 'description', content: "Learn about HomeoDoctorsBD's mission to make homeopathic healthcare accessible to everyone in Bangladesh. Discover our values, team, and commitment to natural healing." }
+        { name: 'description', content: computed(() => t('about_page.meta_description')) }
     ]
 })
 </script>
@@ -69,23 +72,21 @@ useHead({
 
             <div class="container mx-auto px-4 relative z-10">
                 <nav class="flex items-center gap-2 text-sm text-muted-foreground mb-6 animate-fade-up">
-                    <NuxtLink to="/" class="hover:text-primary transition-colors">Home</NuxtLink>
+                    <NuxtLink :to="localePath('/')" class="hover:text-primary transition-colors">{{ $t('about_page.breadcrumb_home') }}</NuxtLink>
                     <UIcon name="i-lucide-chevron-right" class="w-3.5 h-3.5" />
-                    <span class="text-foreground font-medium">About Us</span>
+                    <span class="text-foreground font-medium">{{ $t('about_page.breadcrumb_about') }}</span>
                 </nav>
                 <div class="max-w-3xl mx-auto text-center animate-fade-up">
                     <div
                         class="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-6">
                         <UIcon name="i-lucide-leaf" class="w-4 h-4" />
-                        About HomeoDoctorsBD
+                        {{ $t('about_page.badge') }}
                     </div>
                     <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">
-                        Connecting Bangladesh with <span class="text-primary">Natural Healing</span>
+                        {{ $t('about_page.hero_title_start') }} <span class="text-primary">{{ $t('about_page.hero_title_highlight') }}</span>
                     </h1>
                     <p class="text-lg md:text-xl text-muted-foreground leading-relaxed">
-                        HomeoDoctorsBD is Bangladesh's premier platform for finding and booking appointments with
-                        qualified homeopathic doctors. We're on a mission to make holistic healthcare accessible to
-                        everyone.
+                        {{ $t('about_page.hero_description') }}
                     </p>
                 </div>
             </div>
@@ -114,24 +115,18 @@ useHead({
                         <div class="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-6">
                             <UIcon name="i-lucide-target" class="w-7 h-7 text-primary" />
                         </div>
-                        <h2 class="font-display text-2xl font-bold text-foreground mb-4">Our Mission</h2>
+                        <h2 class="font-display text-2xl font-bold text-foreground mb-4">{{ $t('about_page.mission.title') }}</h2>
                         <p class="text-muted-foreground leading-relaxed">
-                            To bridge the gap between patients seeking natural healing and qualified homeopathic
-                            practitioners across Bangladesh. We strive to make booking appointments simple, transparent,
-                            and accessible, empowering individuals to take control of their health journey through
-                            holistic medicine.
+                            {{ $t('about_page.mission.description') }}
                         </p>
                     </div>
                     <div class="card-premium p-8 animate-fade-up" style="animation-delay: 0.2s">
                         <div class="w-14 h-14 bg-secondary/20 rounded-2xl flex items-center justify-center mb-6">
                             <UIcon name="i-lucide-eye" class="w-7 h-7 text-secondary-foreground" />
                         </div>
-                        <h2 class="font-display text-2xl font-bold text-foreground mb-4">Our Vision</h2>
+                        <h2 class="font-display text-2xl font-bold text-foreground mb-4">{{ $t('about_page.vision.title') }}</h2>
                         <p class="text-muted-foreground leading-relaxed">
-                            To become the most trusted healthcare platform in Bangladesh, where every citizen has easy
-                            access to verified homeopathic care. We envision a future where natural healing is a
-                            mainstream choice, supported by technology that connects patients with the right
-                            practitioners.
+                            {{ $t('about_page.vision.description') }}
                         </p>
                     </div>
                 </div>
@@ -143,10 +138,10 @@ useHead({
             <div class="container mx-auto px-4">
                 <div class="text-center max-w-2xl mx-auto mb-12 animate-fade-up">
                     <h2 class="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
-                        Our Core Values
+                        {{ $t('about_page.values_section.title') }}
                     </h2>
                     <p class="text-muted-foreground">
-                        These principles guide everything we do at HomeoDoctorsBD
+                        {{ $t('about_page.values_section.subtitle') }}
                     </p>
                 </div>
                 <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -199,10 +194,10 @@ useHead({
             <div class="container mx-auto px-4">
                 <div class="max-w-3xl mx-auto text-center animate-fade-up">
                     <h2 class="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
-                        Get in Touch
+                        {{ $t('about_page.contact.title') }}
                     </h2>
                     <p class="text-muted-foreground mb-8">
-                        Have questions or want to partner with us? We'd love to hear from you.
+                        {{ $t('about_page.contact.description') }}
                     </p>
 
                     <div class="grid sm:grid-cols-3 gap-6 mb-8">
@@ -226,9 +221,9 @@ useHead({
                         </div>
                     </div>
 
-                    <NuxtLink to="/doctors">
+                    <NuxtLink :to="localePath('/doctors')">
                         <UButton size="xl" class="shadow-glow-accent px-8 font-semibold">
-                            Find a Doctor Near You
+                            {{ $t('about_page.contact.find_doctor') }}
                         </UButton>
                     </NuxtLink>
                 </div>

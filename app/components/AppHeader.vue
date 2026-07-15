@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
+
+const { t } = useI18n()
+const localePath = useLocalePath()
 
 const isMenuOpen = ref(false)
 const isScrolled = ref(false)
 const openDropdown = ref<string | null>(null)
 const user = ref(null) // Stubbed user for now
-
-// const { auth } = useSupabaseClient() // If supabase was set up
-// const user = useSupabaseUser()
 
 const handleScroll = () => {
     isScrolled.value = window.scrollY > 20
@@ -32,14 +32,13 @@ interface NavLink {
     children?: { name: string; href: string }[];
 }
 
-const navLinks: NavLink[] = [
-    { name: "Home", href: "/" },
-    { name: "Find Doctors", href: "/doctors" },
-    // { name: "Specialties", href: "/specialties" },
-    { name: "Blog", href: "/blog" },
-    { name: "About", href: "/about" },
-    { name: "Contact", href: "/contact" },
-]
+const navLinks = computed<NavLink[]>(() => [
+    { name: t("nav.home"), href: "/" },
+    { name: t("nav.doctors"), href: "/doctors" },
+    { name: t("nav.blogs"), href: "/blog" },
+    { name: t("nav.about"), href: "/about" },
+    { name: t("nav.contact"), href: "/contact" },
+])
 </script>
 
 <template>
@@ -48,7 +47,7 @@ const navLinks: NavLink[] = [
         <div class="container mx-auto px-4 lg:px-8">
             <div class="flex items-center justify-between h-16 lg:h-20">
                 <!-- Logo -->
-                <NuxtLink to="/" class="flex items-center gap-2.5 flex-shrink-0 h-14 lg:h-20" style="clip-path: inset(0 -150px 0 0);">
+                <NuxtLink :to="localePath('/')" class="flex items-center gap-2.5 flex-shrink-0 h-14 lg:h-20" style="clip-path: inset(0 -150px 0 0);">
                     <img src="~/assets/images/logo-new.png" alt="HomeoDoctorsBD Logo"
                         class="h-full w-auto scale-150 lg:scale-[1.6] origin-left mix-blend-multiply" />
                 </NuxtLink>
@@ -59,7 +58,7 @@ const navLinks: NavLink[] = [
                         @mouseenter="link.children && (openDropdown = link.name)"
                         @mouseleave="link.children && (openDropdown = null)">
                         <!-- Normal Link -->
-                        <NuxtLink v-if="!link.children" :to="link.href"
+                        <NuxtLink v-if="!link.children" :to="localePath(link.href)"
                             class="text-[16px] font-medium text-gray-700 hover:text-primary transition-colors py-2"
                             active-class="text-primary font-semibold">
                             {{ link.name }}
@@ -71,7 +70,7 @@ const navLinks: NavLink[] = [
                                 <UIcon name="i-lucide-chevron-down" class="w-4 h-4" />
                             </button>
                             <div v-show="openDropdown === link.name" class="absolute top-full left-0 w-48 bg-white border border-gray-200 shadow-lg rounded-lg py-2 mt-1">
-                                <NuxtLink v-for="child in link.children" :key="child.name" :to="child.href"
+                                <NuxtLink v-for="child in link.children" :key="child.name" :to="localePath(child.href)"
                                     class="block px-4 py-2 text-[15px] text-gray-700 hover:bg-gray-50 hover:text-primary transition-colors">
                                     {{ child.name }}
                                 </NuxtLink>
@@ -82,8 +81,9 @@ const navLinks: NavLink[] = [
 
                 <!-- Desktop Actions -->
                 <div class="hidden lg:flex items-center gap-3 flex-shrink-0">
+                    <LanguageSwitcher />
                     <template v-if="user">
-                        <NuxtLink to="/profile">
+                        <NuxtLink :to="localePath('/profile')">
                             <UButton variant="soft" color="primary" size="md" class="font-medium">
                                 <UIcon name="i-lucide-user" class="w-4 h-4 mr-2" />
                                 My Profile
@@ -94,32 +94,35 @@ const navLinks: NavLink[] = [
                         </UButton>
                     </template>
                     <template v-else>
-                        <NuxtLink to="#">
+                        <NuxtLink :to="localePath('#')">
                             <UButton variant="ghost" color="primary" size="md" class="font-medium hover:bg-primary-50">
                                 Join as Doctor
                             </UButton>
                         </NuxtLink>
-                        <NuxtLink to="#">
+                        <NuxtLink :to="localePath('#')">
                             <UButton color="primary" size="md" class="font-medium px-6 shadow-sm text-white">
-                                Book Appointment
+                                {{ $t('common.book_appointment') }}
                             </UButton>
                         </NuxtLink>
                     </template>
                 </div>
 
                 <!-- Mobile Menu Button -->
-                <button class="lg:hidden p-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-primary/50"
-                    @click="isMenuOpen = !isMenuOpen" aria-label="Toggle Menu">
-                    <UIcon v-if="isMenuOpen" name="i-lucide-x" class="w-6 h-6" />
-                    <UIcon v-else name="i-lucide-menu" class="w-6 h-6" />
-                </button>
+                <div class="flex items-center gap-2 lg:hidden">
+                    <LanguageSwitcher />
+                    <button class="p-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-primary/50"
+                        @click="isMenuOpen = !isMenuOpen" aria-label="Toggle Menu">
+                        <UIcon v-if="isMenuOpen" name="i-lucide-x" class="w-6 h-6" />
+                        <UIcon v-else name="i-lucide-menu" class="w-6 h-6" />
+                    </button>
+                </div>
             </div>
 
             <!-- Mobile Menu -->
             <div v-if="isMenuOpen" class="lg:hidden py-4 border-t border-gray-100 mt-2">
                 <nav class="flex flex-col gap-1">
                     <div v-for="link in navLinks" :key="link.name">
-                        <NuxtLink v-if="!link.children" :to="link.href"
+                        <NuxtLink v-if="!link.children" :to="localePath(link.href)"
                             class="block w-full px-4 py-3 text-[16px] font-medium text-gray-700 hover:text-primary hover:bg-primary-50 rounded-lg transition-colors"
                             active-class="text-primary bg-primary-50"
                             @click="isMenuOpen = false">
@@ -134,7 +137,7 @@ const navLinks: NavLink[] = [
                                     :class="openDropdown === link.name ? 'rotate-180 text-primary' : ''" />
                             </button>
                             <div v-show="openDropdown === link.name" class="flex flex-col gap-1 pl-4 pr-2 pb-2">
-                                <NuxtLink v-for="child in link.children" :key="child.name" :to="child.href"
+                                <NuxtLink v-for="child in link.children" :key="child.name" :to="localePath(child.href)"
                                     class="block w-full px-4 py-2 text-[15px] text-gray-600 hover:text-primary hover:bg-primary-50 rounded-lg transition-colors"
                                     @click="isMenuOpen = false; openDropdown = null">
                                     {{ child.name }}
@@ -146,7 +149,7 @@ const navLinks: NavLink[] = [
                     <!-- Mobile Actions -->
                     <div class="flex flex-col gap-3 pt-4 mt-2 border-t border-gray-100 px-2">
                         <template v-if="user">
-                            <NuxtLink to="/profile" @click="isMenuOpen = false">
+                            <NuxtLink :to="localePath('/profile')" @click="isMenuOpen = false">
                                 <UButton variant="soft" color="primary" size="lg" block class="justify-center font-medium">
                                     <UIcon name="i-lucide-user" class="w-5 h-5 mr-2" />
                                     My Profile
@@ -158,14 +161,14 @@ const navLinks: NavLink[] = [
                             </UButton>
                         </template>
                         <template v-else>
-                            <NuxtLink to="#" @click="isMenuOpen = false">
+                            <NuxtLink :to="localePath('#')" @click="isMenuOpen = false">
                                 <UButton variant="soft" color="primary" size="lg" block class="justify-center font-medium">
                                     Join as Doctor
                                 </UButton>
                             </NuxtLink>
-                            <NuxtLink to="#" @click="isMenuOpen = false">
+                            <NuxtLink :to="localePath('#')" @click="isMenuOpen = false">
                                 <UButton color="primary" size="lg" block class="justify-center font-medium shadow-sm text-white">
-                                    Book Appointment
+                                    {{ $t('common.book_appointment') }}
                                 </UButton>
                             </NuxtLink>
                         </template>

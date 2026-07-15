@@ -34,11 +34,29 @@ export default defineNuxtConfig({
     }
   },
 
-  modules: ['@nuxt/ui', '@nuxt/fonts'],
+  modules: ['@nuxt/ui', '@nuxt/fonts', '@nuxtjs/i18n'],
+  
+  i18n: {
+    locales: [
+      { code: 'en', iso: 'en-US', file: 'en.json', name: 'English' },
+      { code: 'bn', iso: 'bn-BD', file: 'bn.json', name: 'বাংলা' }
+    ],
+    defaultLocale: 'en',
+    strategy: 'prefix_except_default',
+    langDir: 'locales',
+    lazy: true,
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected',
+      redirectOn: 'root',
+    }
+  },
+
   fonts: {
     families: [
       { name: 'Outfit', provider: 'google', weights: [300, 400, 500, 600, 700, 800] },
       { name: 'Plus Jakarta Sans', provider: 'google', weights: [400, 500, 600, 700] },
+      { name: 'Noto Sans Bengali', provider: 'google', weights: [300, 400, 500, 600, 700] },
     ]
   },
   css: ['~/assets/css/main.css'],

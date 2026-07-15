@@ -1,33 +1,35 @@
 <script setup lang="ts">
+const localePath = useLocalePath()
+
 const steps = [
     {
         icon: 'i-lucide-search',
-        title: "Search Doctors",
-        description: "Find homeopathic specialists by name, specialty, or location using our smart search.",
+        titleKey: "step_1_title",
+        descKey: "step_1_desc",
         color: "from-primary to-blue-600",
         bgColor: "bg-primary/10",
         iconColor: "text-primary",
     },
     {
         icon: 'i-lucide-user-check',
-        title: "Choose Your Doctor",
-        description: "Review profiles, qualifications, ratings, and patient reviews in detail.",
+        titleKey: "step_2_title",
+        descKey: "step_2_desc",
         color: "from-violet-500 to-purple-600",
         bgColor: "bg-violet-500/10",
         iconColor: "text-violet-500",
     },
     {
         icon: 'i-lucide-calendar',
-        title: "Book Consultation",
-        description: "Select your preferred date, time, and book instantly online.",
+        titleKey: "step_3_title",
+        descKey: "step_3_desc",
         color: "from-primary to-teal-600",
         bgColor: "bg-primary/10",
         iconColor: "text-primary",
     },
     {
         icon: 'i-lucide-leaf',
-        title: "Get Natural Healing",
-        description: "Receive personalized homeopathic treatment for holistic wellness.",
+        titleKey: "step_4_title",
+        descKey: "step_4_desc",
         color: "from-cyan-500 to-primary",
         bgColor: "bg-primary/10",
         iconColor: "text-primary",
@@ -49,17 +51,16 @@ const steps = [
             <div class="text-center max-w-3xl mx-auto mb-20 lg:mb-28">
                 <span class="badge badge-primary mb-6 animate-fade-up">
                     <UIcon name="i-lucide-activity" class="w-4 h-4 mr-1.5" />
-                    Simple Process
+                    {{ $t('how_it_works.badge') }}
                 </span>
                 <h2
                     class="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6 leading-[1.15] tracking-tight animate-fade-up stagger-1">
-                    Your Journey to <br class="hidden md:block" />
-                    <span class="text-gradient">Better Health</span>
+                    {{ $t('how_it_works.title_main') }} <br class="hidden md:block" />
+                    <span class="text-gradient">{{ $t('how_it_works.title_highlight') }}</span>
                 </h2>
                 <p
                     class="text-lg md:text-xl text-muted-foreground animate-fade-up stagger-2 leading-relaxed max-w-2xl mx-auto">
-                    Experience seamless healthcare with our simple 4-step process designed for your convenience and
-                    well-being.
+                    {{ $t('how_it_works.desc') }}
                 </p>
             </div>
 
@@ -71,7 +72,7 @@ const steps = [
                     class="hidden lg:block absolute top-[120px] left-[10%] right-[10%] h-[2px] bg-gradient-to-r from-primary via-accent to-primary opacity-50 origin-left animate-shimmer scale-x-0" />
 
                 <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6 relative">
-                    <div v-for="(step, index) in steps" :key="step.title" class="group animate-fade-up"
+                    <div v-for="(step, index) in steps" :key="step.titleKey" class="group animate-fade-up"
                         :style="{ animationDelay: `${index * 0.15}s` }">
 
                         <!-- Card UI -->
@@ -100,10 +101,10 @@ const steps = [
                             <div class="relative z-10">
                                 <h3
                                     class="font-display font-bold text-2xl text-foreground mb-4 group-hover:text-primary transition-colors duration-300">
-                                    {{ step.title }}
+                                    {{ $t(`how_it_works.steps.${step.titleKey}`) }}
                                 </h3>
                                 <p class="text-muted-foreground leading-relaxed">
-                                    {{ step.description }}
+                                    {{ $t(`how_it_works.steps.${step.descKey}`) }}
                                 </p>
                             </div>
                         </div>
@@ -114,10 +115,10 @@ const steps = [
 
             <!-- Bottom CTA -->
             <div class="mt-24 flex justify-center animate-fade-up stagger-3">
-                <NuxtLink to="/doctors">
+                <NuxtLink :to="localePath('/doctors')">
                     <UButton size="xl"
                         class="h-14 px-10 rounded-full font-bold text-base text-white shadow-glow hover:shadow-glow-accent hover:-translate-y-1 transition-all duration-300">
-                        Start Your Healing Journey
+                        {{ $t('how_it_works.cta') }}
                         <UIcon name="i-lucide-arrow-right" class="w-5 h-5 ml-2" />
                     </UButton>
                 </NuxtLink>

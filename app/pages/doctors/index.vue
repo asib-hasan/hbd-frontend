@@ -17,6 +17,9 @@ const { fetchAllDoctors, fetchDistricts, fetchAreas } = useDoctors()
 const apiResponse = ref<any>(null)
 const pending = ref(true)
 
+const { t, locale } = useI18n()
+const localePath = useLocalePath()
+
 const doctors = computed<Doctor[]>(() => {
     const responseData = (apiResponse.value as any)?.data
     const rawDoctors = Array.isArray(responseData) ? responseData : (responseData?.data || [])
@@ -24,16 +27,20 @@ const doctors = computed<Doctor[]>(() => {
         id: String(d.id),
         slug: d.slug,
         name: d.name,
+        name_bn: d.name_bn,
         specialty: d.specialty || '',
+        specialty_bn: d.specialty_bn || '',
         hospital: d.chamber_name || "Chamber N/A",
         chamber_name: d.chamber_name,
+        chamber_name_bn: d.chamber_name_bn,
         image: d.image,
         rating: Number(d.rating) || 0,
         reviews: Number(d.total_reviews) || 0,
-        experience: d.experience ? `${d.experience} Years` : "",
+        experience: d.experience ? `${d.experience}` : "",
         doctor_status: d.doctor_status,
         fee: `${d.consultation_fee} BDT`,
         degree_name: d.degree_name,
+        degree_name_bn: d.degree_name_bn,
         location: 'bangladesh',
     }))
 })
@@ -44,28 +51,31 @@ const selectedLocationName = computed(() => {
 
     if (selectedDistrict.value !== "all") {
         const district = districtsData.value.find(d => d.id == selectedDistrict.value)
-        if (district) districtName = district.name_en || district.name
+        if (district) districtName = locale.value === 'bn' ? (district.name_bn || district.name_en || district.name) : (district.name_en || district.name)
     } else if (districtQuery.value) {
         districtName = districtQuery.value.charAt(0).toUpperCase() + districtQuery.value.slice(1)
     }
 
     if (selectedArea.value !== "all") {
         const area = areasData.value.find(a => a.id == selectedArea.value)
-        if (area) areaName = area.name_en || area.name
+        if (area) areaName = locale.value === 'bn' ? (area.name_bn || area.name_en || area.name) : (area.name_en || area.name)
     }
 
-
-
-    if (areaName && districtName) return `in ${areaName}, ${districtName}`
-    if (districtName) return `in ${districtName}`
-    return "in Bangladesh"
+    if (areaName && districtName) return `${areaName}, ${districtName}`
+    if (districtName) return `${districtName}`
+    return ""
 })
 
-const infoTitle = computed(() => `Best Homeopathic Doctors ${selectedLocationName.value}`)
+const infoTitle = computed(() => {
+    if (selectedLocationName.value) {
+        return t('doctors_page.title_location', { location: selectedLocationName.value })
+    }
+    return t('doctors_page.title_default')
+})
 
 const info = computed(() => ({
     title: infoTitle.value,
-    description: "Find and book appointments with the most experienced homeopathic doctors across Bangladesh. Natural healing through holistic treatment.",
+    description: t('doctors_page.description'),
     doctorCount: doctors.value.length || 0,
     hospitalCount: 0
 }))
@@ -75,7 +85,7 @@ const filteredDoctors = computed(() => {
 })
 
 const breadcrumbs = computed(() => {
-    return [{ label: "Doctors", href: "/doctors" }]
+    return [{ label: t('nav.doctors'), href: localePath('/doctors') }]
 })
 
 // SEO
@@ -114,8 +124,8 @@ useHead({
                     "position": index + 1,
                     "item": {
                         "@type": "Physician",
-                        "name": doc.name,
-                        "medicalSpecialty": doc.specialty || "Homeopathy",
+                        "name": locale.value === 'bn' ? (doc.name_bn || doc.name) : doc.name,
+                        "medicalSpecialty": locale.value === 'bn' ? (doc.specialty_bn || doc.specialty || "Homeopathy") : (doc.specialty || "Homeopathy"),
                         "image": doc.image,
                         "url": `https://homeodoctorsbd.com/doctor/${doc.slug}`,
                         "address": {
@@ -228,7 +238,7 @@ onMounted(async () => {
 <template>
     <div class="min-h-screen bg-background">
         <PageHeader :title="info.title" :description="info.description" :breadcrumbs="breadcrumbs" :stats="[
-            { label: 'Verified Doctors', value: `${info.doctorCount}` }
+            { label: $t('doctors_page.verified_doctors'), value: `${info.doctorCount}` }
         ]" />
 
         <!-- Filters Section -->
@@ -241,7 +251,7 @@ onMounted(async () => {
                         <div class="relative flex-1 w-full max-w-md">
                             <UIcon name="i-lucide-search"
                                 class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground z-10" />
-                            <input type="text" placeholder="Search by name, specialty..." v-model="searchQuery"
+                            <input type="text" :placeholder="$t('doctors_page.search_placeholder')" v-model="searchQuery"
                                 class="w-full h-12 pl-12 pr-4 bg-background border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/30 transition-all" />
                         </div>
 
@@ -252,9 +262,9 @@ onMounted(async () => {
                                     class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground z-10" />
                                 <select v-model="selectedDistrict"
                                     class="w-full h-12 pl-10 pr-4 bg-background border border-border rounded-xl text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/30 appearance-none cursor-pointer">
-                                    <option value="all">All Districts</option>
+                                    <option value="all">{{ $t('doctors_page.all_districts') }}</option>
                                     <option v-for="district in districtsData" :key="district.id" :value="district.id">
-                                        {{ district.name_en }}
+                                        {{ locale === 'bn' ? (district.name_bn || district.name_en || district.name) : (district.name_en || district.name) }}
                                     </option>
                                 </select>
                                 <UIcon name="i-lucide-chevron-down"
@@ -269,9 +279,9 @@ onMounted(async () => {
                                     class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground z-10" />
                                 <select v-model="selectedArea"
                                     class="w-full h-12 pl-10 pr-4 bg-background border border-border rounded-xl text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/30 appearance-none cursor-pointer">
-                                    <option value="all">All Areas</option>
+                                    <option value="all">{{ $t('doctors_page.all_areas') }}</option>
                                     <option v-for="area in areasData" :key="area.id" :value="area.id">
-                                        {{ area.name_en }}
+                                        {{ locale === 'bn' ? (area.name_bn || area.name_en || area.name) : (area.name_en || area.name) }}
                                     </option>
                                 </select>
                                 <UIcon name="i-lucide-chevron-down"
@@ -299,7 +309,7 @@ onMounted(async () => {
             <div class="container mx-auto px-4">
                 <div class="flex items-center justify-between mb-8">
                     <p class="text-muted-foreground">
-                        Showing <span class="font-semibold text-foreground">{{ filteredDoctors.length }}</span> doctors
+                        {{ $t('doctors_page.showing') }} <span class="font-semibold text-foreground">{{ filteredDoctors.length }}</span> {{ $t('doctors_page.doctors_count') }}
                     </p>
                 </div>
 
@@ -312,11 +322,11 @@ onMounted(async () => {
                     <div class="w-20 h-20 bg-muted rounded-full flex items-center justify-center mx-auto mb-6">
                         <UIcon name="i-lucide-search" class="w-10 h-10 text-muted-foreground" />
                     </div>
-                    <h3 class="font-display text-xl font-semibold text-foreground mb-2">No doctors found</h3>
-                    <p class="text-muted-foreground mb-6">Try adjusting your search or filter criteria</p>
+                    <h3 class="font-display text-xl font-semibold text-foreground mb-2">{{ $t('doctors_page.no_doctors_found') }}</h3>
+                    <p class="text-muted-foreground mb-6">{{ $t('doctors_page.try_adjusting') }}</p>
                     <button @click="clearFilters"
                         class="px-4 py-2 border border-border rounded-lg hover:bg-muted transition-colors text-sm font-medium">
-                        Clear Filters
+                        {{ $t('doctors_page.clear_filters') }}
                     </button>
                 </div>
             </div>

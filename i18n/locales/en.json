@@ -1,0 +1,205 @@
+{
+  "about_page": {
+    "meta_title": "About Us | HomeoDoctorsBD - Bangladesh's Leading Homeopathy Platform",
+    "meta_description": "Learn about HomeoDoctorsBD's mission to make homeopathic healthcare accessible to everyone in Bangladesh. Discover our values, team, and commitment to natural healing.",
+    "breadcrumb_home": "Home",
+    "breadcrumb_about": "About Us",
+    "badge": "About HomeoDoctorsBD",
+    "hero_title_start": "Connecting Bangladesh with",
+    "hero_title_highlight": "Natural Healing",
+    "hero_description": "HomeoDoctorsBD is Bangladesh's premier platform for finding and booking appointments with qualified homeopathic doctors. We're on a mission to make holistic healthcare accessible to everyone.",
+    "stats": {
+      "verified_doctors": "Verified Doctors",
+      "patients_helped": "Patients Helped",
+      "districts_covered": "Districts Covered",
+      "average_rating": "Average Rating"
+    },
+    "mission": {
+      "title": "Our Mission",
+      "description": "To bridge the gap between patients seeking natural healing and qualified homeopathic practitioners across Bangladesh. We strive to make booking appointments simple, transparent, and accessible, empowering individuals to take control of their health journey through holistic medicine."
+    },
+    "vision": {
+      "title": "Our Vision",
+      "description": "To become the most trusted healthcare platform in Bangladesh, where every citizen has easy access to verified homeopathic care. We envision a future where natural healing is a mainstream choice, supported by technology that connects patients with the right practitioners."
+    },
+    "values_section": {
+      "title": "Our Core Values",
+      "subtitle": "These principles guide everything we do at HomeoDoctorsBD"
+    },
+    "values": {
+      "patient_centered": {
+        "title": "Patient-Centered Care",
+        "description": "We prioritize the well-being of patients by connecting them with qualified homeopathic practitioners who treat the whole person, not just symptoms."
+      },
+      "quality_assurance": {
+        "title": "Quality Assurance",
+        "description": "Every doctor on our platform is verified for their qualifications, experience, and commitment to ethical homeopathic practice."
+      },
+      "accessibility": {
+        "title": "Accessibility",
+        "description": "We believe everyone deserves access to natural healing. Our platform makes finding and booking homeopathic care simple and affordable."
+      },
+      "trust_transparency": {
+        "title": "Trust & Transparency",
+        "description": "Genuine patient reviews, clear pricing, and verified credentials help you make informed decisions about your healthcare."
+      }
+    },
+    "contact": {
+      "title": "Get in Touch",
+      "description": "Have questions or want to partner with us? We'd love to hear from you.",
+      "find_doctor": "Find a Doctor Near You"
+    }
+  },
+  "app_hero": {
+    "title_start": "Top",
+    "title_highlight": "Areas",
+    "title_end": "in Bangladesh",
+    "description": "Select your area to find and book appointments with the best verified homeopathic doctors near you.",
+    "view_all": "View All Doctors Nationwide",
+    "doctors": "Doctors",
+    "areas": {
+      "dhaka": "Dhaka",
+      "chittagong": "Chittagong",
+      "sylhet": "Sylhet",
+      "rajshahi": "Rajshahi",
+      "khulna": "Khulna",
+      "barishal": "Barishal",
+      "rangpur": "Rangpur",
+      "mymensingh": "Mymensingh"
+    }
+  },
+  "nav": {
+    "home": "Home",
+    "doctors": "Doctors",
+    "consultation": "Consultation",
+    "blogs": "Blogs",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "common": {
+    "book_appointment": "Book Appointment",
+    "book_appt": "Book Appt.",
+    "view_profile": "View Profile",
+    "read_more": "Read More",
+    "contact_support": "Contact Support",
+    "faq": "FAQ",
+    "still_have_questions": "Still have questions?",
+    "frequently_asked_questions": "Frequently Asked Questions",
+    "faq_desc": "Find comprehensive answers to common questions about homeopathic treatment, our online consultation process, and healthcare services.",
+    "verified": "Verified",
+    "active": "Active",
+    "unavailable": "Unavailable",
+    "unknown": "Unknown",
+    "no_chamber": "No Chamber",
+    "exp": "Exp."
+  },
+  "locations": {
+    "badge": "Find by Location",
+    "title_main": "Top Doctors & Hospitals",
+    "title_highlight": "Near You",
+    "desc": "Find healthcare services in major cities across Bangladesh",
+    "best_doctors_in": "Best Doctors in",
+    "doctors_count": "{count}+ Doctors",
+    "hospitals_count": "{count} Hospitals",
+    "explore_doctors": "Explore Doctors",
+    "view_all": "View All Locations",
+    "cities": {
+      "dhaka": "Dhaka",
+      "chittagong": "Chittagong",
+      "sylhet": "Sylhet",
+      "rajshahi": "Rajshahi",
+      "khulna": "Khulna",
+      "rangpur": "Rangpur"
+    }
+  },
+  "featured_doctors": {
+    "badge": "Top Rated Practitioners",
+    "title_main": "Meet Our",
+    "title_highlight": "Expert",
+    "title_suffix": "Homeopaths",
+    "desc": "Our team of experienced homeopathic practitioners is dedicated to providing you with natural healing and holistic treatment across Bangladesh.",
+    "view_all": "View All Doctors"
+  },
+  "how_it_works": {
+    "badge": "Simple Process",
+    "title_main": "Your Journey to",
+    "title_highlight": "Better Health",
+    "desc": "Experience seamless healthcare with our simple 4-step process designed for your convenience and well-being.",
+    "cta": "Start Your Healing Journey",
+    "steps": {
+      "step_1_title": "Search Doctors",
+      "step_1_desc": "Find homeopathic specialists by name, specialty, or location using our smart search.",
+      "step_2_title": "Choose Your Doctor",
+      "step_2_desc": "Review profiles, qualifications, ratings, and patient reviews in detail.",
+      "step_3_title": "Book Consultation",
+      "step_3_desc": "Select your preferred date, time, and book instantly online.",
+      "step_4_title": "Get Natural Healing",
+      "step_4_desc": "Receive personalized homeopathic treatment for holistic wellness."
+    }
+  },
+  "doctors_page": {
+    "title_default": "Best Homeopathic Doctors in Bangladesh",
+    "title_location": "Best Homeopathic Doctors in {location}",
+    "description": "Find and book appointments with the most experienced homeopathic doctors across Bangladesh. Natural healing through holistic treatment.",
+    "verified_doctors": "Verified Doctors",
+    "search_placeholder": "Search by name, specialty...",
+    "all_districts": "All Districts",
+    "all_areas": "All Areas",
+    "showing": "Showing",
+    "doctors_count": "doctors",
+    "no_doctors_found": "No doctors found",
+    "try_adjusting": "Try adjusting your search or filter criteria",
+    "clear_filters": "Clear Filters"
+  },
+  "blogs_page": {
+    "title": "Health & Wellness Blog",
+    "description": "Explore articles, tips, and insights about homeopathy and natural healing from our expert practitioners.",
+    "search_placeholder": "Search articles by title...",
+    "all_articles": "All Articles",
+    "no_articles_found": "No articles found",
+    "couldnt_find_articles": "We couldn't find any articles matching your search criteria. Try a different term or select another category.",
+    "clear_all_filters": "Clear all filters"
+  },
+  "blog_details": {
+    "loading": "Loading article...",
+    "not_found_title": "Article Not Found",
+    "not_found_desc": "The article you're looking for doesn't exist or has been removed.",
+    "back_to_blog": "Back to Blog",
+    "official_post": "Official Post",
+    "tags": "Tags",
+    "share_title": "Share this article",
+    "share_desc": "Help others discover this content",
+    "related_articles": "Related Articles",
+    "view_all_articles": "View All Articles",
+    "no_related_articles": "No related articles yet",
+    "browse_all_articles": "Browse all articles",
+    "copied": "Copied!",
+    "copy_link": "Copy link"
+  },
+  "doctor_profile": {
+    "loading": "Loading profile...",
+    "not_found_title": "Doctor Not Found",
+    "not_found_desc": "The specialist you are looking for might be unavailable.",
+    "browse_doctors": "Browse Doctors",
+    "back_to_doctors": "Back to Doctors",
+    "verified": "Verified",
+    "active": "Active",
+    "unavailable": "Unavailable",
+    "years_exp": "Years Exp",
+    "patients": "Patients",
+    "success": "Success",
+    "per_consultation": "per consultation",
+    "about": "About",
+    "services": "Services Offered",
+    "experience": "Professional Experience",
+    "education": "Education & Training",
+    "chambers_locations": "Chambers & Locations",
+    "visiting_hours": "Visiting Hours",
+    "appointments": "Appointments",
+    "hotline": "HOTLINE",
+    "get_directions": "Get Directions",
+    "no_chambers": "No chambers found.",
+    "chambers": "Chambers",
+    "directions": "Directions"
+  }
+}

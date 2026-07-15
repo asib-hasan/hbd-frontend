@@ -4,6 +4,8 @@ import { useRoute } from 'vue-router'
 import { useDoctors } from '~/composables/useDoctors'
 import AppFooter from '~/components/AppFooter.vue';
 
+const { t, locale } = useI18n()
+const localePath = useLocalePath()
 const route = useRoute()
 const slug = computed(() => {
     const s = route.params.slug;
@@ -23,7 +25,7 @@ const isAvailableToday = computed(() => {
 // Extract properties
 const qualifications = computed(() => {
     if (!doctor.value?.educations) return []
-    return doctor.value.educations.map((e: any) => e.degree_en)
+    return doctor.value.educations.map((e: any) => locale.value === 'bn' ? (e.degree_bn || e.degree_en) : e.degree_en)
 })
 
 const activeChamber = computed(() => {
@@ -33,19 +35,24 @@ const activeChamber = computed(() => {
 
 const doctorSpecialties = computed(() => {
     if (doctor.value?.specialties?.length) {
-        return doctor.value.specialties.map((s: any) => s.name_en).join(', ')
+        return doctor.value.specialties.map((s: any) => locale.value === 'bn' ? (s.name_bn || s.name_en) : s.name_en).join(', ')
     }
-    return doctor.value?.specialty || ''
+    return locale.value === 'bn' ? (doctor.value?.specialty_bn || doctor.value?.specialty || '') : (doctor.value?.specialty || '')
+})
+
+const pageTitle = computed(() => {
+    if (!doctor.value) return t('doctor_profile.not_found_title')
+    return `${locale.value === 'bn' ? (doctor.value.name_bn || doctor.value.name_en) : doctor.value.name_en} | HomeoDoctorsBD`
 })
 
 useHead({
-    title: computed(() => doctor.value ? `${doctor.value.name_en} | HomeoDoctorsBD` : 'Doctor Not Found'),
+    title: pageTitle,
     meta: [
         {
             name: 'description',
             content: computed(() => doctor.value
-                ? `Book an appointment with ${doctor.value.name_en}${doctorSpecialties.value ? `, ${doctorSpecialties.value} specialist` : ''}.`
-                : 'Doctor details not found.')
+                ? `Book an appointment with ${locale.value === 'bn' ? (doctor.value.name_bn || doctor.value.name_en) : doctor.value.name_en}${doctorSpecialties.value ? `, ${doctorSpecialties.value} specialist` : ''}.`
+                : t('doctor_profile.not_found_desc'))
         }
     ]
 })
@@ -59,16 +66,16 @@ const scrollToChambers = () => {
     <div v-if="pending" class="min-h-screen bg-background flex items-center justify-center">
         <div class="text-center">
             <UIcon name="i-lucide-loader-2" class="w-10 h-10 animate-spin text-primary mx-auto mb-4" />
-            <p class="text-muted-foreground animate-pulse">Loading profile...</p>
+            <p class="text-muted-foreground animate-pulse">{{ $t('doctor_profile.loading') }}</p>
         </div>
     </div>
 
     <div v-else-if="!doctor" class="min-h-screen bg-background flex items-center justify-center">
         <div class="text-center">
-            <h1 class="text-3xl font-bold text-foreground mb-4">Doctor Not Found</h1>
-            <p class="text-muted-foreground mb-6">The specialist you are looking for might be unavailable.</p>
-            <NuxtLink to="/doctors">
-                <UButton>Browse Doctors</UButton>
+            <h1 class="text-3xl font-bold text-foreground mb-4">{{ $t('doctor_profile.not_found_title') }}</h1>
+            <p class="text-muted-foreground mb-6">{{ $t('doctor_profile.not_found_desc') }}</p>
+            <NuxtLink :to="localePath('/doctors')">
+                <UButton>{{ $t('doctor_profile.browse_doctors') }}</UButton>
             </NuxtLink>
         </div>
     </div>
@@ -82,19 +89,19 @@ const scrollToChambers = () => {
             <div class="container mx-auto px-4 pt-2 pb-8 relative z-10">
                 <!-- Breadcrumb -->
                 <nav class="flex items-center gap-2 text-sm text-muted-foreground mb-6">
-                    <NuxtLink to="/" class="hover:text-primary transition-colors">Home</NuxtLink>
+                    <NuxtLink :to="localePath('/')" class="hover:text-primary transition-colors">{{ $t('nav.home') }}</NuxtLink>
                     <span>/</span>
-                    <NuxtLink :to="`/doctors`" class="hover:text-primary transition-colors capitalize">
-                        Doctors
+                    <NuxtLink :to="localePath('/doctors')" class="hover:text-primary transition-colors capitalize">
+                        {{ $t('nav.doctors') }}
                     </NuxtLink>
                     <span>/</span>
-                    <span class="text-foreground">{{ doctor.name_en }}</span>
+                    <span class="text-foreground">{{ locale === 'bn' ? (doctor.name_bn || doctor.name_en) : doctor.name_en }}</span>
                 </nav>
 
-                <NuxtLink :to="`/doctors`"
+                <NuxtLink :to="localePath('/doctors')"
                     class="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors mb-6">
                     <UIcon name="i-lucide-arrow-left" class="w-4 h-4" />
-                    Back to Doctors
+                    {{ $t('doctor_profile.back_to_doctors') }}
                 </NuxtLink>
 
                 <!-- Doctor Info Card - Full Width -->
@@ -109,7 +116,7 @@ const scrollToChambers = () => {
                             <div
                                 class="absolute -bottom-2 -right-2 bg-primary text-primary-foreground px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1 shadow-soft">
                                 <UIcon name="i-lucide-badge-check" class="w-4 h-4" />
-                                Verified
+                                {{ $t('doctor_profile.verified') }}
                             </div>
                         </div>
 
@@ -119,18 +126,18 @@ const scrollToChambers = () => {
                                 <div>
                                     <span v-if="doctor.specialties?.length"
                                         class="inline-block bg-secondary text-secondary-foreground px-3 py-1 rounded-lg text-xs font-semibold mb-2">
-                                        {{doctor.specialties.map((s: any) => s.name_en).join(', ')}}
+                                        {{doctor.specialties.map((s: any) => locale === 'bn' ? (s.name_bn || s.name_en) : s.name_en).join(', ')}}
                                     </span>
                                     <span v-else-if="doctor.specialty"
                                         class="inline-block bg-secondary text-secondary-foreground px-3 py-1 rounded-lg text-xs font-semibold mb-2">
-                                        {{ doctor.specialty }}
+                                        {{ locale === 'bn' ? (doctor.specialty_bn || doctor.specialty) : doctor.specialty }}
                                     </span>
                                     <h1 class="font-display text-2xl md:text-3xl font-bold text-foreground mb-1">
-                                        {{ doctor.name_en }}
+                                        {{ locale === 'bn' ? (doctor.name_bn || doctor.name_en) : doctor.name_en }}
                                     </h1>
                                     <div v-if="activeChamber" class="flex items-center gap-1.5 text-foreground font-medium mb-1.5">
                                         <UIcon name="i-lucide-building-2" class="w-4 h-4 text-primary shrink-0" />
-                                        <span class="line-clamp-1">{{ activeChamber.name_en }}</span>
+                                        <span class="line-clamp-1">{{ locale === 'bn' ? (activeChamber.name_bn || activeChamber.name_en) : activeChamber.name_en }}</span>
                                     </div>
                                     <p v-if="qualifications.length > 0" class="text-muted-foreground text-sm flex items-start gap-1.5">
                                         <UIcon name="i-lucide-graduation-cap" class="w-4 h-4 shrink-0 mt-0.5" />
@@ -149,28 +156,28 @@ const scrollToChambers = () => {
                                         ? 'bg-blue-500/10 text-blue-600'
                                         : 'bg-muted text-muted-foreground'">
                                     <UIcon name="i-lucide-clock" class="w-4 h-4" />
-                                    {{ isAvailableToday ? 'Active' : 'Unavailable' }}
+                                    {{ isAvailableToday ? $t('doctor_profile.active') : $t('doctor_profile.unavailable') }}
                                 </div>
                             </div>
 
                             <div class="flex flex-wrap gap-x-6 gap-y-3 mb-4">
                                 <div class="flex items-center gap-2 text-muted-foreground">
                                     <UIcon name="i-lucide-calendar" class="w-4 h-4" />
-                                    <span class="text-sm">{{ doctor.experience || 0 }} Years Exp</span>
+                                    <span class="text-sm">{{ doctor.experience || 0 }} {{ $t('doctor_profile.years_exp') }}</span>
                                 </div>
                                 <div class="flex items-center gap-2 text-muted-foreground">
                                     <UIcon name="i-lucide-users" class="w-4 h-4" />
-                                    <span class="text-sm">{{ doctor.total_patients_seen || 0 }}+ Patients</span>
+                                    <span class="text-sm">{{ doctor.total_patients_seen || 0 }}+ {{ $t('doctor_profile.patients') }}</span>
                                 </div>
                                 <div class="flex items-center gap-2 text-muted-foreground">
                                     <UIcon name="i-lucide-thumbs-up" class="w-4 h-4" />
-                                    <span class="text-sm">{{ doctor.success_rate || 0 }}% Success</span>
+                                    <span class="text-sm">{{ doctor.success_rate || 0 }}% {{ $t('doctor_profile.success') }}</span>
                                 </div>
                             </div>
 
                             <div class="flex items-center gap-4 pt-4 border-t border-border">
                                 <span class="text-2xl font-bold text-primary">৳{{ doctor.consultation_fee }}</span>
-                                <span class="text-muted-foreground">per consultation</span>
+                                <span class="text-muted-foreground">{{ $t('doctor_profile.per_consultation') }}</span>
                             </div>
                         </div>
                     </div>
@@ -188,23 +195,21 @@ const scrollToChambers = () => {
                         <div class="card-premium p-6">
                             <h2 class="font-display font-bold text-xl text-foreground mb-4 flex items-center gap-2">
                                 <UIcon name="i-lucide-award" class="w-5 h-5 text-primary" />
-                                About
+                                {{ $t('doctor_profile.about') }}
                             </h2>
-                            <p class="text-muted-foreground leading-relaxed">
-                                {{ doctor.about_en || `${doctor.name_en} is a highly experienced ${doctor.specialty}
-                                specialist.` }}
+                            <p class="text-muted-foreground leading-relaxed" v-html="locale === 'bn' ? (doctor.about_bn || doctor.about_en || `${doctor.name_bn || doctor.name_en} is a highly experienced ${doctor.specialty} specialist.`) : (doctor.about_en || `${doctor.name_en} is a highly experienced ${doctor.specialty} specialist.`)">
                             </p>
                         </div>
 
                         <!-- Services -->
                         <div class="card-premium p-6" v-if="doctor.services && doctor.services.length > 0">
                             <h2 class="font-display font-bold text-xl text-foreground mb-4">
-                                Services Offered
+                                {{ $t('doctor_profile.services') }}
                             </h2>
                             <div class="flex flex-wrap gap-3">
                                 <div v-for="(service, idx) in doctor.services" :key="idx"
                                     class="bg-secondary/50 text-secondary-foreground px-4 py-2.5 rounded-xl text-sm font-medium text-center">
-                                    {{ service.service_name_en }}
+                                    {{ locale === 'bn' ? (service.service_name_bn || service.service_name_en) : service.service_name_en }}
                                 </div>
                             </div>
                         </div>
@@ -213,7 +218,7 @@ const scrollToChambers = () => {
                         <div class="card-premium p-6" v-if="doctor.experiences && doctor.experiences.length > 0">
                             <h2 class="font-display font-bold text-xl text-foreground mb-4 flex items-center gap-2">
                                 <UIcon name="i-lucide-briefcase" class="w-5 h-5 text-primary" />
-                                Professional Experience
+                                {{ $t('doctor_profile.experience') }}
                             </h2>
                             <div class="space-y-4">
                                 <div v-for="(exp, idx) in doctor.experiences" :key="idx"
@@ -223,12 +228,12 @@ const scrollToChambers = () => {
                                         <UIcon name="i-lucide-briefcase" class="w-5 h-5 text-primary" />
                                     </div>
                                     <div>
-                                        <h4 class="font-semibold text-foreground">{{ exp.designation_en }}</h4>
-                                        <p class="text-sm text-muted-foreground">{{ exp.company_name_en }}</p>
+                                        <h4 class="font-semibold text-foreground">{{ locale === 'bn' ? (exp.designation_bn || exp.designation_en) : exp.designation_en }}</h4>
+                                        <p class="text-sm text-muted-foreground">{{ locale === 'bn' ? (exp.company_name_bn || exp.company_name_en) : exp.company_name_en }}</p>
                                         <p class="text-xs text-muted-foreground mt-1" v-if="exp.employment_period_en">{{
-                                            exp.employment_period_en }}</p>
+                                            locale === 'bn' ? (exp.employment_period_bn || exp.employment_period_en) : exp.employment_period_en }}</p>
                                         <p class="text-xs text-muted-foreground mt-2" v-if="exp.description_en">{{
-                                            exp.description_en }}</p>
+                                            locale === 'bn' ? (exp.description_bn || exp.description_en) : exp.description_en }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -238,7 +243,7 @@ const scrollToChambers = () => {
                         <div class="card-premium p-6">
                             <h2 class="font-display font-bold text-xl text-foreground mb-4 flex items-center gap-2">
                                 <UIcon name="i-lucide-graduation-cap" class="w-5 h-5 text-primary" />
-                                Education & Training
+                                {{ $t('doctor_profile.education') }}
                             </h2>
                             <div class="space-y-4">
                                 <div v-for="(edu, idx) in doctor.educations" :key="idx"
@@ -248,8 +253,8 @@ const scrollToChambers = () => {
                                         <UIcon name="i-lucide-graduation-cap" class="w-5 h-5 text-primary" />
                                     </div>
                                     <div>
-                                        <h4 class="font-semibold text-foreground">{{ edu.degree_en }}</h4>
-                                        <p class="text-sm text-muted-foreground">{{ edu.institution_en }}</p>
+                                        <h4 class="font-semibold text-foreground">{{ locale === 'bn' ? (edu.degree_bn || edu.degree_en) : edu.degree_en }}</h4>
+                                        <p class="text-sm text-muted-foreground">{{ locale === 'bn' ? (edu.institution_bn || edu.institution_en) : edu.institution_en }}</p>
                                         <p class="text-xs text-muted-foreground mt-1" v-if="edu.passing_year">{{
                                             edu.passing_year }}</p>
                                     </div>
@@ -302,7 +307,7 @@ const scrollToChambers = () => {
                         <div class="space-y-4">
                             <h3 class="font-display font-bold text-lg text-foreground flex items-center gap-2">
                                 <UIcon name="i-lucide-building-2" class="w-5 h-5 text-primary" />
-                                Chambers & Locations
+                                {{ $t('doctor_profile.chambers_locations') }}
                             </h3>
 
                             <template v-if="doctor.chambers && doctor.chambers.length > 0">
@@ -317,11 +322,11 @@ const scrollToChambers = () => {
                                         </div>
                                         <div>
                                             <h4 class="font-bold text-foreground text-base leading-tight">{{
-                                                chamber.name_en }}</h4>
+                                                locale === 'bn' ? (chamber.name_bn || chamber.name_en) : chamber.name_en }}</h4>
                                             <div class="flex items-start gap-1 mt-1.5 text-muted-foreground">
                                                 <UIcon name="i-lucide-map-pin"
                                                     class="w-4 h-4 mt-0.5 flex-shrink-0 text-primary/70" />
-                                                <p class="text-xs leading-relaxed font-medium">{{ chamber.address_en }}
+                                                <p class="text-xs leading-relaxed font-medium">{{ locale === 'bn' ? (chamber.address_bn || chamber.address_en) : chamber.address_en }}
                                                 </p>
                                             </div>
                                         </div>
@@ -329,26 +334,25 @@ const scrollToChambers = () => {
 
                                     <!-- Visiting Hours -->
                                     <div class="bg-primary/5 rounded-xl p-3 border border-primary/10 mb-5"
-                                        v-if="chamber.visiting_hour_en">
+                                        v-if="chamber.visiting_hour_en || chamber.visiting_hour_bn">
                                         <div class="flex items-center gap-2 mb-1">
                                             <UIcon name="i-lucide-clock" class="w-4 h-4 text-primary" />
                                             <span
-                                                class="text-xs font-bold text-primary uppercase tracking-wider">Visiting
-                                                Hours</span>
+                                                class="text-xs font-bold text-primary uppercase tracking-wider">{{ $t('doctor_profile.visiting_hours') }}</span>
                                         </div>
                                         <p class="text-sm font-semibold text-foreground ml-6">{{
-                                            chamber.visiting_hour_en }}</p>
+                                            locale === 'bn' ? (chamber.visiting_hour_bn || chamber.visiting_hour_en) : chamber.visiting_hour_en }}</p>
                                     </div>
 
                                     <!-- Contact Numbers -->
                                     <div class="mb-5"
-                                        v-if="chamber.contact_numbers || chamber.contact_number_en || chamber.appointment_number_en">
+                                        v-if="chamber.contact_numbers || chamber.contact_number_en || chamber.appointment_number_en || chamber.appointment_number_bn">
                                         <p
                                             class="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2 flex items-center gap-2">
-                                            <UIcon name="i-lucide-phone-incoming" class="w-4 h-4" /> Appointments
+                                            <UIcon name="i-lucide-phone-incoming" class="w-4 h-4" /> {{ $t('doctor_profile.appointments') }}
                                         </p>
                                         <ul class="space-y-2 ml-6">
-                                            <li v-for="(num, numIdx) in (chamber.contact_numbers || chamber.contact_number_en || chamber.appointment_number_en).split(',')"
+                                            <li v-for="(num, numIdx) in (chamber.contact_numbers || chamber.appointment_number_bn || chamber.contact_number_en || chamber.appointment_number_en).split(',')"
                                                 :key="numIdx"
                                                 class="flex items-center gap-2 text-sm text-foreground font-bold">
                                                 <div class="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0"></div>
@@ -359,13 +363,13 @@ const scrollToChambers = () => {
 
                                     <!-- Hotline Button -->
                                     <div class="flex flex-col gap-3 mt-auto pt-2">
-                                        <a v-if="chamber.hotline_number || chamber.hotline_number_en"
-                                            :href="`tel:${chamber.hotline_number || chamber.hotline_number_en}`"
+                                        <a v-if="chamber.hotline_number || chamber.hotline_number_en || chamber.hotline_number_bn"
+                                            :href="`tel:${chamber.hotline_number || chamber.hotline_number_bn || chamber.hotline_number_en}`"
                                             class="block w-full">
                                             <UButton block size="lg"
                                                 class="w-full justify-center shadow-lg font-bold text-sm tracking-wide bg-primary hover:bg-primary/90 text-primary-foreground">
                                                 <UIcon name="i-lucide-phone-call" class="w-5 h-5 mr-1.5" />
-                                                HOTLINE: {{ chamber.hotline_number || chamber.hotline_number_en }}
+                                                {{ $t('doctor_profile.hotline') }}: {{ chamber.hotline_number || chamber.hotline_number_bn || chamber.hotline_number_en }}
                                             </UButton>
                                         </a>
                                         <a v-if="chamber.map_link" :href="chamber.map_link" target="_blank"
@@ -373,7 +377,7 @@ const scrollToChambers = () => {
                                             <UButton block size="md" variant="soft" color="neutral"
                                                 icon="i-lucide-navigation"
                                                 class="w-full justify-center font-semibold border border-border hover:border-primary/40 hover:bg-primary/5">
-                                                Get Directions
+                                                {{ $t('doctor_profile.get_directions') }}
                                             </UButton>
                                         </a>
                                     </div>
@@ -381,7 +385,7 @@ const scrollToChambers = () => {
                             </template>
                             <div v-else
                                 class="text-muted-foreground text-sm p-6 border-2 border-dashed border-border/50 rounded-2xl bg-muted/10 text-center font-medium">
-                                No chambers found.
+                                {{ $t('doctor_profile.no_chambers') }}
                             </div>
                         </div>
                     </div>
@@ -399,10 +403,10 @@ const scrollToChambers = () => {
                 <button @click="scrollToChambers"
                     class="flex flex-col items-center gap-0.5 text-primary active:scale-90 transition-transform px-3">
                     <UIcon name="i-lucide-building-2" class="w-5 h-5" />
-                    <span class="text-[10px] font-semibold">Chambers</span>
+                    <span class="text-[10px] font-semibold">{{ $t('doctor_profile.chambers') }}</span>
                 </button>
-                <a v-if="activeChamber && (activeChamber.hotline_number || activeChamber.hotline_number_en)"
-                    :href="`tel:${activeChamber.hotline_number || activeChamber.hotline_number_en}`"
+                <a v-if="activeChamber && (activeChamber.hotline_number || activeChamber.hotline_number_en || activeChamber.hotline_number_bn)"
+                    :href="`tel:${activeChamber.hotline_number || activeChamber.hotline_number_bn || activeChamber.hotline_number_en}`"
                     class="flex flex-col items-center gap-0.5 text-primary active:scale-90 transition-transform px-3">
                     <UIcon name="i-lucide-phone-call" class="w-5 h-5" />
                     <span class="text-[10px] font-semibold">Hotline</span>
@@ -410,7 +414,7 @@ const scrollToChambers = () => {
                 <a v-if="activeChamber?.map_link" :href="activeChamber.map_link" target="_blank"
                     class="flex flex-col items-center gap-0.5 text-muted-foreground active:scale-90 transition-transform px-3">
                     <UIcon name="i-lucide-navigation" class="w-5 h-5" />
-                    <span class="text-[10px] font-semibold">Directions</span>
+                    <span class="text-[10px] font-semibold">{{ $t('doctor_profile.directions') }}</span>
                 </a>
             </div>
         </div>

@@ -4,6 +4,9 @@ import { useBlogs } from '~/composables/useBlogs'
 import PageHeader from '~/components/PageHeader.vue'
 import BlogCard from '~/components/BlogCard.vue'
 
+const { t, locale } = useI18n()
+const localePath = useLocalePath()
+
 const searchQuery = ref("")
 const selectedCategory = ref("all")
 const categoriesData = ref<any[]>([])
@@ -16,7 +19,11 @@ const pending = ref(true)
 const processedBlogs = computed(() => {
     const responseData = apiResponse.value?.data
     const rawData = Array.isArray(responseData) ? responseData : (responseData?.data || [])
-    return rawData
+    return rawData.map((b: any) => ({
+        ...b,
+        title: locale.value === 'bn' ? (b.title_bn || b.title) : b.title,
+        excerpt: locale.value === 'bn' ? (b.excerpt_bn || b.excerpt) : b.excerpt
+    }))
 })
 
 const getBlogs = async (page = 1) => {
@@ -63,20 +70,23 @@ watch([debouncedSearch, selectedCategory], () => {
     getBlogs()
 })
 
+const pageTitle = computed(() => `${t('blogs_page.title')} | HomeoDoctorsBD`)
+const pageDescription = computed(() => t('blogs_page.description'))
+
 useHead({
-    title: 'Health & Wellness Blog | HomeoDoctorsBD',
+    title: pageTitle,
     meta: [
-        { name: 'description', content: 'Explore articles, tips, and insights about homeopathy and natural healing from our expert practitioners.' }
+        { name: 'description', content: pageDescription }
     ]
 })
 </script>
 
 <template>
     <div class="min-h-screen bg-background">
-        <PageHeader title="Health & Wellness Blog"
-            description="Explore articles, tips, and insights about homeopathy and natural healing from our expert practitioners."
+        <PageHeader :title="$t('blogs_page.title')"
+            :description="$t('blogs_page.description')"
             :breadcrumbs="[
-                { label: 'Blog' }
+                { label: $t('nav.blogs'), href: localePath('/blog') }
             ]" />
 
         <section class="py-12 lg:py-16">
@@ -86,7 +96,7 @@ useHead({
                     <div class="relative flex-1 min-w-[280px] lg:max-w-md shrink-0">
                         <UIcon name="i-lucide-search"
                             class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground z-10" />
-                        <input type="text" placeholder="Search articles by title..." v-model="searchQuery"
+                        <input type="text" :placeholder="$t('blogs_page.search_placeholder')" v-model="searchQuery"
                             class="w-full h-12 pl-10 pr-4 bg-background border border-input rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/30 transition-all font-sans text-sm" />
                     </div>
 
@@ -96,14 +106,14 @@ useHead({
                             :class="selectedCategory === 'all'
                                 ? 'bg-primary text-primary-foreground hover:bg-primary/90'
                                 : 'bg-background border border-input text-foreground hover:bg-accent hover:text-accent-foreground'">
-                            All Articles
+                            {{ $t('blogs_page.all_articles') }}
                         </button>
                         <button v-for="cat in categoriesData" :key="cat.id" @click="selectedCategory = String(cat.id)"
                             class="whitespace-nowrap px-5 py-3 rounded-xl text-sm font-semibold transition-all snap-start shadow-sm active:scale-95"
                             :class="selectedCategory === String(cat.id)
                                 ? 'bg-primary text-primary-foreground hover:bg-primary/90'
                                 : 'bg-background border border-input text-foreground hover:bg-accent hover:text-accent-foreground'">
-                            {{ cat.name_en }}
+                            {{ locale === 'bn' ? (cat.name_bn || cat.name_en) : cat.name_en }}
                         </button>
                     </div>
                 </div>
@@ -136,14 +146,13 @@ useHead({
                         class="bg-background w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-soft">
                         <UIcon name="i-lucide-file-x" class="w-10 h-10 text-muted-foreground" />
                     </div>
-                    <h3 class="text-2xl font-display font-bold text-foreground mb-3">No articles found</h3>
+                    <h3 class="text-2xl font-display font-bold text-foreground mb-3">{{ $t('blogs_page.no_articles_found') }}</h3>
                     <p class="text-muted-foreground text-lg max-w-md mx-auto">
-                        We couldn't find any articles matching your search criteria. Try a different term or select
-                        another category.
+                        {{ $t('blogs_page.couldnt_find_articles') }}
                     </p>
                     <UButton @click="selectedCategory = 'all'; searchQuery = ''"
                         class="mt-8 px-6 shadow-soft font-bold rounded-xl h-12" size="lg">
-                        Clear all filters
+                        {{ $t('blogs_page.clear_all_filters') }}
                         <UIcon name="i-lucide-refresh-cw" class="w-4 h-4 ml-2" />
                     </UButton>
                 </div>

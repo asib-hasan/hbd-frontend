@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { useDoctors } from '~/composables/useDoctors'
 
+const localePath = useLocalePath()
 const { fetchFeaturedDoctors } = useDoctors()
 const { data: apiResponse, pending } = await fetchFeaturedDoctors()
 
@@ -22,21 +23,20 @@ const doctors = computed(() => {
                 <div class="max-w-2xl">
                     <span class="badge badge-primary mb-4 animate-fade-up">
                         <UIcon name="i-lucide-award" class="w-4 h-4" />
-                        Top Rated Practitioners
+                        {{ $t('featured_doctors.badge') }}
                     </span>
                     <h2
                         class="font-display text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-4 animate-fade-up stagger-1">
-                        Meet Our <span class="text-gradient">Expert</span> Homeopaths
+                        {{ $t('featured_doctors.title_main') }} <span class="text-gradient">{{ $t('featured_doctors.title_highlight') }}</span> {{ $t('featured_doctors.title_suffix') }}
                     </h2>
                     <p class="text-lg text-muted-foreground animate-fade-up stagger-2">
-                        Our team of experienced homeopathic practitioners is dedicated to providing you with natural
-                        healing and holistic treatment across Bangladesh.
+                        {{ $t('featured_doctors.desc') }}
                     </p>
                 </div>
                 <div class="animate-fade-up stagger-3">
-                    <NuxtLink to="/doctors">
+                    <NuxtLink :to="localePath('/doctors')">
                         <UButton variant="outline" size="lg" class="gap-2 w-fit">
-                            View All Doctors
+                            {{ $t('featured_doctors.view_all') }}
                             <UIcon name="i-lucide-arrow-right" class="w-5 h-5" />
                         </UButton>
                     </NuxtLink>
