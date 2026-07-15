@@ -20,20 +20,11 @@ export default defineNuxtConfig({
     layoutTransition: { name: 'layout', mode: 'out-in' }
   },
 
-  routeRules: {
-    '/': { isr: 60 * 60 },
-    '/doctors/**': { isr: 60 * 60 },
-    '/blog/**': { isr: 60 * 60 },
-    '/contact': { prerender: true },
-    '/about': { prerender: true },
-    '/api/**': { cors: true, headers: { 'access-control-allow-methods': 'GET,POST' } },
-  },
-
   colorMode: {
     preference: 'light',
     fallback: 'light',
     classSuffix: '',
-    storageKey: 'nuxt-color-mode'
+    storageKey: 'hbd-color-mode-light'
   },
 
   runtimeConfig: {

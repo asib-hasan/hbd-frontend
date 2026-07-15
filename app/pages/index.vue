@@ -18,12 +18,13 @@ useHead({
 
         <AppHowItWorks />
 
-        <!-- Why Choose Homeopathy -->
-        <AppWhyHomeopathy />
+        <!-- Latest Blogs -->
+        <AppLatestBlogs />
+
+        <!-- FAQs -->
+        <AppFaqs />
 
         <!-- Banners -->
         <AppBanners />
-
-
     </div>
 </template>

@@ -186,7 +186,7 @@ if (post.value) {
 
                         <!-- Article Body -->
                         <article>
-                            <div class="prose prose-lg dark:prose-invert max-w-none
+                            <div class="prose prose-lg text-muted-foreground max-w-none
                                 prose-headings:font-display prose-headings:font-bold prose-headings:text-foreground
                                 prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4 prose-h2:border-b prose-h2:border-border/30 prose-h2:pb-3
                                 prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
