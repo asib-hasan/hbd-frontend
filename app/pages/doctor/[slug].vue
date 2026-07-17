@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useDoctors } from '~/composables/useDoctors'
-import AppFooter from '~/components/AppFooter.vue';
+
 
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
@@ -42,17 +42,43 @@ const doctorSpecialties = computed(() => {
 
 const pageTitle = computed(() => {
     if (!doctor.value) return t('doctor_profile.not_found_title')
+    if (doctor.value.meta_title) return doctor.value.meta_title
     return `${locale.value === 'bn' ? (doctor.value.name_bn || doctor.value.name_en) : doctor.value.name_en} | HomeoDoctorsBD`
 })
 
-useHead({
+const pageDescription = computed(() => {
+    if (!doctor.value) return t('doctor_profile.not_found_desc')
+    if (doctor.value.meta_description) return doctor.value.meta_description
+    return `Book an appointment with ${locale.value === 'bn' ? (doctor.value.name_bn || doctor.value.name_en) : doctor.value.name_en}${doctorSpecialties.value ? `, ${doctorSpecialties.value} specialist` : ''}.`
+})
+
+useSeoMeta({
     title: pageTitle,
-    meta: [
+    ogTitle: pageTitle,
+    description: pageDescription,
+    ogDescription: pageDescription,
+    twitterCard: 'summary_large_image',
+    twitterTitle: pageTitle,
+    twitterDescription: pageDescription,
+})
+
+useHead({
+    script: [
         {
-            name: 'description',
-            content: computed(() => doctor.value
-                ? `Book an appointment with ${locale.value === 'bn' ? (doctor.value.name_bn || doctor.value.name_en) : doctor.value.name_en}${doctorSpecialties.value ? `, ${doctorSpecialties.value} specialist` : ''}.`
-                : t('doctor_profile.not_found_desc'))
+            type: 'application/ld+json',
+            children: computed(() => {
+                if (!doctor.value) return ''
+                const schema = {
+                    "@context": "https://schema.org",
+                    "@type": "Physician",
+                    "name": locale.value === 'bn' ? (doctor.value.name_bn || doctor.value.name_en) : doctor.value.name_en,
+                    "image": doctor.value.image,
+                    "medicalSpecialty": doctor.value.specialties?.map((s: any) => locale.value === 'bn' ? (s.name_bn || s.name_en) : s.name_en) || doctor.value.specialty,
+                    "description": pageDescription.value,
+                    "priceRange": `৳${doctor.value.consultation_fee}`
+                }
+                return JSON.stringify(schema)
+            })
         }
     ]
 })
@@ -63,6 +89,7 @@ const scrollToChambers = () => {
 </script>
 
 <template>
+  <div>
     <div v-if="pending" class="min-h-screen bg-background flex items-center justify-center">
         <div class="text-center">
             <UIcon name="i-lucide-loader-2" class="w-10 h-10 animate-spin text-primary mx-auto mb-4" />
@@ -80,7 +107,7 @@ const scrollToChambers = () => {
         </div>
     </div>
 
-    <div v-else class="min-h-screen bg-background">
+    <main v-else class="min-h-screen bg-background">
         <!-- Hero Section -->
         <section class="relative bg-gradient-hero-subtle overflow-hidden pt-20 pb-8 lg:pt-24 lg:pb-12">
             <div
@@ -394,7 +421,7 @@ const scrollToChambers = () => {
         </section>
 
         <!-- Footer -->
-        <AppFooter />
+
 
         <!-- Mobile Bottom Strip -->
         <div
@@ -419,7 +446,8 @@ const scrollToChambers = () => {
             </div>
         </div>
 
-    </div>
+    </main>
+  </div>
 </template>
 
 <style scoped>

@@ -95,13 +95,8 @@ const navLinks = computed<NavLink[]>(() => [
                     </template>
                     <template v-else>
                         <NuxtLink :to="localePath('#')">
-                            <UButton variant="ghost" color="primary" size="md" class="font-medium hover:bg-primary-50">
-                                Join as Doctor
-                            </UButton>
-                        </NuxtLink>
-                        <NuxtLink :to="localePath('#')">
                             <UButton color="primary" size="md" class="font-medium px-6 shadow-sm text-white">
-                                {{ $t('common.book_appointment') }}
+                                Join as Doctor
                             </UButton>
                         </NuxtLink>
                     </template>
@@ -162,13 +157,8 @@ const navLinks = computed<NavLink[]>(() => [
                         </template>
                         <template v-else>
                             <NuxtLink :to="localePath('#')" @click="isMenuOpen = false">
-                                <UButton variant="soft" color="primary" size="lg" block class="justify-center font-medium">
-                                    Join as Doctor
-                                </UButton>
-                            </NuxtLink>
-                            <NuxtLink :to="localePath('#')" @click="isMenuOpen = false">
                                 <UButton color="primary" size="lg" block class="justify-center font-medium shadow-sm text-white">
-                                    {{ $t('common.book_appointment') }}
+                                    Join as Doctor
                                 </UButton>
                             </NuxtLink>
                         </template>

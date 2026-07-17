@@ -8,13 +8,20 @@ export default defineNuxtConfig({
     baseURL: '/',
     buildAssetsDir: '/_nuxt/',
     head: {
-      htmlAttrs: { lang: 'en' },
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1',
       titleTemplate: '%s - HomeoDoctors BD',
       meta: [
         { name: 'description', content: 'Find the best homeopathic doctors in Bangladesh. Consult online or book appointments easily.' }
-      ]
+      ],
+      link: [
+        { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+        { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous' },
+        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap' }
+      ],
+      bodyAttrs: {
+        class: 'font-sans antialiased'
+      }
     },
     pageTransition: { name: 'page', mode: 'out-in' },
     layoutTransition: { name: 'layout', mode: 'out-in' }
@@ -34,7 +41,23 @@ export default defineNuxtConfig({
     }
   },
 
-  modules: ['@nuxt/ui', '@nuxt/fonts', '@nuxtjs/i18n'],
+  modules: ['@nuxt/ui', '@nuxt/fonts', '@nuxtjs/i18n', '@nuxtjs/sitemap', '@nuxtjs/robots', '@nuxt/image'],
+  
+  image: {
+    domains: ['images.unsplash.com', 'admin.homeodoctorsbd.com', '127.0.0.1', 'localhost'],
+    format: ['avif', 'webp']
+  },
+  
+  site: {
+    url: 'https://homeodoctorsbd.com',
+    name: 'HomeoDoctors BD'
+  },
+  
+  sitemap: {
+    sources: [
+      '/api/_sitemap-urls'
+    ]
+  },
   
   i18n: {
     locales: [
@@ -56,6 +79,7 @@ export default defineNuxtConfig({
     families: [
       { name: 'Outfit', provider: 'google', weights: [300, 400, 500, 600, 700, 800] },
       { name: 'Plus Jakarta Sans', provider: 'google', weights: [400, 500, 600, 700] },
+      { name: 'Hind Siliguri', provider: 'google', weights: [300, 400, 500, 600, 700] },
       { name: 'Noto Sans Bengali', provider: 'google', weights: [300, 400, 500, 600, 700] },
     ]
   },

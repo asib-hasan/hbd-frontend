@@ -10,5 +10,13 @@ colorMode.preference = 'light'
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>
-  <UNotifications />
+  <ClientOnly>
+    <UNotifications />
+  </ClientOnly>
 </template>
+
+<style>
+body, html, * {
+  font-family: 'Hind Siliguri', 'Noto Sans Bengali', sans-serif !important;
+}
+</style>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AppFooter from '~/components/AppFooter.vue';
+
 
 useHead({
     title: 'Terms of Service | HomeoDoctorsBD',
@@ -206,6 +206,6 @@ const highlights = [
             </div>
         </section>
 
-        <AppFooter />
+
     </div>
 </template>

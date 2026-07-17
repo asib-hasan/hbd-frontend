@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AppFooter from '~/components/AppFooter.vue';
+
 
 useHead({
     title: 'Help Center | HomeoDoctorsBD',
@@ -185,7 +185,7 @@ const toggle = (key: string) => {
             </div>
         </section>
 
-        <AppFooter />
+
     </div>
 </template>
 

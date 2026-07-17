@@ -82,7 +82,7 @@ useHead({
 </script>
 
 <template>
-    <div class="min-h-screen bg-background">
+    <main class="min-h-screen bg-background">
         <PageHeader :title="$t('blogs_page.title')"
             :description="$t('blogs_page.description')"
             :breadcrumbs="[
@@ -158,7 +158,7 @@ useHead({
                 </div>
             </div>
         </section>
-    </div>
+    </main>
 </template>
 
 <style scoped>

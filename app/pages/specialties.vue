@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import PageHeader from '~/components/PageHeader.vue';
-import AppFooter from '~/components/AppFooter.vue';
+
 
 const specialties = [
     {
@@ -185,6 +185,6 @@ useHead({
             </div>
         </section>
 
-        <AppFooter />
+
     </div>
 </template>

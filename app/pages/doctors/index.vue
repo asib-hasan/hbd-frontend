@@ -20,6 +20,22 @@ const pending = ref(true)
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
 
+// SSR Initial Fetch for perfect SEO
+const initialParams: any = {}
+if (searchQuery.value) initialParams.search = searchQuery.value
+if (districtQuery.value) initialParams.district = districtQuery.value
+
+const { data: ssrDistricts } = await useAsyncData('districts-list', () => fetchDistricts())
+const { data: ssrDoctors } = await useAsyncData('initial-doctors-list', () => fetchAllDoctors(initialParams))
+
+if (ssrDistricts.value?.data) {
+    districtsData.value = Array.isArray(ssrDistricts.value.data) ? ssrDistricts.value.data : [ssrDistricts.value.data]
+}
+if (ssrDoctors.value) {
+    apiResponse.value = ssrDoctors.value
+    pending.value = false
+}
+
 const doctors = computed<Doctor[]>(() => {
     const responseData = (apiResponse.value as any)?.data
     const rawDoctors = Array.isArray(responseData) ? responseData : (responseData?.data || [])
@@ -106,7 +122,6 @@ useSeoMeta({
 
 useHead({
     link: [
-        // Setting a canonical URL that adjusts per-district if clicked from the hero sections
         {
             rel: 'canonical',
             href: computed(() => `https://homeodoctorsbd.com/doctors${districtQuery.value ? '?district=' + districtQuery.value : ''}`)
@@ -161,13 +176,11 @@ const loadDoctors = async () => {
     pending.value = true
     const params: any = {}
     if (searchQuery.value) params.search = searchQuery.value
-
     if (selectedDistrict.value !== 'all') {
         params.district_id = selectedDistrict.value
     } else if (districtQuery.value) {
         params.district = districtQuery.value
     }
-
     if (selectedArea.value !== 'all') params.area_id = selectedArea.value
 
     try {
@@ -178,17 +191,6 @@ const loadDoctors = async () => {
     } finally {
         pending.value = false
     }
-}
-
-const loadDistricts = async () => {
-    try {
-        const response = await fetchDistricts()
-        if (Array.isArray(response?.data)) {
-            districtsData.value = response.data
-        } else if (response?.data) {
-            districtsData.value = [response.data]
-        }
-    } catch (e) { console.error(e) }
 }
 
 const loadAreas = async (districtId: string | number) => {
@@ -229,14 +231,16 @@ watch(searchQuery, (newVal) => {
     }, 500)
 })
 
-onMounted(async () => {
-    await loadDistricts()
-    await loadDoctors()
+// Initialize areas if district query is present on mount, though usually handled by filters.
+onMounted(() => {
+    if (selectedDistrict.value !== 'all') {
+        loadAreas(selectedDistrict.value)
+    }
 })
 </script>
 
 <template>
-    <div class="min-h-screen bg-background">
+    <main class="min-h-screen bg-background">
         <PageHeader :title="info.title" :description="info.description" :breadcrumbs="breadcrumbs" :stats="[
             { label: $t('doctors_page.verified_doctors'), value: `${info.doctorCount}` }
         ]" />
@@ -331,5 +335,5 @@ onMounted(async () => {
                 </div>
             </div>
         </section>
-    </div>
+    </main>
 </template>

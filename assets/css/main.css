@@ -3,8 +3,8 @@
 @variant dark (&:is(.never-dark *));
 
 @theme {
-    --font-sans: 'Plus Jakarta Sans', 'Noto Sans Bengali', system-ui, sans-serif;
-    --font-display: 'Outfit', 'Noto Sans Bengali', system-ui, sans-serif;
+    --font-sans: 'Hind Siliguri', 'Plus Jakarta Sans', 'Noto Sans Bengali', system-ui, sans-serif;
+    --font-display: 'Hind Siliguri', 'Outfit', 'Noto Sans Bengali', system-ui, sans-serif;
 
     --color-border: hsl(214 20% 91%);
     --color-input: hsl(214 20% 91%);
@@ -111,6 +111,13 @@
 }
 
 /* Dark mode has been intentionally removed to enforce a light-only design. */
+
+@layer base {
+    body {
+        font-family: 'Hind Siliguri', var(--font-sans), sans-serif;
+        @apply antialiased;
+    }
+}
 
 /* Custom Utilities - keeping minimal set or porting those from previous components layer */
 @layer utilities {

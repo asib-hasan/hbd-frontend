@@ -15,7 +15,12 @@ export default {
         "./app/app.vue",
     ],
     theme: {
-        extend: {},
+        extend: {
+            fontFamily: {
+                sans: ['Hind Siliguri', 'Plus Jakarta Sans', 'Noto Sans Bengali', 'system-ui', 'sans-serif'],
+                display: ['Hind Siliguri', 'Outfit', 'Noto Sans Bengali', 'system-ui', 'sans-serif']
+            }
+        },
     },
     plugins: [],
 } satisfies Config;

@@ -2,7 +2,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useBlogs } from '~/composables/useBlogs'
-import AppFooter from '~/components/AppFooter.vue'
+
 
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
@@ -58,19 +58,48 @@ onMounted(async () => {
 
 const currentTitle = computed(() => {
     if (!post.value) return 'Article Not Found | HomeoDoctorsBD'
+    if (post.value.meta_title) return post.value.meta_title
+    return `${locale.value === 'bn' ? (post.value.title_bn || post.value.title_en) : post.value.title_en} | HomeoDoctorsBD Blog`
+})
+
+const currentDescription = computed(() => {
+    if (!post.value) return 'Article Not Found | HomeoDoctorsBD'
+    if (post.value.meta_description) return post.value.meta_description
     return locale.value === 'bn' ? (post.value.title_bn || post.value.title_en) : post.value.title_en
 })
 
 // SEO
 if (post.value) {
+    useSeoMeta({
+        title: currentTitle,
+        ogTitle: currentTitle,
+        description: currentDescription,
+        ogDescription: currentDescription,
+        ogImage: computed(() => post.value.photo || ''),
+        ogType: 'article',
+        twitterCard: 'summary_large_image',
+        twitterTitle: currentTitle,
+        twitterDescription: currentDescription,
+    })
+
     useHead({
-        title: computed(() => `${currentTitle.value} | HomeoDoctorsBD Blog`),
-        meta: [
-            { name: 'description', content: currentTitle },
-            { property: 'og:title', content: currentTitle },
-            { property: 'og:image', content: computed(() => post.value.photo || '') },
-            { property: 'og:type', content: 'article' },
-            { name: 'twitter:card', content: 'summary_large_image' }
+        script: [
+            {
+                type: 'application/ld+json',
+                children: computed(() => {
+                    if (!post.value) return ''
+                    const schema = {
+                        "@context": "https://schema.org",
+                        "@type": "Article",
+                        "headline": locale.value === 'bn' ? (post.value.title_bn || post.value.title_en) : post.value.title_en,
+                        "image": post.value.photo,
+                        "datePublished": post.value.created_at,
+                        "description": currentDescription.value,
+                        "articleSection": locale.value === 'bn' ? (post.value.category_name_bn || post.value.category_name_en) : post.value.category_name_en
+                    }
+                    return JSON.stringify(schema)
+                })
+            }
         ]
     })
 } else {
@@ -81,6 +110,7 @@ if (post.value) {
 </script>
 
 <template>
+  <div>
     <!-- Loading State -->
     <div v-if="pending" class="min-h-screen bg-background flex flex-col items-center justify-center">
         <div class="relative">
@@ -110,11 +140,11 @@ if (post.value) {
                 </NuxtLink>
             </div>
         </div>
-        <AppFooter />
+
     </div>
 
     <!-- Actual Page Layout -->
-    <div v-else class="min-h-[100dvh] flex flex-col bg-background">
+    <main v-else class="min-h-[100dvh] flex flex-col bg-background">
         <!-- Hero Section -->
         <section class="pt-24 pb-8 lg:pt-28 lg:pb-12 bg-gradient-hero-subtle relative overflow-hidden">
             <div
@@ -328,5 +358,6 @@ if (post.value) {
                 </div>
             </div>
         </section>
-    </div>
+    </main>
+  </div>
 </template>

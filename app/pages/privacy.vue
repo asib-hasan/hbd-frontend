@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AppFooter from '~/components/AppFooter.vue';
+
 
 useHead({
     title: 'Privacy Policy | HomeoDoctorsBD',
@@ -281,6 +281,6 @@ const sections = [
             </div>
         </section>
 
-        <AppFooter />
+
     </div>
 </template>

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import AppFooter from '~/components/AppFooter.vue';
 
 const { t } = useI18n()
 const localePath = useLocalePath()
@@ -230,6 +229,5 @@ useHead({
             </div>
         </section>
 
-        <AppFooter />
     </div>
 </template>

@@ -55,9 +55,9 @@ const areas = computed(() => [
                         <!-- Content Over Image -->
                         <div class="absolute bottom-0 left-0 right-0 p-5 flex items-end justify-between">
                             <div>
-                                <h3 class="font-display font-bold text-white text-xl md:text-2xl mb-1 group-hover:text-primary-300 transition-colors">
+                                <h2 class="font-display font-bold text-white text-xl md:text-2xl mb-1 group-hover:text-primary-300 transition-colors">
                                     {{ area.name }}
-                                </h3>
+                                </h2>
                                 <div class="flex items-center gap-1.5 text-white/80 text-sm font-medium">
                                     <UIcon name="i-lucide-users" class="w-4 h-4" />
                                     {{ area.count }}+ {{ $t('app_hero.doctors') }}

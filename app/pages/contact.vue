@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import PageHeader from '~/components/PageHeader.vue';
-import AppFooter from '~/components/AppFooter.vue';
+
 
 const formData = ref({
     name: "",
@@ -364,6 +364,6 @@ useHead({
             </div>
         </section>
 
-        <AppFooter />
+
     </div>
 </template>
