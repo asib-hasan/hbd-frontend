@@ -15,10 +15,7 @@ export default defineNuxtConfig({
         { name: 'description', content: 'Find the best homeopathic doctors in Bangladesh. Discover top specialists, view chamber details, and get holistic treatment.' }
       ],
       link: [
-        { rel: 'icon', type: 'image/png', href: '/favicon.png' },
-        { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-        { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous' },
-        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=block' }
+        { rel: 'icon', type: 'image/png', href: '/favicon.png' }
       ],
       bodyAttrs: {
         class: 'font-sans antialiased'
@@ -41,7 +38,13 @@ export default defineNuxtConfig({
     }
   },
 
-  modules: ['@nuxt/ui', '@nuxtjs/i18n', '@nuxtjs/sitemap', '@nuxtjs/robots', '@nuxt/image'],
+  modules: ['@nuxt/ui', '@nuxt/fonts', '@nuxtjs/i18n', '@nuxtjs/sitemap', '@nuxtjs/robots', '@nuxt/image'],
+
+  fonts: {
+    families: [
+      { name: 'Hind Siliguri', provider: 'google' }
+    ]
+  },
 
   image: {
     domains: ['images.unsplash.com', 'admin.homeodoctorsbd.com', '127.0.0.1', 'localhost'],
