@@ -27,12 +27,12 @@ const toggle = (key: string) => {
             <div class="absolute bottom-10 right-10 w-96 h-96 bg-secondary/10 rounded-full blur-3xl" />
 
             <div class="container mx-auto px-4 relative z-10">
-                <nav class="flex items-center gap-2 text-sm text-muted-foreground mb-6 animate-fade-up">
+                <nav class="flex items-center gap-2 text-sm text-muted-foreground mb-6 ">
                     <NuxtLink :to="localePath('/')" class="hover:text-primary transition-colors">{{ $t('nav.home') }}</NuxtLink>
                     <UIcon name="i-lucide-chevron-right" class="w-3.5 h-3.5" />
                     <span class="text-foreground font-medium">{{ $t('help_page.nav_title') }}</span>
                 </nav>
-                <div class="max-w-3xl mx-auto text-center animate-fade-up">
+                <div class="max-w-3xl mx-auto text-center ">
                     <div
                         class="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-6">
                         <UIcon name="i-lucide-help-circle" class="w-4 h-4" />
@@ -52,7 +52,7 @@ const toggle = (key: string) => {
         <!-- FAQ Section -->
         <section class="py-16 md:py-20 bg-muted/30">
             <div class="container mx-auto px-4">
-                <div class="text-center max-w-2xl mx-auto mb-12 animate-fade-up">
+                <div class="text-center max-w-2xl mx-auto mb-12 ">
                     <h2 class="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
                         {{ $t('help_page.faq_title') }}
                     </h2>
@@ -60,7 +60,7 @@ const toggle = (key: string) => {
                 </div>
 
                 <div class="max-w-3xl mx-auto space-y-10">
-                    <div v-for="(section, sIdx) in tm('help_page.faqs')" :key="sIdx" class="animate-fade-up"
+                    <div v-for="(section, sIdx) in tm('help_page.faqs')" :key="sIdx" class=""
                         :style="{ animationDelay: `${sIdx * 0.1}s` }">
                         <h3
                             class="font-display font-bold text-lg text-primary mb-4 flex items-center gap-2 uppercase tracking-wider text-sm">
@@ -95,7 +95,7 @@ const toggle = (key: string) => {
         <!-- Still Need Help CTA -->
         <section class="py-16 md:py-24 bg-gradient-to-br from-primary/5 via-background to-secondary/10">
             <div class="container mx-auto px-4">
-                <div class="max-w-2xl mx-auto text-center animate-fade-up">
+                <div class="max-w-2xl mx-auto text-center ">
                     <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
                         <UIcon name="i-lucide-message-circle" class="w-8 h-8 text-primary" />
                     </div>

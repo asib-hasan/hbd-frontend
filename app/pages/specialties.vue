@@ -152,7 +152,7 @@ useHead({
             <div class="container mx-auto px-4">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <NuxtLink v-for="(specialty, index) in specialties" :key="specialty.slug" :to="`/doctors`"
-                        class="group card-premium p-6 transition-all duration-300 hover:-translate-y-1 animate-fade-up"
+                        class="group card-premium p-6 transition-all duration-300 hover:-translate-y-1 "
                         :style="{ animationDelay: `${index * 0.05}s` }">
                         <div class="flex items-start gap-4">
                             <div class="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0 transition-all duration-300"

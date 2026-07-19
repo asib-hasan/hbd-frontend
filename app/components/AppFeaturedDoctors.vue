@@ -21,19 +21,19 @@ const doctors = computed(() => {
         <div class="container mx-auto px-4 relative z-10">
             <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between mb-12 gap-6">
                 <div class="max-w-2xl">
-                    <span class="badge badge-primary mb-4 animate-fade-up">
+                    <span class="badge badge-primary mb-4 ">
                         <UIcon name="i-lucide-award" class="w-4 h-4" />
                         {{ $t('featured_doctors.badge') }}
                     </span>
                     <h2
-                        class="font-display text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-4 animate-fade-up stagger-1">
+                        class="font-display text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-4  stagger-1">
                         {{ $t('featured_doctors.title_main') }} <span class="text-gradient">{{ $t('featured_doctors.title_highlight') }}</span> {{ $t('featured_doctors.title_suffix') }}
                     </h2>
-                    <p class="text-lg text-muted-foreground animate-fade-up stagger-2">
+                    <p class="text-lg text-muted-foreground  stagger-2">
                         {{ $t('featured_doctors.desc') }}
                     </p>
                 </div>
-                <div class="animate-fade-up stagger-3">
+                <div class=" stagger-3">
                     <NuxtLink :to="localePath('/doctors')">
                         <UButton variant="outline" size="lg" class="gap-2 w-fit">
                             {{ $t('featured_doctors.view_all') }}
@@ -43,23 +43,16 @@ const doctors = computed(() => {
                 </div>
             </div>
 
-            <ClientOnly>
-                <!-- Loading State -->
-                <div v-if="pending" class="grid lg:grid-cols-2 gap-5">
-                    <DoctorCardSkeleton v-for="i in 6" :key="i" />
-                </div>
+            <!-- Loading State -->
+            <div v-if="pending" class="grid lg:grid-cols-2 gap-5">
+                <DoctorCardSkeleton v-for="i in 6" :key="i" />
+            </div>
 
-                <!-- Doctor Cards -->
-                <div v-else class="grid lg:grid-cols-2 gap-5">
-                    <DoctorCard v-for="(doctor, index) in doctors.slice(0, 6)" :key="doctor.id" v-bind="doctor"
-                        :index="index" />
-                </div>
-                <template #fallback>
-                    <div class="grid lg:grid-cols-2 gap-5">
-                        <DoctorCardSkeleton v-for="i in 6" :key="i" />
-                    </div>
-                </template>
-            </ClientOnly>
+            <!-- Doctor Cards -->
+            <div v-else class="grid lg:grid-cols-2 gap-5">
+                <DoctorCard v-for="(doctor, index) in doctors.slice(0, 6)" :key="doctor.id" v-bind="doctor"
+                    :index="index" />
+            </div>
         </div>
     </section>
 </template>

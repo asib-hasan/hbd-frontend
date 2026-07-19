@@ -21,15 +21,15 @@ const specialties = [
         <div class="container mx-auto px-4 relative z-10">
             <!-- Section Header -->
             <div class="section-header">
-                <span class="badge badge-primary mb-4 animate-fade-up">
+                <span class="badge badge-primary mb-4 ">
                     <UIcon name="i-lucide-sparkles" class="w-4 h-4" />
                     Treatment Areas
                 </span>
                 <h2
-                    class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4 animate-fade-up stagger-1">
+                    class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4  stagger-1">
                     Browse by <span class="text-gradient">Specialty</span>
                 </h2>
-                <p class="text-lg text-muted-foreground animate-fade-up stagger-2">
+                <p class="text-lg text-muted-foreground  stagger-2">
                     Find experienced homeopathic doctors across all major treatment specializations
                 </p>
             </div>
@@ -37,7 +37,7 @@ const specialties = [
             <!-- Specialties Grid -->
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6">
                 <div v-for="(specialty, index) in specialties" :key="specialty.name"
-                    class="group card-premium p-6 transition-all duration-300 hover:-translate-y-1 animate-fade-up"
+                    class="group card-premium p-6 transition-all duration-300 hover:-translate-y-1 "
                     :style="{ animationDelay: `${index * 0.08}s` }">
                     <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-4 transition-all duration-300"
                         :class="specialty.color">

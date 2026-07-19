@@ -25,12 +25,12 @@ const localePath = useLocalePath()
             <div class="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />
 
             <div class="container mx-auto px-4 relative z-10">
-                <nav class="flex items-center gap-2 text-sm text-muted-foreground mb-6 animate-fade-up">
+                <nav class="flex items-center gap-2 text-sm text-muted-foreground mb-6 ">
                     <NuxtLink :to="localePath('/')" class="hover:text-primary transition-colors">{{ $t('nav.home') }}</NuxtLink>
                     <UIcon name="i-lucide-chevron-right" class="w-3.5 h-3.5" />
                     <span class="text-foreground font-medium">{{ $t('terms_page.nav_title') }}</span>
                 </nav>
-                <div class="max-w-3xl mx-auto text-center animate-fade-up">
+                <div class="max-w-3xl mx-auto text-center ">
                     <div
                         class="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-6">
                         <UIcon name="i-lucide-scroll-text" class="w-4 h-4" />
@@ -75,7 +75,7 @@ const localePath = useLocalePath()
             <div class="container mx-auto px-4">
                 <div class="max-w-4xl mx-auto">
                     <!-- TOC -->
-                    <div class="card-premium p-6 mb-12 animate-fade-up">
+                    <div class="card-premium p-6 mb-12 ">
                         <h2 class="font-display font-bold text-lg text-foreground mb-4 flex items-center gap-2">
                             <UIcon name="i-lucide-list" class="w-5 h-5 text-primary" />
                             {{ $t('terms_page.toc_title') }}
@@ -95,7 +95,7 @@ const localePath = useLocalePath()
                     <!-- Sections -->
                     <div class="space-y-6">
                         <div v-for="(section, idx) in tm('terms_page.sections')" :key="idx"
-                            class="card-premium p-8 animate-fade-up"
+                            class="card-premium p-8 "
                             :style="{ animationDelay: `${idx * 0.04}s` }">
                             <div class="flex items-start gap-4 mb-4">
                                 <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
@@ -113,7 +113,7 @@ const localePath = useLocalePath()
                     </div>
 
                     <!-- Agreement note -->
-                    <div class="mt-12 card-premium p-8 text-center animate-fade-up bg-primary/5 border-primary/20">
+                    <div class="mt-12 card-premium p-8 text-center  bg-primary/5 border-primary/20">
                         <div class="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
                             <UIcon name="i-lucide-handshake" class="w-7 h-7 text-primary" />
                         </div>

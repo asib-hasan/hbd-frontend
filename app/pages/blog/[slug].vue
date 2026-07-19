@@ -184,7 +184,7 @@ if (post.value) {
 
             <div class="container mx-auto px-4 relative z-10">
                 <!-- Breadcrumb -->
-                <nav class="flex items-center gap-2 text-sm text-muted-foreground mb-6 animate-fade-up">
+                <nav class="flex items-center gap-2 text-sm text-muted-foreground mb-6 ">
                     <NuxtLink :to="localePath('/')" class="hover:text-primary transition-colors">{{ $t('nav.home') }}</NuxtLink>
                     <UIcon name="i-lucide-chevron-right" class="w-3.5 h-3.5" />
                     <NuxtLink :to="localePath('/blog')" class="hover:text-primary transition-colors">{{ $t('nav.blogs') }}</NuxtLink>
@@ -194,7 +194,7 @@ if (post.value) {
 
                 <div class="max-w-4xl">
                     <!-- Category & Meta -->
-                    <div class="flex flex-wrap items-center gap-3 mb-5 animate-fade-up stagger-1">
+                    <div class="flex flex-wrap items-center gap-3 mb-5  stagger-1">
                         <div v-if="post.category_name_en"
                             class="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-3.5 py-1.5 text-xs font-bold text-primary shadow-sm">
                             <UIcon name="i-lucide-folder" class="w-3.5 h-3.5 mr-1.5" />
@@ -209,12 +209,12 @@ if (post.value) {
 
                     <!-- Title -->
                     <h1
-                        class="font-display text-3xl md:text-4xl lg:text-[2.75rem] font-bold text-foreground mb-5 leading-[1.15] animate-fade-up stagger-2">
+                        class="font-display text-3xl md:text-4xl lg:text-[2.75rem] font-bold text-foreground mb-5 leading-[1.15]  stagger-2">
                         {{ locale === 'bn' ? (post.title_bn || post.title_en) : post.title_en }}
                     </h1>
 
                     <!-- Post Meta -->
-                    <div class="flex flex-wrap items-center gap-5 animate-fade-up stagger-3">
+                    <div class="flex flex-wrap items-center gap-5  stagger-3">
                         <div class="flex items-center gap-2 text-sm text-muted-foreground">
                             <div
                                 class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">

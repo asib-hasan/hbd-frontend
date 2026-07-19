@@ -28,15 +28,15 @@ const onImageError = (e: Event) => {
             <!-- Section Header -->
             <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-12">
                 <div>
-                    <span class="badge badge-primary mb-4 animate-fade-up inline-flex items-center gap-2">
+                    <span class="badge badge-primary mb-4  inline-flex items-center gap-2">
                         <UIcon name="i-lucide-file-text" class="w-4 h-4" />
                         {{ $t('latest_blogs.badge') }}
                     </span>
-                    <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground animate-fade-up stagger-1">
+                    <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground  stagger-1">
                         {{ $t('latest_blogs.title_start') }}<span class="text-gradient">{{ $t('latest_blogs.title_highlight') }}</span>
                     </h2>
                 </div>
-                <NuxtLink :to="localePath('/blog')" class="mt-4 sm:mt-0 group flex items-center gap-2 text-primary font-medium hover:text-primary-600 transition-colors animate-fade-up stagger-2">
+                <NuxtLink :to="localePath('/blog')" class="mt-4 sm:mt-0 group flex items-center gap-2 text-primary font-medium hover:text-primary-600 transition-colors  stagger-2">
                     {{ $t('latest_blogs.view_all') }}
                     <UIcon name="i-lucide-arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </NuxtLink>
@@ -47,7 +47,7 @@ const onImageError = (e: Event) => {
             </div>
             <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <NuxtLink v-for="blog in blogs" :key="blog.id" :to="localePath(`/blog/${blog.slug}`)"
-                    class="group flex flex-col bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-card transition-all duration-300 animate-fade-up h-full">
+                    class="group flex flex-col bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-card transition-all duration-300 h-full">
                     
                     <div class="relative h-48 md:h-56 overflow-hidden">
                         <img v-if="blog.photo" :src="blog.photo" :alt="locale === 'bn' ? (blog.title_bn || blog.title_en) : blog.title_en"

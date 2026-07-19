@@ -57,15 +57,15 @@ const reasons = [
             <!-- Section Header -->
             <div class="text-center max-w-3xl mx-auto mb-16">
                 <div
-                    class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/60 backdrop-blur-sm border border-border/50 text-foreground text-sm font-semibold mb-6 animate-fade-up shadow-sm">
+                    class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/60 backdrop-blur-sm border border-border/50 text-foreground text-sm font-semibold mb-6  shadow-sm">
                     <UIcon name="i-lucide-check-circle-2" class="w-4 h-4 text-primary" />
                     Healing Philosophy
                 </div>
                 <h2
-                    class="font-display text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-4 animate-fade-up stagger-1 tracking-tight">
+                    class="font-display text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-4  stagger-1 tracking-tight">
                     Why Choose <span class="text-gradient">Homeopathy?</span>
                 </h2>
-                <p class="text-lg text-muted-foreground animate-fade-up stagger-2 leading-relaxed">
+                <p class="text-lg text-muted-foreground  stagger-2 leading-relaxed">
                     Discover the profound benefits of a natural, holistic approach to healthcare that prioritizes your
                     long-term well-being without harmful side effects.
                 </p>
@@ -74,7 +74,7 @@ const reasons = [
             <!-- Reasons Grid -->
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <div v-for="(reason, index) in reasons" :key="reason.title"
-                    class="group bg-white rounded-3xl p-8 border border-border/40 shadow-sm hover:shadow-elevated transition-all duration-300 hover:-translate-y-1 relative overflow-hidden animate-fade-up"
+                    class="group bg-white rounded-3xl p-8 border border-border/40 shadow-sm hover:shadow-elevated transition-all duration-300 hover:-translate-y-1 relative overflow-hidden "
                     :style="{ animationDelay: `${index * 0.1}s` }">
 
                     <!-- Decorative corner bloop -->

@@ -31,12 +31,12 @@ const onImageError = (e: Event) => {
         <div class="container mx-auto px-4 relative z-10">
             <!-- Section Header -->
             <div class="section-header">
-                <span class="badge badge-primary mb-4 animate-fade-up">
+                <span class="badge badge-primary mb-4 ">
                     <UIcon name="i-lucide-megaphone" class="w-4 h-4" />
                     Updates
                 </span>
                 <h2
-                    class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4 animate-fade-up stagger-1">
+                    class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4  stagger-1">
                     Latest <span class="text-gradient">Updates</span>
                 </h2>
             </div>

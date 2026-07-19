@@ -70,12 +70,12 @@ useHead({
             <div class="absolute bottom-10 right-10 w-96 h-96 bg-secondary/10 rounded-full blur-3xl" />
 
             <div class="container mx-auto px-4 relative z-10">
-                <nav class="flex items-center gap-2 text-sm text-muted-foreground mb-6 animate-fade-up">
+                <nav class="flex items-center gap-2 text-sm text-muted-foreground mb-6 ">
                     <NuxtLink :to="localePath('/')" class="hover:text-primary transition-colors">{{ $t('about_page.breadcrumb_home') }}</NuxtLink>
                     <UIcon name="i-lucide-chevron-right" class="w-3.5 h-3.5" />
                     <span class="text-foreground font-medium">{{ $t('about_page.breadcrumb_about') }}</span>
                 </nav>
-                <div class="max-w-3xl mx-auto text-center animate-fade-up">
+                <div class="max-w-3xl mx-auto text-center ">
                     <div
                         class="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-6">
                         <UIcon name="i-lucide-leaf" class="w-4 h-4" />
@@ -95,7 +95,7 @@ useHead({
         <section class="py-12 bg-primary/5">
             <div class="container mx-auto px-4">
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                    <div v-for="(stat, idx) in stats" :key="idx" class="text-center animate-fade-up"
+                    <div v-for="(stat, idx) in stats" :key="idx" class="text-center "
                         :style="{ animationDelay: `${idx * 0.1}s` }">
                         <div class="font-display text-3xl md:text-4xl font-bold text-primary mb-1">
                             {{ stat.value }}
@@ -110,7 +110,7 @@ useHead({
         <section class="py-16 md:py-24">
             <div class="container mx-auto px-4">
                 <div class="grid md:grid-cols-2 gap-8">
-                    <div class="card-premium p-8 animate-fade-up">
+                    <div class="card-premium p-8 ">
                         <div class="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-6">
                             <UIcon name="i-lucide-target" class="w-7 h-7 text-primary" />
                         </div>
@@ -119,7 +119,7 @@ useHead({
                             {{ $t('about_page.mission.description') }}
                         </p>
                     </div>
-                    <div class="card-premium p-8 animate-fade-up" style="animation-delay: 0.2s">
+                    <div class="card-premium p-8 " style="animation-delay: 0.2s">
                         <div class="w-14 h-14 bg-secondary/20 rounded-2xl flex items-center justify-center mb-6">
                             <UIcon name="i-lucide-eye" class="w-7 h-7 text-secondary-foreground" />
                         </div>
@@ -135,7 +135,7 @@ useHead({
         <!-- Values Section -->
         <section class="py-16 md:py-24 bg-muted/30">
             <div class="container mx-auto px-4">
-                <div class="text-center max-w-2xl mx-auto mb-12 animate-fade-up">
+                <div class="text-center max-w-2xl mx-auto mb-12 ">
                     <h2 class="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
                         {{ $t('about_page.values_section.title') }}
                     </h2>
@@ -144,7 +144,7 @@ useHead({
                     </p>
                 </div>
                 <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div v-for="(value, idx) in values" :key="idx" class="card-premium p-6 text-center animate-fade-up"
+                    <div v-for="(value, idx) in values" :key="idx" class="card-premium p-6 text-center "
                         :style="{ animationDelay: `${idx * 0.1}s` }">
                         <div class="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
                             <UIcon :name="value.icon" class="w-7 h-7 text-primary" />
@@ -164,7 +164,7 @@ useHead({
         <!-- 
         <section class="py-16 md:py-24">
             <div class="container mx-auto px-4">
-                <div class="text-center max-w-2xl mx-auto mb-12 animate-fade-up">
+                <div class="text-center max-w-2xl mx-auto mb-12 ">
                     <h2 class="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
                         Meet Our Team
                     </h2>
@@ -173,7 +173,7 @@ useHead({
                     </p>
                 </div>
                 <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-4xl mx-auto">
-                    <div v-for="(member, idx) in team" :key="idx" class="card-premium p-6 text-center animate-fade-up"
+                    <div v-for="(member, idx) in team" :key="idx" class="card-premium p-6 text-center "
                         :style="{ animationDelay: `${idx * 0.15}s` }">
                         <div class="w-24 h-24 rounded-full overflow-hidden mx-auto mb-4 shadow-soft">
                             <img :src="member.image" :alt="member.name" class="w-full h-full object-cover" />
@@ -191,7 +191,7 @@ useHead({
         <!-- Contact Section -->
         <section class="py-16 md:py-24 bg-gradient-to-br from-primary/5 via-background to-secondary/10">
             <div class="container mx-auto px-4">
-                <div class="max-w-3xl mx-auto text-center animate-fade-up">
+                <div class="max-w-3xl mx-auto text-center ">
                     <h2 class="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
                         {{ $t('about_page.contact.title') }}
                     </h2>

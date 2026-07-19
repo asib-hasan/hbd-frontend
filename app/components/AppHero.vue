@@ -40,7 +40,7 @@ const areas = computed(() => {
 
         <div class="container mx-auto px-4 relative z-10">
             <!-- Top Areas Header -->
-            <div class="max-w-6xl mx-auto mb-10 text-center animate-fade-up">
+            <div class="max-w-6xl mx-auto mb-10 text-center ">
 
                 <h1 class="text-3xl md:text-4xl font-display font-bold text-gray-900 mb-4">
                     {{ $t('app_hero.title_start') }} <span class="text-primary">{{ $t('app_hero.title_highlight') }}</span> {{ $t('app_hero.title_end') }}
@@ -52,7 +52,7 @@ const areas = computed(() => {
 
             <!-- Top Areas Grid with Images -->
             <div class="max-w-6xl mx-auto">
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 animate-fade-up stagger-1">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6  stagger-1">
                     <NuxtLink
                         v-for="(area, i) in areas"
                         :key="area.name" :to="localePath(`/doctors?district=${area.query}`)"
@@ -86,7 +86,7 @@ const areas = computed(() => {
                     </NuxtLink>
                 </div>
 
-                <div class="mt-12 text-center animate-fade-up stagger-2">
+                <div class="mt-12 text-center  stagger-2">
                     <NuxtLink :to="localePath('/doctors')">
                         <UButton color="primary" variant="solid" size="lg" class="h-12 px-8 rounded-full shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all font-bold text-white">
                             {{ $t('app_hero.view_all') }}

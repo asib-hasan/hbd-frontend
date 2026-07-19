@@ -22,15 +22,15 @@ const locations = [
         <div class="container mx-auto px-4 relative z-10">
             <!-- Section Header -->
             <div class="section-header">
-                <span class="badge badge-primary mb-4 animate-fade-up">
+                <span class="badge badge-primary mb-4 ">
                     <UIcon name="i-lucide-map-pin" class="w-4 h-4" />
                     {{ $t('locations.badge') }}
                 </span>
                 <h2
-                    class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4 animate-fade-up stagger-1">
+                    class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4  stagger-1">
                     {{ $t('locations.title_main') }} <span class="text-gradient">{{ $t('locations.title_highlight') }}</span>
                 </h2>
-                <p class="text-lg text-muted-foreground animate-fade-up stagger-2">
+                <p class="text-lg text-muted-foreground  stagger-2">
                     {{ $t('locations.desc') }}
                 </p>
             </div>
@@ -39,7 +39,7 @@ const locations = [
             <div class="grid md:grid-cols-2 gap-6 mb-6">
                 <NuxtLink v-for="(location, index) in locations.filter(l => l.featured)" :key="location.slug"
                     :to="localePath(`/doctors/${location.slug}`)"
-                    class="group relative h-72 rounded-2xl overflow-hidden shadow-soft hover:shadow-elevated transition-all duration-500 hover:-translate-y-1 animate-fade-up"
+                    class="group relative h-72 rounded-2xl overflow-hidden shadow-soft hover:shadow-elevated transition-all duration-500 hover:-translate-y-1 "
                     :style="{ animationDelay: `${index * 0.1}s` }">
                     <img :src="location.image" :alt="$t(`locations.cities.${location.slug}`)"
                         class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
@@ -83,7 +83,7 @@ const locations = [
             <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <NuxtLink v-for="(location, index) in locations.filter(l => !l.featured)" :key="location.slug"
                     :to="localePath(`/doctors/${location.slug}`)"
-                    class="group relative h-48 rounded-2xl overflow-hidden shadow-soft hover:shadow-card transition-all duration-500 hover:-translate-y-1 animate-fade-up"
+                    class="group relative h-48 rounded-2xl overflow-hidden shadow-soft hover:shadow-card transition-all duration-500 hover:-translate-y-1 "
                     :style="{ animationDelay: `${(index + 2) * 0.1}s` }">
                     <img :src="location.image" :alt="$t(`locations.cities.${location.slug}`)"
                         class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />

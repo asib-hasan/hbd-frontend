@@ -135,7 +135,7 @@ useHead({
                     <!-- Contact Form -->
                     <div class="lg:col-span-2">
                         <div
-                            class="relative bg-white rounded-3xl border border-border/60 shadow-[0_8px_40px_-12px_rgba(0,0,0,0.08)] p-8 md:p-10 animate-fade-up overflow-hidden">
+                            class="relative bg-white rounded-3xl border border-border/60 shadow-[0_8px_40px_-12px_rgba(0,0,0,0.08)] p-8 md:p-10  overflow-hidden">
 
                             <!-- Decorative corner elements -->
                             <div
@@ -279,7 +279,7 @@ useHead({
                     <!-- Contact Info Sidebar -->
                     <div class="space-y-5">
                         <div v-for="(info, index) in contactInfo" :key="info.title"
-                            class="group relative bg-white rounded-2xl border border-border/60 p-5 transition-all duration-300 hover:shadow-[0_8px_30px_-12px_rgba(0,0,0,0.1)] hover:border-border hover:-translate-y-0.5 animate-fade-up overflow-hidden"
+                            class="group relative bg-white rounded-2xl border border-border/60 p-5 transition-all duration-300 hover:shadow-[0_8px_30px_-12px_rgba(0,0,0,0.1)] hover:border-border hover:-translate-y-0.5  overflow-hidden"
                             :style="{ animationDelay: `${index * 0.1}s` }">
                             <!-- Hover gradient background -->
                             <div class="absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"

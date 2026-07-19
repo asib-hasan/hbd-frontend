@@ -1,6 +1,5 @@
 <template>
-    <div class="group bg-primary/[0.03] rounded-xl border border-primary/10 shadow-sm hover:shadow-md hover:border-primary/20 transition-all duration-300 animate-fade-up overflow-hidden flex"
-        :style="{ animationDelay: `${index * 0.08}s` }">
+    <div class="group bg-primary/[0.03] rounded-xl border border-primary/10 shadow-sm hover:shadow-md hover:border-primary/20 transition-all duration-300 overflow-hidden flex">
         
         <div class="flex flex-row p-4 sm:p-5 gap-4 sm:gap-6 w-full">
             

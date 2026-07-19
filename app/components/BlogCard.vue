@@ -1,6 +1,5 @@
 <template>
-    <article class="group card-premium hover-lift animate-fade-up"
-        :style="{ animationDelay: `${(index % 6 + 1) * 0.1}s` }">
+    <article class="group card-premium hover-lift">
         <NuxtLink :to="localePath(`/blog/${slug}`)">
             <div class="relative overflow-hidden rounded-t-2xl">
                 <img :src="photo || 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80'"

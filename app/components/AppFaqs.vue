@@ -59,20 +59,20 @@ useHead({
         <div class="container mx-auto px-4 relative z-10 max-w-4xl">
             <!-- Section Header -->
             <div class="section-header text-center mb-12">
-                <span class="badge badge-primary mb-4 animate-fade-up inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary font-medium text-sm border border-primary/20 shadow-sm">
+                <span class="badge badge-primary mb-4  inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary font-medium text-sm border border-primary/20 shadow-sm">
                     <UIcon name="i-lucide-help-circle" class="w-4 h-4" />
                     {{ $t('common.faq') }}
                 </span>
-                <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4 animate-fade-up stagger-1">
+                <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4  stagger-1">
                     {{ $t('common.frequently_asked_questions') }}
                 </h2>
-                <p class="text-muted-foreground text-lg max-w-2xl mx-auto animate-fade-up stagger-2">
+                <p class="text-muted-foreground text-lg max-w-2xl mx-auto  stagger-2">
                     {{ $t('common.faq_desc') }}
                 </p>
             </div>
 
             <!-- Custom Premium Accordion -->
-            <div class="max-w-3xl mx-auto space-y-4 animate-fade-up stagger-3">
+            <div class="max-w-3xl mx-auto space-y-4  stagger-3">
                 <div v-for="(faq, index) in faqs" :key="index"
                      class="group border border-gray-200/60 bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden"
                      :class="{ 'ring-1 ring-primary/30 shadow-lg shadow-primary/5': activeIndex === index }">
@@ -113,7 +113,7 @@ useHead({
                 </div>
             </div>
             
-            <div class="mt-12 text-center animate-fade-up stagger-4">
+            <div class="mt-12 text-center  stagger-4">
                 <p class="text-gray-500 mb-4">{{ $t('common.still_have_questions') }}</p>
                 <NuxtLink :to="localePath('/contact')" class="inline-flex items-center gap-2 px-6 py-3 bg-white border border-gray-200 rounded-full font-medium text-primary hover:bg-gray-50 hover:text-primary-600 hover:shadow-md transition-all duration-300">
                     <UIcon name="i-lucide-message-circle" class="w-5 h-5" />

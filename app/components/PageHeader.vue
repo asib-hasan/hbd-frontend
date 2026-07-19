@@ -33,7 +33,7 @@ const formatTitle = (title: string) => {
         <div class="container mx-auto px-4 relative z-10">
             <!-- Breadcrumbs -->
             <nav v-if="breadcrumbs && breadcrumbs.length > 0"
-                class="flex items-center gap-2 text-sm text-muted-foreground mb-6 animate-fade-up">
+                class="flex items-center gap-2 text-sm text-muted-foreground mb-6 ">
                 <NuxtLink to="/" class="hover:text-primary transition-colors">Home</NuxtLink>
                 <UIcon name="i-lucide-chevron-right" class="w-3.5 h-3.5" />
                 <template v-for="(crumb, idx) in breadcrumbs" :key="idx">
@@ -47,7 +47,7 @@ const formatTitle = (title: string) => {
 
             <div class="max-w-4xl" :class="!breadcrumbs ? 'mt-4' : ''">
                 <h1
-                    class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4 animate-fade-up stagger-1">
+                    class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4  stagger-1">
                     <template v-if="title.includes('Best')">
                         {{ formatTitle(title).prefix }}
                         <span class="text-gradient">Best</span>
@@ -57,12 +57,12 @@ const formatTitle = (title: string) => {
                         {{ title }}
                     </template>
                 </h1>
-                <p class="text-lg text-muted-foreground max-w-2xl animate-fade-up stagger-2">
+                <p class="text-lg text-muted-foreground max-w-2xl  stagger-2">
                     {{ description }}
                 </p>
 
                 <!-- Stats -->
-                <div v-if="stats" class="flex flex-wrap gap-8 mt-8 animate-fade-up stagger-3">
+                <div v-if="stats" class="flex flex-wrap gap-8 mt-8  stagger-3">
                     <div v-for="(stat, index) in stats" :key="index" class="flex items-center gap-2">
                         <span class="text-2xl font-bold text-primary font-display">{{ stat.value }}</span>
                         <span class="text-muted-foreground">{{ stat.label }}</span>

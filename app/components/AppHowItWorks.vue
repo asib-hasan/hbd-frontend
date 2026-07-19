@@ -49,17 +49,17 @@ const steps = [
         <div class="container mx-auto px-4 relative z-10">
             <!-- Section Header -->
             <div class="text-center max-w-3xl mx-auto mb-20 lg:mb-28">
-                <span class="badge badge-primary mb-6 animate-fade-up">
+                <span class="badge badge-primary mb-6 ">
                     <UIcon name="i-lucide-activity" class="w-4 h-4 mr-1.5" />
                     {{ $t('how_it_works.badge') }}
                 </span>
                 <h2
-                    class="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6 leading-[1.15] tracking-tight animate-fade-up stagger-1">
+                    class="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6 leading-[1.15] tracking-tight  stagger-1">
                     {{ $t('how_it_works.title_main') }} <br class="hidden md:block" />
                     <span class="text-gradient">{{ $t('how_it_works.title_highlight') }}</span>
                 </h2>
                 <p
-                    class="text-lg md:text-xl text-muted-foreground animate-fade-up stagger-2 leading-relaxed max-w-2xl mx-auto">
+                    class="text-lg md:text-xl text-muted-foreground  stagger-2 leading-relaxed max-w-2xl mx-auto">
                     {{ $t('how_it_works.desc') }}
                 </p>
             </div>
@@ -72,7 +72,7 @@ const steps = [
                     class="hidden lg:block absolute top-[120px] left-[10%] right-[10%] h-[2px] bg-gradient-to-r from-primary via-accent to-primary opacity-50 origin-left animate-shimmer scale-x-0" />
 
                 <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6 relative">
-                    <div v-for="(step, index) in steps" :key="step.titleKey" class="group animate-fade-up"
+                    <div v-for="(step, index) in steps" :key="step.titleKey" class="group "
                         :style="{ animationDelay: `${index * 0.15}s` }">
 
                         <!-- Card UI -->
@@ -114,7 +114,7 @@ const steps = [
             </div>
 
             <!-- Bottom CTA -->
-            <div class="mt-24 flex justify-center animate-fade-up stagger-3">
+            <div class="mt-24 flex justify-center  stagger-3">
                 <NuxtLink :to="localePath('/doctors')">
                     <UButton size="xl"
                         class="h-14 px-10 rounded-full font-bold text-base text-white shadow-glow hover:shadow-glow-accent hover:-translate-y-1 transition-all duration-300">
