@@ -30,7 +30,7 @@ const stats = computed(() => [
     { value: "500+", label: t('about_page.stats.verified_doctors') },
     { value: "50,000+", label: t('about_page.stats.patients_helped') },
     { value: "64", label: t('about_page.stats.districts_covered') },
-    { value: "4.8", label: t('about_page.stats.average_rating') }
+    { value: "25+", label: t('about_page.stats.medical_specialties') }
 ]);
 
 const team = [

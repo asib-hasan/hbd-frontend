@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useDoctors } from '~/composables/useDoctors'
-
+import userImg from '~/assets/images/user.webp'
 
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
@@ -49,7 +49,7 @@ const pageTitle = computed(() => {
 const pageDescription = computed(() => {
     if (!doctor.value) return t('doctor_profile.not_found_desc')
     if (doctor.value.meta_description) return doctor.value.meta_description
-    return `Book an appointment with ${locale.value === 'bn' ? (doctor.value.name_bn || doctor.value.name_en) : doctor.value.name_en}${doctorSpecialties.value ? `, ${doctorSpecialties.value} specialist` : ''}.`
+    return `View the profile of ${locale.value === 'bn' ? (doctor.value.name_bn || doctor.value.name_en) : doctor.value.name_en}${doctorSpecialties.value ? `, ${doctorSpecialties.value} specialist` : ''}.`
 })
 
 useSeoMeta({
@@ -90,11 +90,56 @@ const scrollToChambers = () => {
 
 <template>
   <div>
-    <div v-if="pending" class="min-h-screen bg-background flex items-center justify-center">
-        <div class="text-center">
-            <UIcon name="i-lucide-loader-2" class="w-10 h-10 animate-spin text-primary mx-auto mb-4" />
-            <p class="text-muted-foreground animate-pulse">{{ $t('doctor_profile.loading') }}</p>
-        </div>
+    <div v-if="pending" class="min-h-screen bg-background flex flex-col">
+        <!-- Hero Skeleton -->
+        <section class="relative bg-gradient-hero-subtle pt-28 pb-8 lg:pt-32 lg:pb-12">
+            <div class="container mx-auto px-4 pt-2 pb-8 relative z-10">
+                <USkeleton class="h-4 w-48 mb-6" />
+                <div class="card-premium p-6 md:p-8">
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <USkeleton class="w-40 h-40 md:w-48 md:h-48 rounded-2xl flex-shrink-0" />
+                        <div class="flex-1 space-y-4 py-2">
+                            <USkeleton class="h-6 w-24 rounded-full" />
+                            <USkeleton class="h-8 w-64" />
+                            <USkeleton class="h-4 w-48" />
+                            <USkeleton class="h-4 w-32" />
+                            <div class="flex gap-4 mt-6">
+                                <USkeleton class="h-10 w-24 rounded-xl" />
+                                <USkeleton class="h-10 w-24 rounded-xl" />
+                                <USkeleton class="h-10 w-24 rounded-xl" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Details Skeleton -->
+        <section class="pb-10 bg-background flex-grow">
+            <div class="container mx-auto px-4">
+                <div class="grid lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 space-y-8">
+                        <div class="card-premium p-6 space-y-4">
+                            <USkeleton class="h-6 w-32 mb-4" />
+                            <USkeleton class="h-4 w-full" />
+                            <USkeleton class="h-4 w-full" />
+                            <USkeleton class="h-4 w-3/4" />
+                        </div>
+                        <div class="card-premium p-6 space-y-4">
+                            <USkeleton class="h-6 w-32 mb-4" />
+                            <div class="flex gap-3">
+                                <USkeleton class="h-10 w-24 rounded-xl" />
+                                <USkeleton class="h-10 w-32 rounded-xl" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-1">
+                        <USkeleton class="h-6 w-48 mb-4" />
+                        <USkeleton class="h-48 w-full rounded-2xl" />
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 
     <div v-else-if="!doctor" class="min-h-screen bg-background flex items-center justify-center">
@@ -109,7 +154,7 @@ const scrollToChambers = () => {
 
     <main v-else class="min-h-screen bg-background">
         <!-- Hero Section -->
-        <section class="relative bg-gradient-hero-subtle overflow-hidden pt-20 pb-8 lg:pt-24 lg:pb-12">
+        <section class="relative bg-gradient-hero-subtle overflow-hidden pt-28 pb-8 lg:pt-32 lg:pb-12">
             <div
                 class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,hsl(var(--primary)/0.08),transparent_50%)]" />
 
@@ -135,16 +180,9 @@ const scrollToChambers = () => {
                 <div class="card-premium p-6 md:p-8">
                     <div class="flex flex-col md:flex-row gap-6">
                         <!-- Image -->
-                        <div class="relative flex-shrink-0">
-                            <div class="w-40 h-40 md:w-48 md:h-48 rounded-2xl overflow-hidden shadow-soft">
-                                <img :src="doctor.image || 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&h=400&fit=crop'"
-                                    :alt="doctor.name_en" class="w-full h-full object-cover" />
-                            </div>
-                            <div
-                                class="absolute -bottom-2 -right-2 bg-primary text-primary-foreground px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1 shadow-soft">
-                                <UIcon name="i-lucide-badge-check" class="w-4 h-4" />
-                                {{ $t('doctor_profile.verified') }}
-                            </div>
+                        <div class="relative flex-shrink-0 w-40 h-40 md:w-48 md:h-48 rounded-2xl overflow-hidden shadow-soft border border-border/50">
+                            <img :src="doctor.image || userImg" @error="(e) => e.target.src = userImg"
+                                :alt="doctor.name_en" class="w-full h-full object-cover" />
                         </div>
 
                         <!-- Details -->
@@ -159,9 +197,15 @@ const scrollToChambers = () => {
                                         class="inline-block bg-secondary text-secondary-foreground px-3 py-1 rounded-lg text-xs font-semibold mb-2">
                                         {{ locale === 'bn' ? (doctor.specialty_bn || doctor.specialty) : doctor.specialty }}
                                     </span>
-                                    <h1 class="font-display text-2xl md:text-3xl font-bold text-foreground mb-1">
-                                        {{ locale === 'bn' ? (doctor.name_bn || doctor.name_en) : doctor.name_en }}
-                                    </h1>
+                                    <div class="flex flex-wrap items-center gap-2 mb-1">
+                                        <h1 class="font-display text-2xl md:text-3xl font-bold text-foreground">
+                                            {{ locale === 'bn' ? (doctor.name_bn || doctor.name_en) : doctor.name_en }}
+                                        </h1>
+                                        <div class="bg-primary/10 text-primary px-2.5 py-1 rounded-md text-xs font-bold flex items-center gap-1 shadow-sm border border-primary/20">
+                                            <UIcon name="i-lucide-shield-check" class="w-4 h-4" />
+                                            {{ $t('doctor_profile.verified') }}
+                                        </div>
+                                    </div>
                                     <div v-if="activeChamber" class="flex items-center gap-1.5 text-foreground font-medium mb-1.5">
                                         <UIcon name="i-lucide-building-2" class="w-4 h-4 text-primary shrink-0" />
                                         <span class="line-clamp-1">{{ locale === 'bn' ? (activeChamber.name_bn || activeChamber.name_en) : activeChamber.name_en }}</span>
@@ -174,10 +218,6 @@ const scrollToChambers = () => {
                             </div>
 
                             <div class="flex items-center gap-4 mb-4">
-                                <div class="flex items-center gap-1.5 bg-accent/10 text-accent px-3 py-1.5 rounded-xl">
-                                    <UIcon name="i-lucide-star" class="w-5 h-5 text-accent" />
-                                    <span v-if="doctor.rating" class="font-bold">{{ doctor.rating }}</span>
-                                </div>
                                 <div class="px-3 py-1.5 rounded-xl text-sm font-semibold flex items-center gap-1.5"
                                     :class="isAvailableToday
                                         ? 'bg-blue-500/10 text-blue-600'

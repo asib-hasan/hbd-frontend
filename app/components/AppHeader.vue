@@ -35,10 +35,52 @@ interface NavLink {
 const navLinks = computed<NavLink[]>(() => [
     { name: t("nav.home"), href: "/" },
     { name: t("nav.doctors"), href: "/doctors" },
+    { 
+        name: t("nav.locations"), 
+        href: "#",
+        children: [
+            { name: t("nav.location_list.mirpur"), href: "/locations/mirpur" },
+            { name: t("nav.location_list.uttara"), href: "/locations/uttara" },
+            { name: t("nav.location_list.farmgate"), href: "/locations/farmgate" },
+            { name: t("nav.location_list.dhanmondi"), href: "/locations/dhanmondi" },
+            { name: t("nav.location_list.mohammadpur"), href: "/locations/mohammadpur" },
+            { name: t("nav.location_list.bashundhara"), href: "/locations/bashundhara" },
+            { name: t("nav.location_list.wari"), href: "/locations/wari" },
+            { name: t("nav.location_list.banani"), href: "/locations/banani" },
+            { name: t("nav.location_list.gulshan"), href: "/locations/gulshan" },
+            { name: t("nav.location_list.badda"), href: "/locations/badda" },
+            { name: t("nav.location_list.jatrabari"), href: "/locations/jatrabari" },
+            { name: t("nav.location_list.malibagh"), href: "/locations/malibagh" },
+            { name: t("nav.location_list.view_all"), href: "/doctors" },
+        ]
+    },
     { name: t("nav.blogs"), href: "/blog" },
     { name: t("nav.about"), href: "/about" },
     { name: t("nav.contact"), href: "/contact" },
 ])
+
+const route = useRoute()
+const { locale } = useI18n()
+
+const isActive = (href: string) => {
+    if (href === '#') return false
+    const linkPath = localePath(href)
+    
+    // Exact match for home
+    if (href === '/') {
+        return route.path === linkPath || route.path === linkPath + '/'
+    }
+    
+    // Doctors matches both /doctors and /doctor/[slug]
+    if (href === '/doctors') {
+        const docListPath = localePath('/doctors')
+        const prefix = locale.value === 'en' ? '' : `/${locale.value}`
+        return route.path.startsWith(docListPath) || route.path.startsWith(`${prefix}/doctor/`)
+    }
+    
+    // Others (like /blog) match themselves and their sub-paths
+    return route.path === linkPath || route.path.startsWith(linkPath + '/')
+}
 </script>
 
 <template>
@@ -59,21 +101,26 @@ const navLinks = computed<NavLink[]>(() => [
                         @mouseleave="link.children && (openDropdown = null)">
                         <!-- Normal Link -->
                         <NuxtLink v-if="!link.children" :to="localePath(link.href)"
-                            class="text-[16px] font-medium text-gray-700 hover:text-primary transition-colors py-2"
-                            active-class="text-primary font-semibold">
+                            class="text-lg font-medium transition-colors py-2"
+                            :class="isActive(link.href) ? 'text-primary font-semibold' : 'text-gray-700 hover:text-primary'"
+                            >
                             {{ link.name }}
                         </NuxtLink>
 
                         <div v-else class="relative">
-                            <button class="flex items-center gap-1 text-[16px] font-medium text-gray-700 hover:text-primary transition-colors py-2">
+                            <button class="flex items-center gap-1 text-lg transition-colors py-2"
+                                :class="isActive(link.href) ? 'text-primary font-semibold' : 'font-medium text-gray-700 hover:text-primary'">
                                 {{ link.name }}
                                 <UIcon name="i-lucide-chevron-down" class="w-4 h-4" />
                             </button>
-                            <div v-show="openDropdown === link.name" class="absolute top-full left-0 w-48 bg-white border border-gray-200 shadow-lg rounded-lg py-2 mt-1">
-                                <NuxtLink v-for="child in link.children" :key="child.name" :to="localePath(child.href)"
-                                    class="block px-4 py-2 text-[15px] text-gray-700 hover:bg-gray-50 hover:text-primary transition-colors">
-                                    {{ child.name }}
-                                </NuxtLink>
+                            <!-- Removed mt-1 and added a small top padding to bridge any gap -->
+                            <div v-show="openDropdown === link.name" class="absolute top-full left-0 pt-2 w-72 z-50">
+                                <div class="bg-white border border-gray-200 shadow-lg rounded-lg py-2">
+                                    <NuxtLink v-for="child in link.children" :key="child.name" :to="localePath(child.href)"
+                                        class="block px-4 py-2 text-base text-gray-700 hover:bg-gray-50 hover:text-primary transition-colors">
+                                        {{ child.name }}
+                                    </NuxtLink>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -118,22 +165,23 @@ const navLinks = computed<NavLink[]>(() => [
                 <nav class="flex flex-col gap-1">
                     <div v-for="link in navLinks" :key="link.name">
                         <NuxtLink v-if="!link.children" :to="localePath(link.href)"
-                            class="block w-full px-4 py-3 text-[16px] font-medium text-gray-700 hover:text-primary hover:bg-primary-50 rounded-lg transition-colors"
-                            active-class="text-primary bg-primary-50"
+                            class="block w-full px-4 py-3 text-lg font-medium hover:text-primary hover:bg-primary-50 rounded-lg transition-colors"
+                            :class="isActive(link.href) ? 'text-primary bg-primary-50' : 'text-gray-700'"
                             @click="isMenuOpen = false">
                             {{ link.name }}
                         </NuxtLink>
                         
                         <div v-else class="flex flex-col gap-1">
                             <button @click="openDropdown = openDropdown === link.name ? null : link.name"
-                                class="flex items-center justify-between w-full px-4 py-3 text-[16px] font-medium text-gray-700 hover:text-primary hover:bg-primary-50 rounded-lg transition-colors">
+                                class="flex items-center justify-between w-full px-4 py-3 text-lg hover:text-primary hover:bg-primary-50 rounded-lg transition-colors"
+                                :class="isActive(link.href) ? 'text-primary bg-primary-50 font-semibold' : 'font-medium text-gray-700'">
                                 {{ link.name }}
                                 <UIcon name="i-lucide-chevron-down" class="w-5 h-5 transition-transform"
                                     :class="openDropdown === link.name ? 'rotate-180 text-primary' : ''" />
                             </button>
                             <div v-show="openDropdown === link.name" class="flex flex-col gap-1 pl-4 pr-2 pb-2">
                                 <NuxtLink v-for="child in link.children" :key="child.name" :to="localePath(child.href)"
-                                    class="block w-full px-4 py-2 text-[15px] text-gray-600 hover:text-primary hover:bg-primary-50 rounded-lg transition-colors"
+                                    class="block w-full px-4 py-2 text-base text-gray-600 hover:text-primary hover:bg-primary-50 rounded-lg transition-colors"
                                     @click="isMenuOpen = false; openDropdown = null">
                                     {{ child.name }}
                                 </NuxtLink>

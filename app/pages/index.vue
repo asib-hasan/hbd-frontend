@@ -1,6 +1,6 @@
 <script setup lang="ts">
-const title = 'HomeoDoctorsBD - Find & Book Expert Homeopathic Doctors Near You'
-const description = 'Connect with experienced homeopathic doctors across Bangladesh. Natural healing through holistic treatment. Book appointments instantly online.'
+const title = 'HomeoDoctorsBD - Find Expert Homeopathic Doctors Near You'
+const description = 'Connect with experienced homeopathic doctors across Bangladesh. Natural healing through holistic treatment. Find top doctors and their chamber details.'
 
 useSeoMeta({
     title: title,

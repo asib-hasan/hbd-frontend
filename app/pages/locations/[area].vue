@@ -5,14 +5,14 @@ import type { Doctor } from '~/utils/doctors'
 
 const route = useRoute()
 const searchQuery = ref(route.query.search?.toString() || "")
-const districtQuery = computed(() => route.query.district?.toString() || "")
-const selectedDistrict = ref("all")
+const areaSlug = computed(() => route.params.area?.toString() || "")
+const selectedDistrict = ref("1") // Dhaka
 const selectedArea = ref("all")
 
 const districtsData = ref<any[]>([])
 const areasData = ref<any[]>([])
 
-const { fetchAllDoctors, fetchDistricts, fetchAreas } = useDoctors()
+const { fetchDoctorsByArea, fetchDistricts, fetchAreas } = useDoctors()
 
 const apiResponse = ref<any>(null)
 const pending = ref(true)
@@ -24,13 +24,22 @@ const perPage = computed(() => (apiResponse.value as any)?.data?.meta?.per_page 
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
 
-// SSR Initial Fetch for perfect SEO
-const initialParams: any = {}
-if (searchQuery.value) initialParams.search = searchQuery.value
-if (districtQuery.value) initialParams.district = districtQuery.value
+const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slice(1) : ''
+const displayAreaName = computed(() => {
+    if (locale.value === 'bn') {
+        const bnNames: Record<string, string> = {
+            'mirpur': 'মিরপুর', 'uttara': 'উত্তরা', 'farmgate': 'ফার্মগেট',
+            'dhanmondi': 'ধানমন্ডি', 'mohammadpur': 'মোহাম্মদপুর', 'bashundhara': 'বসুন্ধরা',
+            'wari': 'ওয়ারী', 'banani': 'বনানী', 'gulshan': 'গুলশান',
+            'badda': 'বাড্ডা', 'jatrabari': 'যাত্রাবাড়ী', 'malibagh': 'মালিবাগ'
+        }
+        return bnNames[areaSlug.value] || capitalize(areaSlug.value)
+    }
+    return capitalize(areaSlug.value)
+})
 
 const { data: ssrDistricts } = await useAsyncData('districts-list', () => fetchDistricts())
-const { data: ssrDoctors } = await useAsyncData('initial-doctors-list', () => fetchAllDoctors(initialParams))
+const { data: ssrDoctors } = await useAsyncData('initial-doctors-area-list', () => fetchDoctorsByArea(areaSlug.value, 1))
 
 const rawDoctorsList = ref<any[]>([])
 
@@ -67,31 +76,11 @@ const doctors = computed<Doctor[]>(() => {
 })
 
 const selectedLocationName = computed(() => {
-    let districtName = ""
-    let areaName = ""
-
-    if (selectedDistrict.value !== "all") {
-        const district = districtsData.value.find(d => d.id == selectedDistrict.value)
-        if (district) districtName = locale.value === 'bn' ? (district.name_bn || district.name_en || district.name) : (district.name_en || district.name)
-    } else if (districtQuery.value) {
-        districtName = districtQuery.value.charAt(0).toUpperCase() + districtQuery.value.slice(1)
-    }
-
-    if (selectedArea.value !== "all") {
-        const area = areasData.value.find(a => a.id == selectedArea.value)
-        if (area) areaName = locale.value === 'bn' ? (area.name_bn || area.name_en || area.name) : (area.name_en || area.name)
-    }
-
-    if (areaName && districtName) return `${areaName}, ${districtName}`
-    if (districtName) return `${districtName}`
-    return ""
+    return `${displayAreaName.value}, ${locale.value === 'bn' ? 'ঢাকা' : 'Dhaka'}`
 })
 
 const infoTitle = computed(() => {
-    if (selectedLocationName.value) {
-        return t('doctors_page.title_location', { location: selectedLocationName.value })
-    }
-    return t('doctors_page.title_default')
+    return t('doctors_page.title_location', { location: selectedLocationName.value })
 })
 
 const info = computed(() => ({
@@ -110,8 +99,12 @@ const breadcrumbs = computed(() => {
 })
 
 // SEO
-const pageTitle = computed(() => `${info.value.title} | HomeoDoctorsBD`)
-const pageDescription = computed(() => info.value.description)
+const pageTitle = computed(() => locale.value === 'bn' 
+    ? `${displayAreaName.value}, ঢাকার সেরা হোমিওপ্যাথিক ডাক্তার | HomeoDoctorsBD`
+    : `Best Homeopathic Doctors in ${displayAreaName.value}, Dhaka | HomeoDoctorsBD`)
+const pageDescription = computed(() => locale.value === 'bn'
+    ? `${displayAreaName.value}, ঢাকার সেরা এবং ভেরিফাইড হোমিওপ্যাথিক ডাক্তার খুঁজুন ও অনলাইনে অ্যাপয়েন্টমেন্ট বুক করুন।`
+    : `Find and book appointments with the top verified homeopathic doctors in ${displayAreaName.value}, Dhaka.`)
 
 useSeoMeta({
     title: pageTitle,
@@ -129,11 +122,11 @@ useHead({
     link: [
         {
             rel: 'canonical',
-            href: computed(() => `https://homeodoctorsbd.com/doctors${districtQuery.value ? '?district=' + districtQuery.value : ''}`)
+            href: computed(() => `https://homeodoctorsbd.com/locations/${areaSlug.value}`)
         }
     ],
     meta: [
-        { name: 'keywords', content: computed(() => `best homeopathic doctor in bangladesh, homeopathic doctors, homeopathy ${districtQuery.value || 'dhaka'}, natural healing, homeopathy clinic`) }
+        { name: 'keywords', content: computed(() => `best homeopathic doctor in ${areaSlug.value}, homeopathic doctors ${areaSlug.value}, homeopathy dhaka, natural healing`) }
     ],
     script: [
         {
@@ -168,14 +161,8 @@ useHead({
 const router = useRouter()
 const clearFilters = () => {
     searchQuery.value = ""
-    selectedDistrict.value = "all"
+    selectedDistrict.value = "1"
     selectedArea.value = "all"
-    currentPage.value = 1
-    if (districtQuery.value) {
-        const newQuery = { ...route.query }
-        delete newQuery.district
-        router.replace({ query: newQuery })
-    }
 }
 
 const loadingMore = ref(false)
@@ -183,17 +170,9 @@ const loadMoreTarget = ref<HTMLElement | null>(null)
 
 const loadDoctors = async (append = false) => {
     if (!append) pending.value = true
-    const params: any = { page: currentPage.value }
-    if (searchQuery.value) params.search = searchQuery.value
-    if (selectedDistrict.value !== 'all') {
-        params.district_id = selectedDistrict.value
-    } else if (districtQuery.value) {
-        params.district = districtQuery.value
-    }
-    if (selectedArea.value !== 'all') params.area_id = selectedArea.value
 
     try {
-        const response = await fetchAllDoctors(params)
+        const response = await fetchDoctorsByArea(areaSlug.value, currentPage.value)
         apiResponse.value = response
         const newDocs = Array.isArray(response?.data) ? response.data : (response?.data?.data || [])
         if (append) {
@@ -227,7 +206,6 @@ const loadAreas = async (districtId: string | number) => {
 
 watch(selectedDistrict, async (newVal) => {
     selectedArea.value = 'all'
-    currentPage.value = 1
     if (newVal !== 'all') {
         await loadAreas(newVal)
     } else {
@@ -237,7 +215,6 @@ watch(selectedDistrict, async (newVal) => {
 })
 
 watch(selectedArea, async () => {
-    currentPage.value = 1
     await loadDoctors()
 })
 
@@ -275,79 +252,67 @@ onMounted(() => {
 
 <template>
     <main class="min-h-screen bg-background">
-        <PageHeader :title="info.title" :description="info.description" :breadcrumbs="breadcrumbs" :stats="[
-            { label: $t('doctors_page.verified_doctors'), value: `${info.doctorCount}` }
-        ]" />
+        <!-- SEO Optimized Area Hero Section -->
+        <section class="relative pt-24 pb-12 lg:pt-32 lg:pb-16 overflow-hidden bg-gradient-to-br from-primary/5 via-white to-accent/5">
+            <div class="absolute inset-0 bg-grid-pattern opacity-5"></div>
+            <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-radial from-primary/10 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/3" />
+            <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-gradient-radial from-accent/10 to-transparent rounded-full blur-3xl translate-y-1/2 -translate-x-1/3" />
+            
+            <div class="container mx-auto px-4 relative z-10">
+                <!-- Breadcrumbs -->
+                <nav class="flex mb-8" aria-label="Breadcrumb">
+                    <ol class="flex items-center space-x-2 text-sm text-muted-foreground">
+                        <li><NuxtLink :to="localePath('/')" class="hover:text-primary transition-colors">{{ $t('nav.home') }}</NuxtLink></li>
+                        <li><UIcon name="i-lucide-chevron-right" class="w-4 h-4 mx-1" /></li>
+                        <li><NuxtLink :to="localePath('/doctors')" class="hover:text-primary transition-colors">{{ $t('nav.locations') }}</NuxtLink></li>
+                        <li><UIcon name="i-lucide-chevron-right" class="w-4 h-4 mx-1" /></li>
+                        <li class="font-medium text-primary" aria-current="page">{{ displayAreaName }}</li>
+                    </ol>
+                </nav>
 
-        <!-- Filters Section -->
-        <section class="py-8 border-b border-border bg-card/50">
-            <div class="container mx-auto px-4">
-                <div class="flex flex-col gap-4">
-                    <!-- Search and District Filter Row -->
-                    <div class="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
-                        <!-- Search -->
-                        <div class="relative flex-1 w-full max-w-md">
-                            <UIcon name="i-lucide-search"
-                                class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground z-10" />
-                            <input type="text" :placeholder="$t('doctors_page.search_placeholder')" v-model="searchQuery"
-                                class="w-full h-12 pl-12 pr-4 bg-background border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/30 transition-all" />
-                        </div>
+                <div class="max-w-4xl mx-auto text-center">
+                    
+                    <h1 class="text-3xl md:text-5xl font-display font-bold text-gray-900 mb-6 leading-tight">
+                        {{ locale === 'bn' ? `${displayAreaName}, ঢাকার সেরা হোমিওপ্যাথিক ডাক্তার` : `Best Homeopathic Doctors in ${displayAreaName}, Dhaka` }}
+                    </h1>
+                    
+                    <p class="text-lg md:text-xl text-gray-600 mb-8 leading-relaxed">
+                        {{ locale === 'bn' 
+                            ? `${displayAreaName} এলাকায় অভিজ্ঞ এবং ভেরিফাইড হোমিওপ্যাথিক চিকিৎসকদের তালিকা এখানে দেওয়া হলো। দীর্ঘমেয়াদী এবং জটিল রোগের পার্শ্বপ্রতিক্রিয়াহীন, প্রাকৃতিক নিরাময়ের জন্য এখনই আপনার কাছের সেরা ডাক্তারের সিরিয়াল বুক করুন।`
+                            : `Explore the top-rated and verified homeopathic doctors practicing in ${displayAreaName}, Dhaka. Book an appointment today for safe, natural, and holistic treatment of chronic and acute diseases without side effects.` 
+                        }}
+                    </p>
 
-                        <!-- District Filter -->
-                        <div class="w-full sm:w-48">
-                            <div class="relative">
-                                <UIcon name="i-lucide-map-pin"
-                                    class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground z-10" />
-                                <select v-model="selectedDistrict"
-                                    class="w-full h-12 pl-10 pr-4 bg-background border border-border rounded-xl text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/30 appearance-none cursor-pointer">
-                                    <option value="all">{{ $t('doctors_page.all_districts') }}</option>
-                                    <option v-for="district in districtsData" :key="district.id" :value="district.id">
-                                        {{ locale === 'bn' ? (district.name_bn || district.name_en || district.name) : (district.name_en || district.name) }}
-                                    </option>
-                                </select>
-                                <UIcon name="i-lucide-chevron-down"
-                                    class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
+                    <div class="flex flex-wrap justify-center gap-4 md:gap-8">
+                        <div class="bg-white px-6 py-3 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                                <UIcon name="i-lucide-shield-check" class="w-5 h-5" />
+                            </div>
+                            <div class="text-left">
+                                <p class="text-2xl font-bold text-gray-900 leading-none">{{ info.doctorCount }}+</p>
+                                <p class="text-sm font-medium text-gray-500">{{ $t('doctors_page.verified_doctors') }}</p>
                             </div>
                         </div>
-
-                        <!-- Area Filter -->
-                        <div class="w-full sm:w-48" v-if="selectedDistrict !== 'all' && areasData.length > 0">
-                            <div class="relative">
-                                <UIcon name="i-lucide-map"
-                                    class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground z-10" />
-                                <select v-model="selectedArea"
-                                    class="w-full h-12 pl-10 pr-4 bg-background border border-border rounded-xl text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/30 appearance-none cursor-pointer">
-                                    <option value="all">{{ $t('doctors_page.all_areas') }}</option>
-                                    <option v-for="area in areasData" :key="area.id" :value="area.id">
-                                        {{ locale === 'bn' ? (area.name_bn || area.name_en || area.name) : (area.name_en || area.name) }}
-                                    </option>
-                                </select>
-                                <UIcon name="i-lucide-chevron-down"
-                                    class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
+                        <div class="bg-white px-6 py-3 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center text-accent">
+                                <UIcon name="i-lucide-map-pin" class="w-5 h-5" />
+                            </div>
+                            <div class="text-left">
+                                <p class="text-2xl font-bold text-gray-900 leading-none">{{ displayAreaName }}</p>
+                                <p class="text-sm font-medium text-gray-500">{{ locale === 'bn' ? 'ঢাকা' : 'Dhaka' }}</p>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Specialty Filter -->
-                    <!-- <div class="flex items-center gap-3 overflow-x-auto pb-2 lg:pb-0 scrollbar-hide">
-                        <UIcon name="i-lucide-sliders-horizontal" class="w-5 h-5 text-muted-foreground flex-shrink-0" />
-                        <button v-for="specialty in specialties.slice(0, 6)" :key="specialty"
-                            @click="selectedSpecialty = specialty"
-                            class="px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all" :class="selectedSpecialty === specialty
-                                ? 'bg-primary text-primary-foreground shadow-soft'
-                                : 'bg-muted hover:bg-muted/80 text-foreground'">
-                            {{ specialty === 'all' ? 'All Specialties' : specialty }}
-                        </button>
-                    </div> -->
                 </div>
             </div>
         </section>
 
         <section class="section-padding bg-muted/30">
             <div class="container mx-auto px-4">
+                
                 <div class="flex items-center justify-between mb-8">
                     <p class="text-muted-foreground">
-                        {{ $t('doctors_page.showing') }} <span class="font-semibold text-foreground">{{ filteredDoctors.length }}</span> {{ $t('doctors_page.doctors_count') }}
+                        {{ $t('doctors_page.showing') }} <span class="font-semibold text-foreground">{{ filteredDoctors.length }}</span> {{ $t('doctors_page.doctors_count') }} {{ locale === 'bn' ? `(${displayAreaName})` : `in ${displayAreaName}` }}
                     </p>
                 </div>
 

@@ -50,9 +50,11 @@ const fetchInsights = async () => {
             </UButton>
         </div>
 
-        <div v-if="isLoading" class="flex flex-col items-center justify-center py-12">
-            <UIcon name="i-lucide-loader-2" class="w-8 h-8 animate-spin text-primary mb-3" />
-            <p class="text-muted-foreground text-sm">Analyzing doctor profile...</p>
+        <div v-if="isLoading" class="space-y-4 py-4">
+            <USkeleton class="h-4 w-full" />
+            <USkeleton class="h-4 w-11/12" />
+            <USkeleton class="h-4 w-4/5" />
+            <USkeleton class="h-4 w-full" />
         </div>
 
         <div v-if="error && !isLoading"

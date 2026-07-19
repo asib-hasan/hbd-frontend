@@ -119,8 +119,8 @@ useHead({
                 </div>
 
                 <!-- Loading State -->
-                <div v-if="pending" class="flex justify-center items-center py-20">
-                    <UIcon name="i-lucide-loader-2" class="w-10 h-10 animate-spin text-primary" />
+                <div v-if="pending" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                    <BlogCardSkeleton v-for="i in 6" :key="i" />
                 </div>
 
                 <!-- Blog Grid -->

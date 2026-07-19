@@ -9,6 +9,13 @@ export const useDoctors = () => {
         })
     }
 
+    const fetchDoctorsByArea = async (area: string, page: number = 1) => {
+        return await $fetch<any>(`/locations/${area}`, {
+            baseURL: apiBaseUrl,
+            params: { page }
+        })
+    }
+
     const fetchFeaturedDoctors = async () => {
         return await useFetch('/top-doctors', {
             baseURL: apiBaseUrl,
@@ -37,6 +44,7 @@ export const useDoctors = () => {
 
     return {
         fetchAllDoctors,
+        fetchDoctorsByArea,
         fetchFeaturedDoctors,
         fetchDistricts,
         fetchAreas,

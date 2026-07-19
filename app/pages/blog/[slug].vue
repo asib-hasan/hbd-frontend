@@ -112,15 +112,45 @@ if (post.value) {
 <template>
   <div>
     <!-- Loading State -->
-    <div v-if="pending" class="min-h-screen bg-background flex flex-col items-center justify-center">
-        <div class="relative">
-            <div class="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center animate-pulse">
-                <UIcon name="i-lucide-book-open" class="w-8 h-8 text-primary" />
+    <div v-if="pending" class="min-h-[100dvh] flex flex-col bg-background">
+        <!-- Hero Skeleton -->
+        <section class="pt-28 pb-12 lg:pt-32 lg:pb-20 bg-gradient-hero-subtle">
+            <div class="container mx-auto px-4 relative z-10 max-w-4xl">
+                <USkeleton class="h-4 w-64 mb-6" />
+                <div class="flex gap-3 mb-5">
+                    <USkeleton class="h-6 w-24 rounded-full" />
+                    <USkeleton class="h-6 w-20 rounded-full" />
+                </div>
+                <USkeleton class="h-12 w-full mb-3" />
+                <USkeleton class="h-12 w-3/4 mb-5" />
+                <div class="flex items-center gap-5">
+                    <USkeleton class="h-8 w-32" />
+                    <USkeleton class="h-4 w-24" />
+                </div>
             </div>
-            <UIcon name="i-lucide-loader-2"
-                class="w-6 h-6 animate-spin text-primary absolute -bottom-1 -right-1 bg-background rounded-full" />
-        </div>
-        <p class="text-muted-foreground font-medium mt-4 animate-pulse">{{ $t('blog_details.loading') }}</p>
+        </section>
+        
+        <!-- Content Skeleton -->
+        <section class="pb-16 flex-grow">
+            <div class="container mx-auto px-4">
+                <div class="grid lg:grid-cols-3 gap-10">
+                    <div class="lg:col-span-2 space-y-6">
+                        <USkeleton class="h-56 md:h-[420px] lg:h-[400px] w-full rounded-2xl" />
+                        <USkeleton class="h-4 w-full" />
+                        <USkeleton class="h-4 w-full" />
+                        <USkeleton class="h-4 w-full" />
+                        <USkeleton class="h-4 w-5/6" />
+                        <USkeleton class="h-4 w-full" />
+                        <USkeleton class="h-4 w-3/4" />
+                    </div>
+                    <aside class="lg:col-span-1 space-y-6">
+                        <USkeleton class="h-6 w-48 mb-4" />
+                        <USkeleton class="h-32 w-full rounded-2xl" />
+                        <USkeleton class="h-32 w-full rounded-2xl" />
+                    </aside>
+                </div>
+            </div>
+        </section>
     </div>
 
     <!-- Not Found State -->
@@ -146,7 +176,7 @@ if (post.value) {
     <!-- Actual Page Layout -->
     <main v-else class="min-h-[100dvh] flex flex-col bg-background">
         <!-- Hero Section -->
-        <section class="pt-24 pb-8 lg:pt-28 lg:pb-12 bg-gradient-hero-subtle relative overflow-hidden">
+        <section class="pt-28 pb-12 lg:pt-32 lg:pb-20 bg-gradient-hero-subtle relative overflow-hidden">
             <div
                 class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,hsl(var(--primary)/0.05),transparent_50%)]" />
             <div

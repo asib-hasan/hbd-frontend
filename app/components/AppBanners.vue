@@ -80,8 +80,8 @@ const onImageError = (e: Event) => {
                     </button>
                 </div>
                 <template #fallback>
-                    <div class="flex justify-center p-12">
-                        <UIcon name="i-lucide-loader-2" class="w-8 h-8 animate-spin text-primary" />
+                    <div class="flex overflow-x-auto gap-6 hide-scrollbar pb-6 pt-2 px-2">
+                        <USkeleton v-for="i in 3" :key="i" class="w-[85%] sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] shrink-0 h-56 md:h-64 rounded-2xl" />
                     </div>
                 </template>
             </ClientOnly>

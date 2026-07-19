@@ -8,69 +8,8 @@ useHead({
     ]
 })
 
-
-const faqs = [
-    {
-        category: 'General',
-        items: [
-            {
-                q: 'What is HomeoDoctorsBD?',
-                a: 'HomeoDoctorsBD is Bangladesh\'s leading platform dedicated to connecting patients with verified homeopathic doctors across the country. We make it easy to find, research, and contact qualified homeopathic practitioners in your district.'
-            },
-            {
-                q: 'Is HomeoDoctorsBD available all over Bangladesh?',
-                a: 'Yes! We cover all 64 districts of Bangladesh. You can filter doctors by your district or area to find the most convenient practitioners near you.'
-            },
-            {
-                q: 'Is the service free for patients?',
-                a: 'Yes, browsing and finding doctors on HomeoDoctorsBD is completely free for patients. The consultation fee is set by the individual doctor and is displayed clearly on their profile.'
-            },
-        ]
-    },
-    {
-        category: 'Finding a Doctor',
-        items: [
-            {
-                q: 'How do I search for a homeopathic doctor?',
-                a: 'Visit the Doctors page and use the filters to search by district, specialty, or doctor name. Each doctor\'s profile shows their qualifications, experience, fees, chambers, and visiting hours.'
-            },
-            {
-                q: 'Are all doctors verified?',
-                a: 'Yes. Every doctor listed on HomeoDoctorsBD goes through a verification process. We confirm their credentials, BHMS/MD qualifications, and professional registration before approving their profile.'
-            },
-            {
-                q: 'Can I see a doctor\'s chamber (clinic) locations?',
-                a: 'Absolutely. Each doctor\'s profile page shows all their chamber locations, visiting hours, contact numbers, and a map link for directions.'
-            },
-        ]
-    },
-    {
-        category: 'Appointments & Contact',
-        items: [
-            {
-                q: 'How do I book an appointment?',
-                a: 'Currently, you can contact the doctor directly using the hotline or chamber contact numbers listed on their profile page. Online booking is coming soon!'
-            },
-            {
-                q: 'What if a doctor\'s phone is not reachable?',
-                a: 'If you cannot reach the doctor\'s listed number, please use the "Contact Us" form on our website and we will assist you in getting connected with the doctor\'s chamber staff.'
-            },
-        ]
-    },
-    {
-        category: 'For Doctors',
-        items: [
-            {
-                q: 'How can I register as a doctor on the platform?',
-                a: 'Doctors can register through our admin panel or by contacting us directly at info@homeodoctorsbd.com. We will verify your credentials and create your professional profile.'
-            },
-            {
-                q: 'Can I update my chamber schedule and contact info?',
-                a: 'Yes. Once registered, our admin team can update your chamber locations, visiting hours, contact numbers, and all profile information at any time.'
-            },
-        ]
-    },
-];
+const { tm, t } = useI18n()
+const localePath = useLocalePath()
 
 const openIndex = ref<string | null>(null);
 const toggle = (key: string) => {
@@ -89,22 +28,21 @@ const toggle = (key: string) => {
 
             <div class="container mx-auto px-4 relative z-10">
                 <nav class="flex items-center gap-2 text-sm text-muted-foreground mb-6 animate-fade-up">
-                    <NuxtLink to="/" class="hover:text-primary transition-colors">Home</NuxtLink>
+                    <NuxtLink :to="localePath('/')" class="hover:text-primary transition-colors">{{ $t('nav.home') }}</NuxtLink>
                     <UIcon name="i-lucide-chevron-right" class="w-3.5 h-3.5" />
-                    <span class="text-foreground font-medium">Help Center</span>
+                    <span class="text-foreground font-medium">{{ $t('help_page.nav_title') }}</span>
                 </nav>
                 <div class="max-w-3xl mx-auto text-center animate-fade-up">
                     <div
                         class="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-6">
                         <UIcon name="i-lucide-help-circle" class="w-4 h-4" />
-                        Help Center
+                        {{ $t('help_page.nav_title') }}
                     </div>
                     <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">
-                        How can we <span class="text-primary">help you?</span>
+                        {{ $t('help_page.hero_title') }} <span class="text-primary">{{ $t('help_page.hero_title_span') }}</span>
                     </h1>
                     <p class="text-lg md:text-xl text-muted-foreground leading-relaxed mb-8">
-                        Find answers to common questions about finding doctors, appointments, and using the
-                        HomeoDoctorsBD platform.
+                        {{ $t('help_page.hero_desc') }}
                     </p>
                     <!-- Search Bar removed -->
                 </div>
@@ -116,18 +54,18 @@ const toggle = (key: string) => {
             <div class="container mx-auto px-4">
                 <div class="text-center max-w-2xl mx-auto mb-12 animate-fade-up">
                     <h2 class="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
-                        Frequently Asked Questions
+                        {{ $t('help_page.faq_title') }}
                     </h2>
-                    <p class="text-muted-foreground">Quick answers to the most common questions</p>
+                    <p class="text-muted-foreground">{{ $t('help_page.faq_desc') }}</p>
                 </div>
 
                 <div class="max-w-3xl mx-auto space-y-10">
-                    <div v-for="(section, sIdx) in faqs" :key="sIdx" class="animate-fade-up"
+                    <div v-for="(section, sIdx) in tm('help_page.faqs')" :key="sIdx" class="animate-fade-up"
                         :style="{ animationDelay: `${sIdx * 0.1}s` }">
                         <h3
                             class="font-display font-bold text-lg text-primary mb-4 flex items-center gap-2 uppercase tracking-wider text-sm">
                             <span class="flex-1 h-px bg-primary/20" />
-                            {{ section.category }}
+                            {{ $rt(section.category) }}
                             <span class="flex-1 h-px bg-primary/20" />
                         </h3>
                         <div class="space-y-3">
@@ -136,7 +74,7 @@ const toggle = (key: string) => {
                                 <button
                                     class="w-full flex items-center justify-between p-5 text-left hover:bg-muted/30 transition-colors"
                                     @click="toggle(`${sIdx}-${fIdx}`)">
-                                    <span class="font-semibold text-foreground pr-4">{{ faq.q }}</span>
+                                    <span class="font-semibold text-foreground pr-4">{{ $rt(faq.q) }}</span>
                                     <UIcon
                                         :name="openIndex === `${sIdx}-${fIdx}` ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'"
                                         class="w-5 h-5 text-primary flex-shrink-0 transition-transform" />
@@ -144,7 +82,7 @@ const toggle = (key: string) => {
                                 <Transition name="faq">
                                     <div v-if="openIndex === `${sIdx}-${fIdx}`"
                                         class="px-5 pb-5 text-muted-foreground leading-relaxed border-t border-border/50 pt-4">
-                                        {{ faq.a }}
+                                        {{ $rt(faq.a) }}
                                     </div>
                                 </Transition>
                             </div>
@@ -162,22 +100,22 @@ const toggle = (key: string) => {
                         <UIcon name="i-lucide-message-circle" class="w-8 h-8 text-primary" />
                     </div>
                     <h2 class="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
-                        Still need help?
+                        {{ $t('help_page.still_help_title') }}
                     </h2>
                     <p class="text-muted-foreground mb-8 leading-relaxed">
-                        Can't find what you're looking for? Our support team is ready to assist you directly.
+                        {{ $t('help_page.still_help_desc') }}
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                        <NuxtLink to="/contact">
+                        <NuxtLink :to="localePath('/contact')">
                             <UButton size="lg" class="gap-2 shadow-glow-accent px-8 font-semibold">
                                 <UIcon name="i-lucide-mail" class="w-4 h-4" />
-                                Contact Support
+                                {{ $t('help_page.contact_btn') }}
                             </UButton>
                         </NuxtLink>
                         <a href="tel:+8801700000000">
                             <UButton variant="outline" size="lg" class="gap-2 px-8 font-semibold">
                                 <UIcon name="i-lucide-phone" class="w-4 h-4" />
-                                Call Us
+                                {{ $t('help_page.call_btn') }}
                             </UButton>
                         </a>
                     </div>

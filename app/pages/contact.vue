@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import PageHeader from '~/components/PageHeader.vue';
 
+const { t } = useI18n()
 
 const formData = ref({
     name: "",
     email: "",
-    phone: "",
     subject: "",
     message: ""
 })
@@ -18,18 +18,18 @@ const showSuccess = ref(false)
 const validateForm = () => {
     const newErrors: Record<string, string> = {}
 
-    if (!formData.value.name.trim()) newErrors.name = "Name is required"
+    if (!formData.value.name.trim()) newErrors.name = t('contact_page.errors.name_required')
     if (!formData.value.email.trim()) {
-        newErrors.email = "Email is required"
+        newErrors.email = t('contact_page.errors.email_required')
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.value.email)) {
-        newErrors.email = "Invalid email address"
+        newErrors.email = t('contact_page.errors.email_invalid')
     }
-    if (!formData.value.phone.trim()) newErrors.phone = "Phone number is required"
-    if (!formData.value.subject.trim()) newErrors.subject = "Subject is required"
+
+    if (!formData.value.subject.trim()) newErrors.subject = t('contact_page.errors.subject_required')
     if (!formData.value.message.trim()) {
-        newErrors.message = "Message is required"
+        newErrors.message = t('contact_page.errors.message_required')
     } else if (formData.value.message.length < 10) {
-        newErrors.message = "Message must be at least 10 characters"
+        newErrors.message = t('contact_page.errors.message_length')
     }
 
     errors.value = newErrors
@@ -41,39 +41,38 @@ const handleSubmit = async () => {
 
     isSubmitting.value = true
 
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500))
+    try {
+        const config = useRuntimeConfig()
+        const res = await $fetch(`${config.public.apiBaseUrl}/contact`, {
+            method: 'POST',
+            body: formData.value
+        })
 
-    // Reset form
-    formData.value = {
-        name: "",
-        email: "",
-        phone: "",
-        subject: "",
-        message: ""
+        // Reset form
+        formData.value = {
+            name: "",
+            email: "",
+            subject: "",
+            message: ""
+        }
+        errors.value = {}
+        showSuccess.value = true
+
+        setTimeout(() => {
+            showSuccess.value = false
+        }, 4000)
+    } catch (e) {
+        console.error("Failed to send message", e)
+    } finally {
+        isSubmitting.value = false
     }
-    errors.value = {}
-    isSubmitting.value = false
-    showSuccess.value = true
-
-    setTimeout(() => {
-        showSuccess.value = false
-    }, 4000)
 }
 
-const contactInfo = [
-    {
-        icon: 'i-lucide-phone',
-        title: "Phone",
-        details: ["+880 1700-000000", "+880 1800-000000"],
-        action: "tel:+8801700000000",
-        gradient: "from-primary/10 to-cyan-500/10",
-        iconColor: "text-primary",
-        iconBg: "bg-primary/15",
-    },
+const contactInfo = computed(() => [
+
     {
         icon: 'i-lucide-mail',
-        title: "Email",
+        title: t('contact_page.info.email'),
         details: ["info@homeodoctorsbd.com", "support@homeodoctorsbd.com"],
         action: "mailto:info@homeodoctorsbd.com",
         gradient: "from-blue-500/10 to-indigo-500/10",
@@ -82,35 +81,35 @@ const contactInfo = [
     },
     {
         icon: 'i-lucide-map-pin',
-        title: "Address",
-        details: ["Dhaka, Bangladesh"],
+        title: t('contact_page.info.address'),
+        details: [t('contact_page.info.dhaka_bd')],
         gradient: "from-orange-500/10 to-amber-500/10",
         iconColor: "text-orange-600",
         iconBg: "bg-orange-500/15",
     },
     {
         icon: 'i-lucide-clock',
-        title: "Working Hours",
-        details: ["Saturday - Thursday: 9AM - 8PM", "Friday: 10AM - 6PM"],
+        title: t('contact_page.info.working_hours'),
+        details: [t('contact_page.info.sat_thu'), t('contact_page.info.fri')],
         gradient: "from-violet-500/10 to-purple-500/10",
         iconColor: "text-violet-600",
         iconBg: "bg-violet-500/15",
     },
-];
+]);
 
 useHead({
-    title: 'Contact Us | HomeoDoctorsBD - Get in Touch',
+    title: computed(() => `${t('contact_page.title')} | HomeoDoctorsBD`),
     meta: [
-        { name: 'description', content: "Contact HomeoDoctorsBD for any inquiries about our homeopathic doctor platform. We're here to help with appointments, doctor registration, and more." }
+        { name: 'description', content: computed(() => t('contact_page.description')) }
     ]
 })
 </script>
 
 <template>
     <div class="min-h-screen bg-background">
-        <PageHeader title="Contact Us"
-            description="Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible." 
-            :breadcrumbs="[{ label: 'Contact Us' }]" />
+        <PageHeader :title="$t('contact_page.title')"
+            :description="$t('contact_page.description')" 
+            :breadcrumbs="[{ label: $t('contact_page.breadcrumb') }]" />
 
         <!-- Success Toast -->
         <Transition enter-active-class="transition-all duration-500 ease-out"
@@ -123,8 +122,8 @@ useHead({
                     <UIcon name="i-lucide-check" class="w-5 h-5 text-white" />
                 </div>
                 <div>
-                    <p class="font-semibold">Message Sent!</p>
-                    <p class="text-sm text-primary">We'll get back to you within 24 hours.</p>
+                    <p class="font-semibold">{{ $t('contact_page.success_title') }}</p>
+                    <p class="text-sm text-primary">{{ $t('contact_page.success_desc') }}</p>
                 </div>
             </div>
         </Transition>
@@ -150,11 +149,11 @@ useHead({
                                     <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
                                         <UIcon name="i-lucide-message-square" class="w-5 h-5 text-primary" />
                                     </div>
-                                    <h2 class="font-display text-2xl font-bold text-foreground">Send us a Message
+                                    <h2 class="font-display text-2xl font-bold text-foreground">{{ $t('contact_page.form_title') }}
                                     </h2>
                                 </div>
                                 <p class="text-muted-foreground mb-8 ml-[52px]">
-                                    Fill out the form below and we'll get back to you shortly.
+                                    {{ $t('contact_page.form_desc') }}
                                 </p>
 
                                 <form @submit.prevent="handleSubmit" class="space-y-5">
@@ -162,7 +161,7 @@ useHead({
                                     <div class="grid sm:grid-cols-2 gap-5">
                                         <div class="space-y-1.5">
                                             <label for="name" class="block text-sm font-semibold text-foreground/80">
-                                                Full Name <span class="text-red-400">*</span>
+                                                {{ $t('contact_page.form.name_label') }} <span class="text-red-400">*</span>
                                             </label>
                                             <div class="relative group">
                                                 <div
@@ -171,7 +170,7 @@ useHead({
                                                         class="w-[18px] h-[18px] text-muted-foreground/60 group-focus-within:text-primary transition-colors duration-200" />
                                                 </div>
                                                 <input id="name" v-model="formData.name" type="text"
-                                                    placeholder="Your full name"
+                                                    :placeholder="$t('contact_page.form.name_placeholder')"
                                                     class="w-full h-12 pl-11 pr-4 bg-muted/30 border rounded-xl text-foreground placeholder:text-muted-foreground/50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40 focus:bg-white"
                                                     :class="errors.name ? 'border-red-400 bg-red-50/50' : 'border-border/60 hover:border-border'" />
                                             </div>
@@ -183,7 +182,7 @@ useHead({
                                         </div>
                                         <div class="space-y-1.5">
                                             <label for="email" class="block text-sm font-semibold text-foreground/80">
-                                                Email Address <span class="text-red-400">*</span>
+                                                {{ $t('contact_page.form.email_label') }} <span class="text-red-400">*</span>
                                             </label>
                                             <div class="relative group">
                                                 <div
@@ -192,7 +191,7 @@ useHead({
                                                         class="w-[18px] h-[18px] text-muted-foreground/60 group-focus-within:text-primary transition-colors duration-200" />
                                                 </div>
                                                 <input id="email" v-model="formData.email" type="email"
-                                                    placeholder="your@email.com"
+                                                    :placeholder="$t('contact_page.form.email_placeholder')"
                                                     class="w-full h-12 pl-11 pr-4 bg-muted/30 border rounded-xl text-foreground placeholder:text-muted-foreground/50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40 focus:bg-white"
                                                     :class="errors.email ? 'border-red-400 bg-red-50/50' : 'border-border/60 hover:border-border'" />
                                             </div>
@@ -204,56 +203,33 @@ useHead({
                                         </div>
                                     </div>
 
-                                    <!-- Row 2: Phone & Subject -->
-                                    <div class="grid sm:grid-cols-2 gap-5">
-                                        <div class="space-y-1.5">
-                                            <label for="phone" class="block text-sm font-semibold text-foreground/80">
-                                                Phone Number <span class="text-red-400">*</span>
-                                            </label>
-                                            <div class="relative group">
-                                                <div
-                                                    class="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none">
-                                                    <UIcon name="i-lucide-phone"
-                                                        class="w-[18px] h-[18px] text-muted-foreground/60 group-focus-within:text-primary transition-colors duration-200" />
-                                                </div>
-                                                <input id="phone" v-model="formData.phone" type="tel"
-                                                    placeholder="+880 1XXX-XXXXXX"
-                                                    class="w-full h-12 pl-11 pr-4 bg-muted/30 border rounded-xl text-foreground placeholder:text-muted-foreground/50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40 focus:bg-white"
-                                                    :class="errors.phone ? 'border-red-400 bg-red-50/50' : 'border-border/60 hover:border-border'" />
+                                    <!-- Subject -->
+                                    <div class="space-y-1.5">
+                                        <label for="subject" class="block text-sm font-semibold text-foreground/80">
+                                            {{ $t('contact_page.form.subject_label') }} <span class="text-red-400">*</span>
+                                        </label>
+                                        <div class="relative group">
+                                            <div
+                                                class="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none">
+                                                <UIcon name="i-lucide-help-circle"
+                                                    class="w-[18px] h-[18px] text-muted-foreground/60 group-focus-within:text-primary transition-colors duration-200" />
                                             </div>
-                                            <p v-if="errors.phone"
-                                                class="text-xs text-red-500 flex items-center gap-1 mt-1">
-                                                <UIcon name="i-lucide-alert-circle" class="w-3 h-3" />
-                                                {{ errors.phone }}
-                                            </p>
+                                            <input id="subject" v-model="formData.subject" type="text"
+                                                :placeholder="$t('contact_page.form.subject_placeholder')"
+                                                class="w-full h-12 pl-11 pr-4 bg-muted/30 border rounded-xl text-foreground placeholder:text-muted-foreground/50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40 focus:bg-white"
+                                                :class="errors.subject ? 'border-red-400 bg-red-50/50' : 'border-border/60 hover:border-border'" />
                                         </div>
-                                        <div class="space-y-1.5">
-                                            <label for="subject" class="block text-sm font-semibold text-foreground/80">
-                                                Subject <span class="text-red-400">*</span>
-                                            </label>
-                                            <div class="relative group">
-                                                <div
-                                                    class="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none">
-                                                    <UIcon name="i-lucide-help-circle"
-                                                        class="w-[18px] h-[18px] text-muted-foreground/60 group-focus-within:text-primary transition-colors duration-200" />
-                                                </div>
-                                                <input id="subject" v-model="formData.subject" type="text"
-                                                    placeholder="How can we help?"
-                                                    class="w-full h-12 pl-11 pr-4 bg-muted/30 border rounded-xl text-foreground placeholder:text-muted-foreground/50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40 focus:bg-white"
-                                                    :class="errors.subject ? 'border-red-400 bg-red-50/50' : 'border-border/60 hover:border-border'" />
-                                            </div>
-                                            <p v-if="errors.subject"
-                                                class="text-xs text-red-500 flex items-center gap-1 mt-1">
-                                                <UIcon name="i-lucide-alert-circle" class="w-3 h-3" />
-                                                {{ errors.subject }}
-                                            </p>
-                                        </div>
+                                        <p v-if="errors.subject"
+                                            class="text-xs text-red-500 flex items-center gap-1 mt-1">
+                                            <UIcon name="i-lucide-alert-circle" class="w-3 h-3" />
+                                            {{ errors.subject }}
+                                        </p>
                                     </div>
 
                                     <!-- Message -->
                                     <div class="space-y-1.5">
                                         <label for="message" class="block text-sm font-semibold text-foreground/80">
-                                            Message <span class="text-red-400">*</span>
+                                            {{ $t('contact_page.form.message_label') }} <span class="text-red-400">*</span>
                                         </label>
                                         <div class="relative group">
                                             <div class="absolute left-3.5 top-3.5 pointer-events-none">
@@ -261,7 +237,7 @@ useHead({
                                                     class="w-[18px] h-[18px] text-muted-foreground/60 group-focus-within:text-primary transition-colors duration-200" />
                                             </div>
                                             <textarea id="message" v-model="formData.message" rows="5"
-                                                placeholder="Tell us more about your inquiry..."
+                                                :placeholder="$t('contact_page.form.message_placeholder')"
                                                 class="w-full pl-11 pr-4 py-3 bg-muted/30 border rounded-xl text-foreground placeholder:text-muted-foreground/50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40 focus:bg-white resize-none"
                                                 :class="errors.message ? 'border-red-400 bg-red-50/50' : 'border-border/60 hover:border-border'" />
                                         </div>
@@ -290,7 +266,7 @@ useHead({
                                                 <path class="opacity-75" fill="currentColor"
                                                     d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                                             </svg>
-                                            <span>{{ isSubmitting ? 'Sending...' : 'Send Message' }}</span>
+                                            <span>{{ isSubmitting ? $t('contact_page.form.sending_button') : $t('contact_page.form.send_button') }}</span>
                                             <UIcon v-if="!isSubmitting" name="i-lucide-arrow-right"
                                                 class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
                                         </button>
@@ -332,33 +308,6 @@ useHead({
                             </div>
                         </div>
 
-                        <!-- Google Map -->
-                        <div class="rounded-2xl border border-border/60 overflow-hidden shadow-sm animate-fade-up"
-                            style="animation-delay: 0.4s">
-                            <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3651.902756767618!2d90.40149261543247!3d23.750903494613847!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755b89b5e5ef3c1%3A0x2cc5e8f1b7eaba0c!2sBanani%2C%20Dhaka!5e0!3m2!1sen!2sbd!4v1703581234567!5m2!1sen!2sbd"
-                                width="100%" height="220" style="border: 0" allowfullscreen loading="lazy"
-                                referrerpolicy="no-referrer-when-downgrade"
-                                class="grayscale-[20%] hover:grayscale-0 transition-all duration-500" />
-                        </div>
-
-                        <!-- Quick Help CTA -->
-                        <div class="relative bg-gradient-to-br from-primary/5 via-primary/3 to-accent/5 rounded-2xl border border-primary/10 p-6 text-center animate-fade-up"
-                            style="animation-delay: 0.5s">
-                            <div
-                                class="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                                <UIcon name="i-lucide-headphones" class="w-7 h-7 text-primary" />
-                            </div>
-                            <h4 class="font-display font-bold text-foreground mb-2">Need Immediate Help?</h4>
-                            <p class="text-sm text-muted-foreground mb-4">Our support team is available during
-                                business hours.</p>
-                            <a href="tel:+8801700000000">
-                                <UButton variant="outline" size="md" class="gap-2 font-semibold rounded-xl">
-                                    <UIcon name="i-lucide-phone-call" class="w-4 h-4" />
-                                    Call Us Now
-                                </UButton>
-                            </a>
-                        </div>
                     </div>
                 </div>
             </div>

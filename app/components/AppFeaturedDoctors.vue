@@ -45,18 +45,18 @@ const doctors = computed(() => {
 
             <ClientOnly>
                 <!-- Loading State -->
-                <div v-if="pending" class="flex justify-center p-12">
-                    <UIcon name="i-lucide-loader-2" class="w-10 h-10 animate-spin text-primary" />
+                <div v-if="pending" class="grid lg:grid-cols-2 gap-5">
+                    <DoctorCardSkeleton v-for="i in 6" :key="i" />
                 </div>
 
                 <!-- Doctor Cards -->
-                <div v-else class="grid md:grid-cols-2 xl:grid-cols-3 gap-5">
+                <div v-else class="grid lg:grid-cols-2 gap-5">
                     <DoctorCard v-for="(doctor, index) in doctors.slice(0, 6)" :key="doctor.id" v-bind="doctor"
                         :index="index" />
                 </div>
                 <template #fallback>
-                    <div class="flex justify-center p-12">
-                        <UIcon name="i-lucide-loader-2" class="w-10 h-10 animate-spin text-primary" />
+                    <div class="grid lg:grid-cols-2 gap-5">
+                        <DoctorCardSkeleton v-for="i in 6" :key="i" />
                     </div>
                 </template>
             </ClientOnly>

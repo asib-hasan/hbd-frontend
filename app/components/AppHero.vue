@@ -1,17 +1,31 @@
 <script setup lang="ts">
+import { useDoctors } from '~/composables/useDoctors'
+
 const { t } = useI18n()
 const localePath = useLocalePath()
+const { fetchDistricts } = useDoctors()
 
-const areas = computed(() => [
-    { name: t('app_hero.areas.dhaka'), query: 'dhaka', image: '/images/divisions/dhaka.png', count: 320 },
-    { name: t('app_hero.areas.chittagong'), query: 'chittagong', image: '/images/divisions/chittagong.png', count: 150 },
-    { name: t('app_hero.areas.sylhet'), query: 'sylhet', image: '/images/divisions/sylhet.png', count: 85 },
-    { name: t('app_hero.areas.rajshahi'), query: 'rajshahi', image: '/images/divisions/rajshahi.png', count: 60 },
-    { name: t('app_hero.areas.khulna'), query: 'khulna', image: '/images/divisions/khulna.png', count: 55 },
-    { name: t('app_hero.areas.barishal'), query: 'barishal', image: '/images/divisions/barishal.png', count: 45 },
-    { name: t('app_hero.areas.rangpur'), query: 'rangpur', image: '/images/divisions/rangpur.png', count: 40 },
-    { name: t('app_hero.areas.mymensingh'), query: 'mymensingh', image: '/images/divisions/mymensingh.png', count: 35 },
-])
+const { data: districtsResponse } = await useAsyncData('districts-hero', () => fetchDistricts())
+
+const areas = computed(() => {
+    const apiDistricts = Array.isArray(districtsResponse.value?.data) ? districtsResponse.value.data : []
+    
+    const getCount = (query: string) => {
+        const d = apiDistricts.find(d => d.name_en?.toLowerCase() === query.toLowerCase())
+        return d?.doctors_count || 0
+    }
+
+    return [
+        { name: t('app_hero.areas.dhaka'), query: 'dhaka', image: '/images/divisions/dhaka.png', count: getCount('dhaka') },
+        { name: t('app_hero.areas.chittagong'), query: 'chittagong', image: '/images/divisions/chittagong.png', count: getCount('chittagong') },
+        { name: t('app_hero.areas.sylhet'), query: 'sylhet', image: '/images/divisions/sylhet.png', count: getCount('sylhet') },
+        { name: t('app_hero.areas.rajshahi'), query: 'rajshahi', image: '/images/divisions/rajshahi.png', count: getCount('rajshahi') },
+        { name: t('app_hero.areas.khulna'), query: 'khulna', image: '/images/divisions/khulna.png', count: getCount('khulna') },
+        { name: t('app_hero.areas.barishal'), query: 'barishal', image: '/images/divisions/barishal.png', count: getCount('barishal') },
+        { name: t('app_hero.areas.rangpur'), query: 'rangpur', image: '/images/divisions/rangpur.png', count: getCount('rangpur') },
+        { name: t('app_hero.areas.mymensingh'), query: 'mymensingh', image: '/images/divisions/mymensingh.png', count: getCount('mymensingh') },
+    ]
+})
 </script>
 
 <template>

@@ -8,14 +8,14 @@
     "contact": "Contact"
   },
   "common": {
-    "book_appointment": "Book Appointment",
+    "book_appointment": "Contact Doctor",
     "view_profile": "View Profile",
     "read_more": "Read More",
     "contact_support": "Contact Support",
     "faq": "FAQ",
     "still_have_questions": "Still have questions?",
     "frequently_asked_questions": "Frequently Asked Questions",
-    "faq_desc": "Find comprehensive answers to common questions about homeopathic treatment, our online consultation process, and healthcare services."
+    "faq_desc": "Find comprehensive answers to common questions about homeopathic treatment and healthcare services."
   },
   "locations": {
     "badge": "Find by Location",
@@ -54,9 +54,9 @@
       "step_1_title": "Search Doctors",
       "step_1_desc": "Find homeopathic specialists by name, specialty, or location using our smart search.",
       "step_2_title": "Choose Your Doctor",
-      "step_2_desc": "Review profiles, qualifications, ratings, and patient reviews in detail.",
-      "step_3_title": "Book Consultation",
-      "step_3_desc": "Select your preferred date, time, and book instantly online.",
+      "step_2_desc": "Review profiles, qualifications, specialties, and experience in detail.",
+      "step_3_title": "Contact Doctor",
+      "step_3_desc": "Get the chamber location and contact details for consultation.",
       "step_4_title": "Get Natural Healing",
       "step_4_desc": "Receive personalized homeopathic treatment for holistic wellness."
     }

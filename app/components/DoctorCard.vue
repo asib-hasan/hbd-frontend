@@ -1,67 +1,64 @@
 <template>
-    <div class="group bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 animate-fade-up overflow-hidden"
+    <div class="group bg-primary/[0.03] rounded-xl border border-primary/10 shadow-sm hover:shadow-md hover:border-primary/20 transition-all duration-300 animate-fade-up overflow-hidden flex"
         :style="{ animationDelay: `${index * 0.08}s` }">
-        <div class="flex flex-row p-4 gap-4 h-full relative">
+        
+        <div class="flex flex-row p-4 sm:p-5 gap-4 sm:gap-6 w-full">
             
-            <!-- Verified Badge (Floating Top Right) -->
-            <div class="absolute top-4 right-4 bg-primary/10 text-primary px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 shadow-sm border border-primary/20 z-10">
-                <UIcon name="i-lucide-shield-check" class="w-3 h-3" />
-                {{ $t('common.verified') }}
+            <!-- Left: Image Container -->
+            <div class="shrink-0 flex flex-col items-center">
+                <NuxtLink :to="localePath(`/doctor/${slug || id}`)" class="relative w-[110px] h-[110px] sm:w-[130px] sm:h-[130px] rounded-xl overflow-hidden bg-white border border-gray-100 p-1 block shadow-sm group-hover:border-primary/20 transition-colors">
+                    <img :src="image || userImg" @error="(e) => e.target.src = userImg" :alt="name" class="w-full h-full object-cover rounded-lg group-hover:scale-105 transition-transform duration-500" />
+                    <!-- Status Badge -->
+                    <div class="absolute bottom-1.5 right-1.5 w-3.5 h-3.5 rounded-full border-2 border-white shadow-sm z-10"
+                         :class="doctor_status === 'Active' ? 'bg-green-500' : 'bg-gray-400'"
+                         :title="doctor_status === 'Active' ? $t('common.active') : (doctor_status ? $t('common.unavailable') : $t('common.unknown'))">
+                    </div>
+                </NuxtLink>
             </div>
 
-            <!-- Image Container -->
-            <NuxtLink :to="localePath(`/doctor/${slug || id}`)" class="relative w-28 h-28 sm:w-32 sm:h-32 shrink-0 rounded-lg overflow-hidden bg-gray-50 border border-gray-100/50">
-                <img :src="image" :alt="name"
-                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+            <!-- Right: Content -->
+            <div class="flex flex-col flex-1 min-w-0">
                 
-                <!-- Status Badge -->
-                <div class="absolute bottom-1.5 left-1/2 -translate-x-1/2 bg-white/95 backdrop-blur-md px-2 py-0.5 rounded-full text-[9px] font-bold flex items-center gap-1 shadow-sm border border-gray-100/50 whitespace-nowrap"
-                    :class="doctor_status === 'Active' ? 'text-blue-600' : 'text-rose-600'">
-                    <span class="relative flex h-1.5 w-1.5">
-                        <span v-if="doctor_status === 'Active'" class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-1.5 w-1.5" :class="doctor_status === 'Active' ? 'bg-blue-500' : 'bg-rose-500'"></span>
-                    </span>
-                    {{ doctor_status === 'Active' ? $t('common.active') : (doctor_status ? $t('common.unavailable') : $t('common.unknown')) }}
-                </div>
-            </NuxtLink>
+                <!-- Name -->
+                <NuxtLink :to="localePath(`/doctor/${slug || id}`)">
+                    <h3 class="font-display font-bold text-[18px] sm:text-[20px] text-gray-900 group-hover:text-primary transition-colors flex items-center gap-1.5 truncate">
+                        {{ locale === 'bn' ? (name_bn || name) : name }}
+                        <UIcon name="i-lucide-badge-check" class="w-5 h-5 text-blue-600 shrink-0" title="Verified" />
+                    </h3>
+                </NuxtLink>
+                
+                <!-- Degrees -->
+                <p v-if="degree_name || degree_name_bn" class="text-[13px] sm:text-[14px] text-gray-500 mt-1 font-medium leading-snug line-clamp-2 pr-2">
+                    {{ locale === 'bn' ? (degree_name_bn || degree_name) : degree_name }}
+                </p>
 
-            <!-- Content -->
-            <div class="flex flex-col flex-1 min-w-0 py-1">
-                <div class="mb-2">
-                    <NuxtLink :to="localePath(`/doctor/${slug || id}`)">
-                        <h3 class="font-display font-bold text-base text-gray-900 group-hover:text-primary transition-colors flex items-center gap-1 truncate pr-16">
-                            {{ locale === 'bn' ? (name_bn || name) : name }}
-                        </h3>
-                    </NuxtLink>
-                    <p v-if="degree_name || degree_name_bn" class="text-xs text-gray-600 mt-0.5 font-medium truncate">
-                        {{ locale === 'bn' ? (degree_name_bn || degree_name) : degree_name }}
-                    </p>
-                    <div v-if="qualifications && qualifications.length" class="text-[11px] text-primary/80 mt-1 flex items-center gap-1">
-                        <UIcon name="i-lucide-stethoscope" class="w-3 h-3 shrink-0" />
-                        <span class="truncate">{{ qualifications.join(', ') }}</span>
+                <!-- Details List -->
+                <div class="mt-3.5 space-y-2.5">
+                    <!-- Speciality / Qualifications -->
+                    <div v-if="qualifications && qualifications.length" class="flex items-start gap-2.5 text-[13px] sm:text-[14px]">
+                        <UIcon name="i-lucide-stethoscope" class="w-4.5 h-4.5 text-gray-400 shrink-0 mt-0.5" />
+                        <span class="text-blue-600 font-semibold line-clamp-1">{{ qualifications.join(', ') }}</span>
                     </div>
-                </div>
 
-                <div class="space-y-1.5 mb-3 mt-auto">
-                    <div class="flex items-start gap-1.5 text-xs text-gray-600">
-                        <UIcon name="i-lucide-map-pin" class="w-3.5 h-3.5 text-gray-400 shrink-0 mt-0.5" />
-                        <span class="line-clamp-1 font-medium">{{ locale === 'bn' ? (chamber_name_bn || chamber_name || $t('common.no_chamber')) : (chamber_name || $t('common.no_chamber')) }}</span>
-                    </div>
-                    <div class="flex items-center gap-1.5 text-xs font-semibold text-primary bg-primary/10 w-fit px-2 py-0.5 rounded">
-                        <UIcon name="i-lucide-briefcase-medical" class="w-3.5 h-3.5 shrink-0" />
-                        <span>{{ experience }} {{ $t('common.exp') }}</span>
+                    <!-- Chamber / Location -->
+                    <div class="flex items-start gap-2.5 text-[13px] sm:text-[14px]">
+                        <UIcon name="i-lucide-building" class="w-4.5 h-4.5 text-gray-400 shrink-0 mt-0.5" />
+                        <span class="text-gray-700 leading-snug line-clamp-2">
+                            {{ experience ? experience + ' ' + $t('common.exp') + ', ' : '' }}
+                            <span class="text-blue-600 font-semibold">{{ locale === 'bn' ? (chamber_name_bn || chamber_name || $t('common.no_chamber')) : (chamber_name || $t('common.no_chamber')) }}</span>
+                        </span>
                     </div>
                 </div>
 
                 <!-- Action Buttons -->
-                <div class="grid grid-cols-2 gap-2 mt-2">
-                    <NuxtLink :to="localePath(`/doctor/${slug || id}`)" class="block">
-                        <UButton color="primary" variant="solid" block class="h-8 text-xs font-semibold shadow-sm hover:shadow transition-shadow px-0 text-white">
+                <div class="flex flex-wrap items-center gap-3 mt-auto pt-4">
+                    <NuxtLink :to="localePath(`/doctor/${slug || id}`)">
+                        <UButton color="primary" variant="solid" class="h-9 px-4 sm:px-5 text-[13px] sm:text-[14px] font-semibold rounded shadow-sm text-white hover:bg-primary/90 transition-colors">
                             {{ $t('common.book_appt') }}
                         </UButton>
                     </NuxtLink>
-                    <NuxtLink :to="localePath(`/doctor/${slug || id}`)" class="block">
-                        <UButton color="gray" variant="soft" block class="h-8 text-xs font-semibold hover:bg-gray-100 transition-colors px-0">
+                    <NuxtLink :to="localePath(`/doctor/${slug || id}`)">
+                        <UButton color="gray" variant="soft" class="h-9 px-4 sm:px-5 text-[13px] sm:text-[14px] font-semibold rounded bg-gray-100 hover:bg-gray-200 text-gray-700 ring-0 hover:ring-0 border-0 transition-colors">
                             {{ $t('common.view_profile') }}
                         </UButton>
                     </NuxtLink>
@@ -72,6 +69,8 @@
 </template>
 
 <script setup lang="ts">
+import userImg from '~/assets/images/user.webp'
+
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
 const props = defineProps<{
