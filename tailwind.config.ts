@@ -17,8 +17,8 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Hind Siliguri', 'Plus Jakarta Sans', 'Noto Sans Bengali', 'system-ui', 'sans-serif'],
-                display: ['Hind Siliguri', 'Outfit', 'Noto Sans Bengali', 'system-ui', 'sans-serif']
+                sans: ['Anek Bangla', 'Baloo Da 2', 'Hind Siliguri', 'system-ui', 'sans-serif'],
+                display: ['Anek Bangla', 'Baloo Da 2', 'Hind Siliguri', 'system-ui', 'sans-serif']
             }
         },
     },

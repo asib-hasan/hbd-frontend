@@ -15,7 +15,9 @@ colorMode.preference = 'light'
 </template>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@300;400;500;600;700;800&family=Baloo+Da+2:wght@400;500;600;700;800&display=swap');
+
 body, html, * {
-  font-family: 'Hind Siliguri', 'Noto Sans Bengali', sans-serif !important;
+  font-family: 'Anek Bangla', 'Baloo Da 2', sans-serif !important;
 }
 </style>

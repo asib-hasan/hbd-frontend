@@ -40,11 +40,6 @@ export default defineNuxtConfig({
 
   modules: ['@nuxt/ui', '@nuxt/fonts', '@nuxtjs/i18n', '@nuxtjs/sitemap', '@nuxtjs/robots', '@nuxt/image'],
 
-  fonts: {
-    families: [
-      { name: 'Hind Siliguri', provider: 'google' }
-    ]
-  },
 
   image: {
     domains: ['images.unsplash.com', 'admin.homeodoctorsbd.com', '127.0.0.1', 'localhost'],
@@ -63,6 +58,7 @@ export default defineNuxtConfig({
   },
 
   i18n: {
+    baseUrl: 'https://homeodoctorsbd.com',
     locales: [
       { code: 'en', iso: 'en-US', file: 'en.json', name: 'English' },
       { code: 'bn', iso: 'bn-BD', file: 'bn.json', name: 'বাংলা' }
@@ -82,6 +78,8 @@ export default defineNuxtConfig({
     families: [
       { name: 'Outfit', provider: 'google', weights: [300, 400, 500, 600, 700, 800] },
       { name: 'Plus Jakarta Sans', provider: 'google', weights: [400, 500, 600, 700] },
+      { name: 'Anek Bangla', provider: 'google', weights: [300, 400, 500, 600, 700, 800] },
+      { name: 'Baloo Da 2', provider: 'google', weights: [400, 500, 600, 700, 800] },
       { name: 'Hind Siliguri', provider: 'google', weights: [300, 400, 500, 600, 700] },
       { name: 'Noto Sans Bengali', provider: 'google', weights: [300, 400, 500, 600, 700] },
     ]

@@ -57,9 +57,11 @@ useSeoMeta({
     ogTitle: pageTitle,
     description: pageDescription,
     ogDescription: pageDescription,
+    ogImage: computed(() => doctor.value?.image || 'https://homeodoctorsbd.com/default-og-image.jpg'),
     twitterCard: 'summary_large_image',
     twitterTitle: pageTitle,
     twitterDescription: pageDescription,
+    twitterImage: computed(() => doctor.value?.image || 'https://homeodoctorsbd.com/default-og-image.jpg'),
 })
 
 useHead({
