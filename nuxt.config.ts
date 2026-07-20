@@ -63,7 +63,7 @@ export default defineNuxtConfig({
       { code: 'en', iso: 'en-US', file: 'en.json', name: 'English' },
       { code: 'bn', iso: 'bn-BD', file: 'bn.json', name: 'বাংলা' }
     ],
-    defaultLocale: 'en',
+    defaultLocale: 'bn',
     strategy: 'prefix_except_default',
     langDir: 'locales',
     lazy: true,
