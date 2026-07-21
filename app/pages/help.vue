@@ -92,36 +92,7 @@ const toggle = (key: string) => {
             </div>
         </section>
 
-        <!-- Still Need Help CTA -->
-        <section class="py-16 md:py-24 bg-gradient-to-br from-primary/5 via-background to-secondary/10">
-            <div class="container mx-auto px-4">
-                <div class="max-w-2xl mx-auto text-center ">
-                    <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                        <UIcon name="i-lucide-message-circle" class="w-8 h-8 text-primary" />
-                    </div>
-                    <h2 class="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
-                        {{ $t('help_page.still_help_title') }}
-                    </h2>
-                    <p class="text-muted-foreground mb-8 leading-relaxed">
-                        {{ $t('help_page.still_help_desc') }}
-                    </p>
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                        <NuxtLink :to="localePath('/contact')">
-                            <UButton size="lg" class="gap-2 shadow-glow-accent px-8 font-semibold">
-                                <UIcon name="i-lucide-mail" class="w-4 h-4" />
-                                {{ $t('help_page.contact_btn') }}
-                            </UButton>
-                        </NuxtLink>
-                        <a href="tel:+8801700000000">
-                            <UButton variant="outline" size="lg" class="gap-2 px-8 font-semibold">
-                                <UIcon name="i-lucide-phone" class="w-4 h-4" />
-                                {{ $t('help_page.call_btn') }}
-                            </UButton>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
+
 
 
     </div>

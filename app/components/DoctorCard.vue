@@ -19,9 +19,9 @@
             <div class="flex flex-col flex-1 min-w-0">
                 
                 <!-- Name -->
-                <NuxtLink :to="localePath(`/doctor/${slug || id}`)">
-                    <h3 class="font-display font-bold text-[18px] sm:text-[20px] text-gray-900 group-hover:text-primary transition-colors flex items-center gap-1.5 truncate">
-                        {{ locale === 'bn' ? (name_bn || name) : name }}
+                <NuxtLink :to="localePath(`/doctor/${slug || id}`)" class="block min-w-0">
+                    <h3 class="font-display font-bold text-[18px] sm:text-[20px] text-gray-900 group-hover:text-primary transition-colors flex items-center gap-1.5 min-w-0">
+                        <span class="truncate min-w-0">{{ locale === 'bn' ? (name_bn || name) : name }}</span>
                         <UIcon name="i-lucide-badge-check" class="w-5 h-5 text-blue-600 shrink-0" title="Verified" />
                     </h3>
                 </NuxtLink>

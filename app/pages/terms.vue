@@ -112,30 +112,7 @@ const localePath = useLocalePath()
                         </div>
                     </div>
 
-                    <!-- Agreement note -->
-                    <div class="mt-12 card-premium p-8 text-center  bg-primary/5 border-primary/20">
-                        <div class="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                            <UIcon name="i-lucide-handshake" class="w-7 h-7 text-primary" />
-                        </div>
-                        <h3 class="font-display font-bold text-xl text-foreground mb-2">{{ $t('terms_page.agreement_title') }}</h3>
-                        <p class="text-muted-foreground mb-6 text-sm max-w-xl mx-auto">
-                            {{ $t('terms_page.agreement_desc') }}
-                        </p>
-                        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                            <NuxtLink :to="localePath('/doctors')">
-                                <UButton size="lg" class="gap-2 font-semibold shadow-glow-accent">
-                                    <UIcon name="i-lucide-search" class="w-4 h-4" />
-                                    {{ $t('terms_page.find_doctor_btn') }}
-                                </UButton>
-                            </NuxtLink>
-                            <NuxtLink :to="localePath('/contact')">
-                                <UButton variant="outline" size="lg" class="gap-2 font-semibold">
-                                    <UIcon name="i-lucide-mail" class="w-4 h-4" />
-                                    {{ $t('terms_page.contact_btn') }}
-                                </UButton>
-                            </NuxtLink>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </section>

@@ -129,22 +129,6 @@ const localePath = useLocalePath()
                         </div>
                     </div>
 
-                    <!-- Contact for Privacy -->
-                    <div class="mt-12 card-premium p-8 text-center  bg-primary/5 border-primary/20">
-                        <div class="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                            <UIcon name="i-lucide-mail" class="w-7 h-7 text-primary" />
-                        </div>
-                        <h3 class="font-display font-bold text-xl text-foreground mb-2">{{ $t('privacy_page.contact_title') }}</h3>
-                        <p class="text-muted-foreground mb-6 text-sm">
-                            {{ $t('privacy_page.contact_desc') }}
-                        </p>
-                        <NuxtLink :to="localePath('/contact')">
-                            <UButton size="lg" class="gap-2 font-semibold shadow-glow-accent">
-                                <UIcon name="i-lucide-mail" class="w-4 h-4" />
-                                {{ $t('privacy_page.contact_btn') }}
-                            </UButton>
-                        </NuxtLink>
-                    </div>
                 </div>
             </div>
         </section>
