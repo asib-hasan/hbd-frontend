@@ -82,7 +82,7 @@ const props = defineProps<{
     hospital?: string
     chamber_name?: string | null
     chamber_name_bn?: string | null
-    image: string
+    image: string | null
     rating?: number | string
     reviews?: number | string
     experience: string | number
