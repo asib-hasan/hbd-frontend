@@ -88,6 +88,35 @@ const scrollToChambers = () => {
     const el = document.getElementById('chambers-section')
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
 }
+
+const copiedChamberIndex = ref<number | null>(null)
+
+const copyChamberInfo = async (chamber: any, index: number) => {
+    const doctorName = locale.value === 'bn' ? (doctor.value?.name_bn || doctor.value?.name_en) : (doctor.value?.name_en || doctor.value?.name_bn)
+    const chamberName = locale.value === 'bn' ? (chamber.name_bn || chamber.name_en) : (chamber.name_en || chamber.name_bn)
+    const address = locale.value === 'bn' ? (chamber.address_bn || chamber.address_en) : (chamber.address_en || chamber.address_bn)
+    const visitingHours = locale.value === 'bn' ? (chamber.visiting_hour_bn || chamber.visiting_hour_en) : (chamber.visiting_hour_en || chamber.visiting_hour_bn)
+    const phoneNums = chamber.contact_numbers || chamber.appointment_number_bn || chamber.contact_number_en || chamber.appointment_number_en
+    const hotline = chamber.hotline_number || chamber.hotline_number_bn || chamber.hotline_number_en
+
+    let text = `${doctorName}\n🏥 ${chamberName}`
+    if (address) text += `\n📍 ${address}`
+    if (visitingHours) text += `\n⏰ ${locale.value === 'bn' ? 'রোগী দেখার সময়:' : 'Visiting Hours:'} ${visitingHours}`
+    if (phoneNums) text += `\n📞 ${locale.value === 'bn' ? 'সিরিয়ালের জন্য:' : 'Appointments:'} ${phoneNums}`
+    if (hotline) text += `\n☎️ ${locale.value === 'bn' ? 'হটলাইন:' : 'Hotline:'} ${hotline}`
+
+    try {
+        await navigator.clipboard.writeText(text)
+        copiedChamberIndex.value = index
+        setTimeout(() => {
+            if (copiedChamberIndex.value === index) {
+                copiedChamberIndex.value = null
+            }
+        }, 2500)
+    } catch (err) {
+        console.error('Failed to copy chamber info: ', err)
+    }
+}
 </script>
 
 <template>
@@ -402,22 +431,33 @@ const scrollToChambers = () => {
                                 <div v-for="(chamber, idx) in doctor.chambers" :key="idx"
                                     class="bg-background/95 backdrop-blur-sm rounded-2xl p-5 border-2 border-primary/20 hover:border-primary/60 transition-all shadow-lg group flex flex-col">
 
-                                    <!-- Chamber Name -->
-                                    <div class="flex items-start gap-3 mb-4">
-                                        <div
-                                            class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                                            <UIcon name="i-lucide-hospital" class="w-6 h-6 text-primary" />
-                                        </div>
-                                        <div>
-                                            <h4 class="font-bold text-foreground text-base leading-tight">{{
-                                                locale === 'bn' ? (chamber.name_bn || chamber.name_en) : chamber.name_en }}</h4>
-                                            <div class="flex items-start gap-1 mt-1.5 text-muted-foreground">
-                                                <UIcon name="i-lucide-map-pin"
-                                                    class="w-4 h-4 mt-0.5 flex-shrink-0 text-primary/70" />
-                                                <p class="text-xs leading-relaxed font-medium">{{ locale === 'bn' ? (chamber.address_bn || chamber.address_en) : chamber.address_en }}
-                                                </p>
+                                    <!-- Chamber Name & Copy Button -->
+                                    <div class="flex items-start justify-between gap-2 mb-4">
+                                        <div class="flex items-start gap-3 flex-1">
+                                            <div
+                                                class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                                                <UIcon name="i-lucide-hospital" class="w-6 h-6 text-primary" />
+                                            </div>
+                                            <div>
+                                                <h4 class="font-bold text-foreground text-base leading-tight">{{
+                                                    locale === 'bn' ? (chamber.name_bn || chamber.name_en) : chamber.name_en }}</h4>
+                                                <div class="flex items-start gap-1 mt-1.5 text-muted-foreground">
+                                                    <UIcon name="i-lucide-map-pin"
+                                                        class="w-4 h-4 mt-0.5 flex-shrink-0 text-primary/70" />
+                                                    <p class="text-xs leading-relaxed font-medium">{{ locale === 'bn' ? (chamber.address_bn || chamber.address_en) : chamber.address_en }}
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
+
+                                        <!-- Header Copy Button -->
+                                        <button
+                                            @click="copyChamberInfo(chamber, idx)"
+                                            class="flex-shrink-0 inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-primary/10 hover:bg-primary/20 text-primary transition-all text-xs font-medium border border-primary/20"
+                                            :title="locale === 'bn' ? 'চেম্বারের তথ্য কপি করুন' : 'Copy chamber info'">
+                                            <UIcon :name="copiedChamberIndex === idx ? 'i-lucide-check' : 'i-lucide-copy'" class="w-3.5 h-3.5" :class="copiedChamberIndex === idx ? 'text-green-600' : ''" />
+                                            <span :class="copiedChamberIndex === idx ? 'text-green-600 font-bold' : ''">{{ copiedChamberIndex === idx ? (locale === 'bn' ? 'কপি হয়েছে' : 'Copied') : (locale === 'bn' ? 'কপি' : 'Copy') }}</span>
+                                        </button>
                                     </div>
 
                                     <!-- Visiting Hours -->
@@ -449,8 +489,8 @@ const scrollToChambers = () => {
                                         </ul>
                                     </div>
 
-                                    <!-- Hotline Button -->
-                                    <div class="flex flex-col gap-3 mt-auto pt-2">
+                                    <!-- Action Buttons -->
+                                    <div class="flex flex-col gap-2.5 mt-auto pt-2">
                                         <a v-if="chamber.hotline_number || chamber.hotline_number_en || chamber.hotline_number_bn"
                                             :href="`tel:${chamber.hotline_number || chamber.hotline_number_bn || chamber.hotline_number_en}`"
                                             class="block w-full">
