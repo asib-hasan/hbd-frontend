@@ -94,9 +94,9 @@ const scrollToChambers = () => {
   <div>
     <div v-if="pending" class="min-h-screen bg-background flex flex-col">
         <!-- Hero Skeleton -->
-        <section class="relative bg-gradient-hero-subtle pt-28 pb-8 lg:pt-32 lg:pb-12">
-            <div class="container mx-auto px-4 pt-2 pb-8 relative z-10">
-                <USkeleton class="h-4 w-48 mb-6" />
+        <section class="relative bg-gradient-hero-subtle pt-24 pb-4 lg:pt-28 lg:pb-4">
+            <div class="container mx-auto px-4 pt-2 pb-2 relative z-10">
+                <USkeleton class="h-4 w-48 mb-4" />
                 <div class="card-premium p-6 md:p-8">
                     <div class="flex flex-col md:flex-row gap-6">
                         <USkeleton class="w-40 h-40 md:w-48 md:h-48 rounded-2xl flex-shrink-0" />
@@ -156,13 +156,13 @@ const scrollToChambers = () => {
 
     <main v-else class="min-h-screen bg-background">
         <!-- Hero Section -->
-        <section class="relative bg-gradient-hero-subtle overflow-hidden pt-28 pb-8 lg:pt-32 lg:pb-12">
+        <section class="relative bg-gradient-hero-subtle overflow-hidden pt-24 pb-4 lg:pt-28 lg:pb-4">
             <div
                 class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,hsl(var(--primary)/0.08),transparent_50%)]" />
 
-            <div class="container mx-auto px-4 pt-2 pb-8 relative z-10">
+            <div class="container mx-auto px-4 pt-2 pb-2 relative z-10">
                 <!-- Breadcrumb -->
-                <nav class="flex items-center gap-2 text-sm text-muted-foreground mb-6">
+                <nav class="flex items-center gap-2 text-sm text-muted-foreground mb-3">
                     <NuxtLink :to="localePath('/')" class="hover:text-primary transition-colors">{{ $t('nav.home') }}</NuxtLink>
                     <span>/</span>
                     <NuxtLink :to="localePath('/doctors')" class="hover:text-primary transition-colors capitalize">
@@ -173,7 +173,7 @@ const scrollToChambers = () => {
                 </nav>
 
                 <NuxtLink :to="localePath('/doctors')"
-                    class="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors mb-6">
+                    class="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors mb-4">
                     <UIcon name="i-lucide-arrow-left" class="w-4 h-4" />
                     {{ $t('doctor_profile.back_to_doctors') }}
                 </NuxtLink>
@@ -244,9 +244,28 @@ const scrollToChambers = () => {
                                 </div>
                             </div>
 
-                            <div class="flex items-center gap-4 pt-4 border-t border-border">
-                                <span class="text-2xl font-bold text-primary">৳{{ doctor.consultation_fee }}</span>
-                                <span class="text-muted-foreground">{{ $t('doctor_profile.per_consultation') }}</span>
+                            <div class="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-border">
+                                <div class="flex items-center gap-4">
+                                    <span class="text-2xl font-bold text-primary">৳{{ doctor.consultation_fee }}</span>
+                                    <span class="text-muted-foreground">{{ $t('doctor_profile.per_consultation') }}</span>
+                                </div>
+
+                                <div v-if="(doctor.facebook_link || doctor.facebook) || (doctor.youtube_link || doctor.youtube)" class="flex items-center gap-2">
+                                    <a v-if="doctor.facebook_link || doctor.facebook"
+                                        :href="doctor.facebook_link || doctor.facebook" target="_blank" rel="noopener noreferrer"
+                                        class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#1877F2]/10 text-[#1877F2] hover:bg-[#1877F2] hover:text-white transition-all text-xs font-semibold border border-[#1877F2]/20 shadow-xs group"
+                                        title="Facebook Profile">
+                                        <UIcon name="i-lucide-facebook" class="w-4 h-4 group-hover:scale-110 transition-transform" />
+                                        <span>Facebook</span>
+                                    </a>
+                                    <a v-if="doctor.youtube_link || doctor.youtube"
+                                        :href="doctor.youtube_link || doctor.youtube" target="_blank" rel="noopener noreferrer"
+                                        class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#FF0000]/10 text-[#FF0000] hover:bg-[#FF0000] hover:text-white transition-all text-xs font-semibold border border-[#FF0000]/20 shadow-xs group"
+                                        title="YouTube Channel">
+                                        <UIcon name="i-lucide-youtube" class="w-4 h-4 group-hover:scale-110 transition-transform" />
+                                        <span>YouTube</span>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
