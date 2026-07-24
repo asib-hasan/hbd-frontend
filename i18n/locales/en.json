@@ -1,4 +1,13 @@
 {
+  "nav": {
+    "home": "Home",
+    "doctors": "Doctors",
+    "consultation": "Consultation",
+    "blogs": "Blogs",
+    "about": "About",
+    "contact": "Contact",
+    "join_as_doctor": "Join as Doctor"
+  },
   "about_page": {
     "meta_title": "About Us | HomeoDoctorsBD - Bangladesh's Leading Homeopathy Platform",
     "meta_description": "Learn about HomeoDoctorsBD's mission to make homeopathic healthcare accessible to everyone in Bangladesh. Discover our values, team, and commitment to natural healing.",

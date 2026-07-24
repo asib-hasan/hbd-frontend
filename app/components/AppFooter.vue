@@ -9,7 +9,7 @@ const footerLinks = computed(() => ({
         { name: t("footer.links.about"), href: "/about" },
         { name: t("footer.links.blog"), href: "/blog" },
         { name: t("footer.links.contact"), href: "/contact" },
-        { name: t("footer.links.join_doctor"), href: "/register" },
+        { name: t("footer.links.join_doctor"), href: "https://docs.google.com/forms/d/1GLUZs7eHcgMfOm3QBkNvXqo4ED5zqU1r4Pnl48yCyL4/" },
     ],
     top_areas: [
         { name: t("footer.top_areas.mirpur"), href: "/locations/mirpur" },
@@ -70,7 +70,13 @@ const currentYear = new Date().getFullYear();
                     <h4 class="font-display font-bold text-lg text-primary-foreground mb-6">{{ $t('footer.links_title_1') }}</h4>
                     <ul class="space-y-3">
                         <li v-for="link in footerLinks.important_links" :key="link.name">
-                            <NuxtLink :to="localePath(link.href)"
+                            <a v-if="link.href.startsWith('http')" :href="link.href" target="_blank" rel="noopener noreferrer"
+                                class="text-primary-foreground/70 hover:text-primary-foreground transition-colors flex items-center gap-1 group">
+                                <span>{{ link.name }}</span>
+                                <UIcon name="i-lucide-arrow-right"
+                                    class="w-3 h-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                            </a>
+                            <NuxtLink v-else :to="localePath(link.href)"
                                 class="text-primary-foreground/70 hover:text-primary-foreground transition-colors flex items-center gap-1 group">
                                 <span>{{ link.name }}</span>
                                 <UIcon name="i-lucide-arrow-right"
