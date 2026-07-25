@@ -112,14 +112,6 @@ useHead({
                     </div>
                 </div>
             </div>
-            
-            <div class="mt-12 text-center  stagger-4">
-                <p class="text-gray-500 mb-4">{{ $t('common.still_have_questions') }}</p>
-                <NuxtLink :to="localePath('/contact')" class="inline-flex items-center gap-2 px-6 py-3 bg-white border border-gray-200 rounded-full font-medium text-primary hover:bg-gray-50 hover:text-primary-600 hover:shadow-md transition-all duration-300">
-                    <UIcon name="i-lucide-message-circle" class="w-5 h-5" />
-                    {{ $t('common.contact_support') }}
-                </NuxtLink>
-            </div>
         </div>
     </section>
 </template>
