@@ -25,7 +25,7 @@ const footerLinks = computed(() => ({
 }));
 
 const socialLinks = [
-    { icon: 'i-lucide-facebook', href: "#", label: "Facebook" },
+    { icon: 'i-lucide-facebook', href: "https://www.facebook.com/homeodoctorsbd/", label: "Facebook" },
     { icon: 'i-lucide-twitter', href: "#", label: "Twitter" },
     { icon: 'i-lucide-instagram', href: "#", label: "Instagram" },
     { icon: 'i-lucide-linkedin', href: "#", label: "LinkedIn" },
@@ -126,7 +126,7 @@ const currentYear = new Date().getFullYear();
                     </p>
                     <div class="flex items-center gap-3">
                         <a v-for="social in socialLinks" :key="social.label" :href="social.href"
-                            :aria-label="social.label"
+                            :aria-label="social.label" target="_blank" rel="noopener noreferrer"
                             class="w-10 h-10 bg-primary-foreground/10 rounded-xl flex items-center justify-center hover:bg-primary-foreground/20 hover:scale-110 transition-all">
                             <UIcon :name="social.icon" class="w-5 h-5 text-primary-foreground/80" />
                         </a>
