@@ -325,9 +325,7 @@ onMounted(() => {
 
 <template>
     <main class="min-h-screen bg-background">
-        <PageHeader :title="info.title" :description="info.description" :breadcrumbs="breadcrumbs" :stats="[
-            { label: $t('doctors_page.verified_doctors'), value: `${info.doctorCount}` }
-        ]" />
+        <PageHeader :title="info.title" :description="info.description" :breadcrumbs="breadcrumbs" />
 
         <!-- Filters Section -->
         <section class="py-8 border-b border-border bg-card/50">
