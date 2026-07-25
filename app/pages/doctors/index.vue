@@ -24,19 +24,46 @@ const perPage = computed(() => (apiResponse.value as any)?.data?.meta?.per_page 
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
 
-// SSR Initial Fetch for perfect SEO
-const initialParams: any = {}
-if (searchQuery.value) initialParams.search = searchQuery.value
-if (districtQuery.value) initialParams.district = districtQuery.value
+const findDistrictByQuery = (query: string, districts: any[]) => {
+    if (!query || query === 'all') return null
+    const q = query.toLowerCase().trim()
+    return districts.find((d: any) => {
+        const nameEn = (d.name_en || '').toLowerCase()
+        const nameBn = (d.name_bn || '').toLowerCase()
+        const idStr = String(d.id)
+        if (idStr === q) return true
+        if (nameEn === q) return true
+        if (nameBn === q) return true
+        if ((q === 'chittagong' || q === 'chattogram') && (nameEn === 'chittagong' || nameEn === 'chattogram')) return true
+        return false
+    })
+}
 
 const { data: ssrDistricts } = await useAsyncData('districts-list', () => fetchDistricts())
-const { data: ssrDoctors } = await useAsyncData('initial-doctors-list', () => fetchAllDoctors(initialParams))
-
-const rawDoctorsList = ref<any[]>([])
 
 if (ssrDistricts.value?.data) {
     districtsData.value = Array.isArray(ssrDistricts.value.data) ? ssrDistricts.value.data : [ssrDistricts.value.data]
 }
+
+if (districtQuery.value && districtsData.value.length > 0) {
+    const matched = findDistrictByQuery(districtQuery.value, districtsData.value)
+    if (matched) {
+        selectedDistrict.value = String(matched.id)
+    }
+}
+
+// SSR Initial Fetch for perfect SEO
+const initialParams: any = {}
+if (searchQuery.value) initialParams.search = searchQuery.value
+if (selectedDistrict.value !== 'all') {
+    initialParams.district_id = selectedDistrict.value
+} else if (districtQuery.value) {
+    initialParams.district = districtQuery.value
+}
+
+const rawDoctorsList = ref<any[]>([])
+
+const { data: ssrDoctors } = await useAsyncData('initial-doctors-list', () => fetchAllDoctors(initialParams))
 if (ssrDoctors.value) {
     apiResponse.value = ssrDoctors.value
     rawDoctorsList.value = Array.isArray(ssrDoctors.value.data) ? ssrDoctors.value.data : (ssrDoctors.value.data?.data || [])
@@ -188,7 +215,12 @@ const loadDoctors = async (append = false) => {
     if (selectedDistrict.value !== 'all') {
         params.district_id = selectedDistrict.value
     } else if (districtQuery.value) {
-        params.district = districtQuery.value
+        const matched = findDistrictByQuery(districtQuery.value, districtsData.value)
+        if (matched) {
+            params.district_id = matched.id
+        } else {
+            params.district = districtQuery.value
+        }
     }
     if (selectedArea.value !== 'all') params.area_id = selectedArea.value
 
@@ -236,6 +268,17 @@ watch(selectedDistrict, async (newVal) => {
     await loadDoctors()
 })
 
+watch(districtQuery, (newVal) => {
+    if (newVal && districtsData.value.length > 0) {
+        const matched = findDistrictByQuery(newVal, districtsData.value)
+        if (matched && selectedDistrict.value !== String(matched.id)) {
+            selectedDistrict.value = String(matched.id)
+        }
+    } else if (!newVal && selectedDistrict.value !== 'all') {
+        selectedDistrict.value = 'all'
+    }
+})
+
 watch(selectedArea, async () => {
     currentPage.value = 1
     await loadDoctors()
@@ -254,6 +297,13 @@ watch(searchQuery, (newVal) => {
 
 // Initialize areas if district query is present on mount, though usually handled by filters.
 onMounted(() => {
+    if (districtQuery.value && selectedDistrict.value === 'all' && districtsData.value.length > 0) {
+        const matched = findDistrictByQuery(districtQuery.value, districtsData.value)
+        if (matched) {
+            selectedDistrict.value = String(matched.id)
+        }
+    }
+
     if (selectedDistrict.value !== 'all') {
         loadAreas(selectedDistrict.value)
     }

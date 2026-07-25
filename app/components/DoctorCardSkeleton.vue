@@ -1,40 +1,30 @@
 <template>
-    <div class="group bg-primary/[0.03] rounded-xl border border-primary/10 shadow-sm overflow-hidden flex">
-        <div class="flex flex-row p-4 sm:p-5 gap-4 sm:gap-6 w-full">
-            <!-- Left: Image Container -->
-            <div class="shrink-0 flex flex-col items-center">
-                <div class="relative w-[110px] h-[110px] sm:w-[130px] sm:h-[130px] rounded-xl overflow-hidden bg-white border border-gray-100 p-1 block shadow-sm">
-                    <USkeleton class="w-full h-full rounded-lg" />
-                    <USkeleton class="absolute bottom-1.5 right-1.5 w-3.5 h-3.5 rounded-full border-2 border-white shadow-sm z-10" />
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col justify-between p-4 sm:p-5">
+        <div class="flex flex-row items-start gap-3.5 sm:gap-5 w-full">
+            <!-- Left: Image Skeleton -->
+            <div class="relative shrink-0">
+                <div class="w-20 h-20 xs:w-24 xs:h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden bg-gray-50 border border-gray-100 p-1">
+                    <USkeleton class="w-full h-full rounded-xl" />
                 </div>
             </div>
 
-            <!-- Right: Content -->
-            <div class="flex flex-col flex-1 min-w-0 py-1">
-                <!-- Name -->
-                <USkeleton class="h-6 sm:h-7 w-3/4 mb-1.5" />
-                
-                <!-- Degrees -->
-                <USkeleton class="h-4 w-1/2 mb-3.5" />
-
-                <!-- Details List -->
-                <div class="space-y-2.5">
-                    <div class="flex items-center gap-2.5">
-                        <USkeleton class="w-4 h-4 rounded-full shrink-0" />
-                        <USkeleton class="h-4 w-2/3" />
-                    </div>
-                    <div class="flex items-center gap-2.5">
-                        <USkeleton class="w-4 h-4 rounded-full shrink-0" />
-                        <USkeleton class="h-4 w-5/6" />
-                    </div>
+            <!-- Right: Content Skeleton -->
+            <div class="flex flex-col flex-1 min-w-0 pt-0.5">
+                <USkeleton class="h-6 w-3/4 mb-2" />
+                <USkeleton class="h-4 w-1/2 mb-3" />
+                <div class="flex items-center gap-2 mb-3">
+                    <USkeleton class="h-5 w-16 rounded-md" />
+                    <USkeleton class="h-5 w-20 rounded-md" />
                 </div>
-
-                <!-- Action Buttons -->
-                <div class="flex flex-wrap items-center gap-3 mt-auto pt-4">
-                    <USkeleton class="h-9 w-[120px] rounded" />
-                    <USkeleton class="h-9 w-[120px] rounded" />
-                </div>
+                <USkeleton class="h-4 w-2/3 mb-2" />
+                <USkeleton class="h-4 w-5/6" />
             </div>
+        </div>
+
+        <!-- Action Row Skeleton -->
+        <div class="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between gap-3">
+            <USkeleton class="h-4 w-24" />
+            <USkeleton class="h-9 w-32 rounded-xl" />
         </div>
     </div>
 </template>
