@@ -188,46 +188,6 @@ useHead({
         </section>
         -->
 
-        <!-- Contact Section -->
-        <section class="py-16 md:py-24 bg-gradient-to-br from-primary/5 via-background to-secondary/10">
-            <div class="container mx-auto px-4">
-                <div class="max-w-3xl mx-auto text-center ">
-                    <h2 class="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
-                        {{ $t('about_page.contact.title') }}
-                    </h2>
-                    <p class="text-muted-foreground mb-8">
-                        {{ $t('about_page.contact.description') }}
-                    </p>
-
-                    <div class="grid sm:grid-cols-3 gap-6 mb-8">
-                        <div class="flex flex-col items-center gap-2">
-                            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
-                                <UIcon name="i-lucide-mail" class="w-5 h-5 text-primary" />
-                            </div>
-                            <span class="text-sm text-muted-foreground">info@homeodoctorsbd.com</span>
-                        </div>
-                        <div class="flex flex-col items-center gap-2">
-                            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
-                                <UIcon name="i-lucide-phone" class="w-5 h-5 text-primary" />
-                            </div>
-                            <span class="text-sm text-muted-foreground">+880 1700-000000</span>
-                        </div>
-                        <div class="flex flex-col items-center gap-2">
-                            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
-                                <UIcon name="i-lucide-map-pin" class="w-5 h-5 text-primary" />
-                            </div>
-                            <span class="text-sm text-muted-foreground">Dhaka, Bangladesh</span>
-                        </div>
-                    </div>
-
-                    <NuxtLink :to="localePath('/doctors')">
-                        <UButton size="xl" class="shadow-glow-accent px-8 font-semibold">
-                            {{ $t('about_page.contact.find_doctor') }}
-                        </UButton>
-                    </NuxtLink>
-                </div>
-            </div>
-        </section>
 
     </div>
 </template>
