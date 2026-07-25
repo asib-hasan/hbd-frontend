@@ -74,14 +74,23 @@ export default defineNuxtConfig({
     }
   },
 
+  routeRules: {
+    '/': { swr: 3600 },
+    '/doctors/**': { swr: 1800 },
+    '/blog/**': { swr: 1800 },
+    '/locations/**': { swr: 1800 },
+    '/specialties': { swr: 3600 },
+    '/about': { swr: 86400 },
+    '/contact': { swr: 86400 },
+    '/help': { swr: 86400 },
+    '/privacy': { swr: 86400 },
+    '/terms': { swr: 86400 },
+  },
+
   fonts: {
     families: [
-      { name: 'Outfit', provider: 'google', weights: [300, 400, 500, 600, 700, 800] },
       { name: 'Plus Jakarta Sans', provider: 'google', weights: [400, 500, 600, 700] },
-      { name: 'Anek Bangla', provider: 'google', weights: [300, 400, 500, 600, 700, 800] },
-      { name: 'Baloo Da 2', provider: 'google', weights: [400, 500, 600, 700, 800] },
       { name: 'Hind Siliguri', provider: 'google', weights: [300, 400, 500, 600, 700] },
-      { name: 'Noto Sans Bengali', provider: 'google', weights: [300, 400, 500, 600, 700] },
     ]
   },
   css: ['~/assets/css/main.css'],

@@ -16,8 +16,8 @@ export const useDoctors = () => {
         })
     }
 
-    const fetchFeaturedDoctors = async () => {
-        return await useFetch('/top-doctors', {
+    const fetchFeaturedDoctors = () => {
+        return useLazyFetch('/top-doctors', {
             baseURL: apiBaseUrl,
         })
     }

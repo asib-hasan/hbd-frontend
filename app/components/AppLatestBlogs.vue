@@ -7,7 +7,7 @@ const runtimeConfig = useRuntimeConfig()
 const apiBaseUrl = runtimeConfig.public.apiBaseUrl
 
 // Fetch blogs from API with limit
-const { data: blogResponse, pending } = await useFetch(`${apiBaseUrl}/blogs?limit=3`)
+const { data: blogResponse, pending } = useLazyFetch(`${apiBaseUrl}/blogs?limit=3`)
 
 const blogs = computed(() => {
     // @ts-ignore

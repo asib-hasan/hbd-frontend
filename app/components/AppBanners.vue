@@ -5,7 +5,7 @@ const runtimeConfig = useRuntimeConfig()
 const apiBaseUrl = runtimeConfig.public.apiBaseUrl
 
 // Fetch banners from API
-const { data: bannerData } = await useFetch(`${apiBaseUrl}/banners`)
+const { data: bannerData, pending } = useLazyFetch(`${apiBaseUrl}/banners`)
 
 const banners = computed(() => {
     // @ts-ignore
@@ -21,7 +21,7 @@ const onImageError = (e: Event) => {
 </script>
 
 <template>
-    <section v-if="banners.length > 0" class="section-padding bg-background relative overflow-hidden">
+    <section v-if="banners.length > 0 || pending" class="section-padding bg-background relative overflow-hidden">
         <!-- Background decorations -->
         <div
             class="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-radial from-primary/5 to-transparent rounded-full blur-3xl pointer-events-none" />

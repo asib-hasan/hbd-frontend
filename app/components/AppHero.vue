@@ -5,7 +5,7 @@ const { t } = useI18n()
 const localePath = useLocalePath()
 const { fetchDistricts } = useDoctors()
 
-const { data: districtsResponse } = await useAsyncData('districts-hero', () => fetchDistricts())
+const { data: districtsResponse } = useLazyAsyncData('districts-hero', () => fetchDistricts())
 
 const areas = computed(() => {
     const apiDistricts = Array.isArray(districtsResponse.value?.data) ? districtsResponse.value.data : []

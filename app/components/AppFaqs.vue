@@ -7,7 +7,7 @@ const runtimeConfig = useRuntimeConfig()
 const apiBaseUrl = runtimeConfig.public.apiBaseUrl
 
 // Fetch faqs from API
-const { data: faqData } = await useFetch(`${apiBaseUrl}/faqs`)
+const { data: faqData, pending } = useLazyFetch(`${apiBaseUrl}/faqs`)
 
 const faqs = computed(() => {
     // @ts-ignore
@@ -49,7 +49,7 @@ useHead({
 </script>
 
 <template>
-    <section v-if="faqs.length > 0" class="section-padding bg-gray-50 relative overflow-hidden">
+    <section v-if="faqs.length > 0 || pending" class="section-padding bg-gray-50 relative overflow-hidden">
         <!-- Background Elements -->
         <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
             <div class="absolute top-[-10%] right-[-5%] w-[40rem] h-[40rem] rounded-full bg-primary/5 blur-[100px]"></div>

@@ -4,7 +4,7 @@ import { useDoctors } from '~/composables/useDoctors'
 
 const localePath = useLocalePath()
 const { fetchFeaturedDoctors } = useDoctors()
-const { data: apiResponse, pending } = await fetchFeaturedDoctors()
+const { data: apiResponse, pending } = fetchFeaturedDoctors()
 
 const doctors = computed(() => {
     return (apiResponse.value as any)?.data || []
