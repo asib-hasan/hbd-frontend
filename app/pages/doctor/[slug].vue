@@ -605,11 +605,6 @@ const handleShare = async () => {
                     <UIcon name="i-lucide-navigation" class="w-5 h-5" />
                     <span class="text-[10px] font-semibold">{{ $t('doctor_profile.directions') }}</span>
                 </a>
-                <button @click="handleShare"
-                    class="flex flex-col items-center gap-0.5 text-muted-foreground active:scale-90 transition-transform px-3 cursor-pointer">
-                    <UIcon name="i-lucide-share-2" class="w-5 h-5 text-primary" />
-                    <span class="text-[10px] font-semibold">{{ $t('doctor_profile.share_profile') }}</span>
-                </button>
             </div>
         </div>
 
