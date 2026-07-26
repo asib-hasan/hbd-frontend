@@ -225,7 +225,16 @@
     "get_directions": "Get Directions",
     "no_chambers": "No chambers found.",
     "chambers": "Chambers",
-    "directions": "Directions"
+    "directions": "Directions",
+    "share_profile": "Share Profile",
+    "share_title": "Share Doctor Profile",
+    "share_desc": "Share this doctor's profile with friends and family",
+    "copy_link": "Copy Link",
+    "link_copied": "Link Copied!",
+    "share_whatsapp": "WhatsApp",
+    "share_facebook": "Facebook",
+    "share_telegram": "Telegram",
+    "share_twitter": "Twitter"
   },
   "contact_page": {
     "title": "Contact Us",

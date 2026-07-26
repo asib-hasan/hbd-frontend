@@ -225,7 +225,16 @@
     "get_directions": "ডিরেকশন পান",
     "no_chambers": "কোনো চেম্বার পাওয়া যায়নি।",
     "chambers": "চেম্বার",
-    "directions": "ডিরেকশন"
+    "directions": "ডিরেকশন",
+    "share_profile": "শেয়ার করুন",
+    "share_title": "ডাক্তারের প্রোফাইল শেয়ার করুন",
+    "share_desc": "প্রোফাইলটি আপনার পরিবার বা বন্ধুদের সাথে শেয়ার করুন",
+    "copy_link": "লিংক কপি করুন",
+    "link_copied": "কপি করা হয়েছে!",
+    "share_whatsapp": "হোয়াটসঅ্যাপ",
+    "share_facebook": "ফেসবুক",
+    "share_telegram": "টেলিগ্রাম",
+    "share_twitter": "টুইটার"
   },
   "contact_page": {
     "title": "যোগাযোগ করুন",

@@ -117,6 +117,54 @@ const copyChamberInfo = async (chamber: any, index: number) => {
         console.error('Failed to copy chamber info: ', err)
     }
 }
+
+// Share Profile Logic
+const profileLinkCopied = ref(false)
+
+const shareUrl = computed(() => {
+    if (typeof window !== 'undefined') {
+        return window.location.href
+    }
+    return ''
+})
+
+const shareText = computed(() => {
+    if (!doctor.value) return ''
+    const name = locale.value === 'bn' ? (doctor.value.name_bn || doctor.value.name_en) : doctor.value.name_en
+    const spec = doctorSpecialties.value ? ` (${doctorSpecialties.value})` : ''
+    return `${name}${spec} - HomeoDoctorsBD`
+})
+
+const copyProfileLink = async () => {
+    try {
+        const urlToCopy = shareUrl.value || (typeof window !== 'undefined' ? window.location.href : '')
+        await navigator.clipboard.writeText(urlToCopy)
+        profileLinkCopied.value = true
+        setTimeout(() => {
+            profileLinkCopied.value = false
+        }, 2500)
+    } catch (err) {
+        console.error('Failed to copy profile link:', err)
+    }
+}
+
+const handleShare = async () => {
+    if (typeof navigator !== 'undefined' && navigator.share) {
+        try {
+            await navigator.share({
+                title: pageTitle.value,
+                text: shareText.value,
+                url: shareUrl.value || (typeof window !== 'undefined' ? window.location.href : ''),
+            })
+        } catch (err: any) {
+            if (err.name !== 'AbortError') {
+                copyProfileLink()
+            }
+        }
+    } else {
+        copyProfileLink()
+    }
+}
 </script>
 
 <template>
@@ -208,9 +256,16 @@ const copyChamberInfo = async (chamber: any, index: number) => {
                 </NuxtLink>
 
                 <!-- Doctor Info Card - Full Width -->
-                <div class="card-premium p-6 md:p-8">
+                <div class="card-premium p-6 md:p-8 relative">
+                    <!-- Top Right Share Button -->
+                    <button @click="handleShare"
+                        class="absolute top-4 right-4 md:top-6 md:right-6 p-2.5 rounded-2xl bg-muted/60 hover:bg-primary hover:text-white text-foreground transition-all border border-border/60 shadow-xs cursor-pointer flex items-center justify-center z-10"
+                        :title="$t('doctor_profile.share_profile')">
+                        <UIcon name="i-lucide-share-2" class="w-5 h-5" />
+                    </button>
+
                     <div class="flex flex-col md:flex-row gap-6">
-                        <!-- Image -->
+                        <!-- Image Container -->
                         <div class="relative flex-shrink-0 w-40 h-40 md:w-48 md:h-48 rounded-2xl overflow-hidden shadow-soft border border-border/50">
                             <img :src="doctor.image || userImg" @error="(e) => e.target.src = userImg"
                                 :alt="doctor.name_en" class="w-full h-full object-cover" />
@@ -279,7 +334,7 @@ const copyChamberInfo = async (chamber: any, index: number) => {
                                     <span class="text-muted-foreground">{{ $t('doctor_profile.per_consultation') }}</span>
                                 </div>
 
-                                <div v-if="(doctor.facebook_link || doctor.facebook) || (doctor.youtube_link || doctor.youtube)" class="flex items-center gap-2">
+                                <div class="flex items-center gap-2 flex-wrap">
                                     <a v-if="doctor.facebook_link || doctor.facebook"
                                         :href="doctor.facebook_link || doctor.facebook" target="_blank" rel="noopener noreferrer"
                                         class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#1877F2]/10 text-[#1877F2] hover:bg-[#1877F2] hover:text-white transition-all text-xs font-semibold border border-[#1877F2]/20 shadow-xs group"
@@ -294,6 +349,12 @@ const copyChamberInfo = async (chamber: any, index: number) => {
                                         <UIcon name="i-lucide-youtube" class="w-4 h-4 group-hover:scale-110 transition-transform" />
                                         <span>YouTube</span>
                                     </a>
+                                    <button @click="handleShare"
+                                        class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all text-xs font-semibold border border-primary/20 shadow-xs group cursor-pointer"
+                                        :title="$t('doctor_profile.share_profile')">
+                                        <UIcon name="i-lucide-share-2" class="w-4 h-4 group-hover:scale-110 transition-transform" />
+                                        <span>{{ $t('doctor_profile.share_profile') }}</span>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -544,6 +605,11 @@ const copyChamberInfo = async (chamber: any, index: number) => {
                     <UIcon name="i-lucide-navigation" class="w-5 h-5" />
                     <span class="text-[10px] font-semibold">{{ $t('doctor_profile.directions') }}</span>
                 </a>
+                <button @click="handleShare"
+                    class="flex flex-col items-center gap-0.5 text-muted-foreground active:scale-90 transition-transform px-3 cursor-pointer">
+                    <UIcon name="i-lucide-share-2" class="w-5 h-5 text-primary" />
+                    <span class="text-[10px] font-semibold">{{ $t('doctor_profile.share_profile') }}</span>
+                </button>
             </div>
         </div>
 

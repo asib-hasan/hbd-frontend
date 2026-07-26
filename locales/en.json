@@ -8,15 +8,115 @@
     "contact": "Contact",
     "join_as_doctor": "Join as Doctor"
   },
+  "about_page": {
+    "meta_title": "About Us | HomeoDoctorsBD - Bangladesh's Leading Homeopathy Platform",
+    "meta_description": "Learn about HomeoDoctorsBD's mission to make homeopathic healthcare accessible to everyone in Bangladesh. Discover our values, team, and commitment to natural healing.",
+    "breadcrumb_home": "Home",
+    "breadcrumb_about": "About Us",
+    "badge": "About HomeoDoctorsBD",
+    "hero_title_start": "Connecting Bangladesh with",
+    "hero_title_highlight": "Natural Healing",
+    "hero_description": "HomeoDoctorsBD is Bangladesh's premier platform for finding and booking appointments with qualified homeopathic doctors. We're on a mission to make holistic healthcare accessible to everyone.",
+    "stats": {
+      "verified_doctors": "Verified Doctors",
+      "patients_helped": "Patients Helped",
+      "districts_covered": "Districts Covered",
+      "medical_specialties": "Medical Specialties"
+    },
+    "mission": {
+      "title": "Our Mission",
+      "description": "To bridge the gap between patients seeking natural healing and qualified homeopathic practitioners across Bangladesh. We strive to make finding doctors simple, transparent, and accessible, empowering individuals to take control of their health journey through holistic medicine."
+    },
+    "vision": {
+      "title": "Our Vision",
+      "description": "To become the most trusted healthcare platform in Bangladesh, where every citizen has easy access to verified homeopathic care. We envision a future where natural healing is a mainstream choice, supported by technology that connects patients with the right practitioners."
+    },
+    "values_section": {
+      "title": "Our Core Values",
+      "subtitle": "These principles guide everything we do at HomeoDoctorsBD"
+    },
+    "values": {
+      "patient_centered": {
+        "title": "Patient-Centered Care",
+        "description": "We prioritize the well-being of patients by connecting them with qualified homeopathic practitioners who treat the whole person, not just symptoms."
+      },
+      "quality_assurance": {
+        "title": "Quality Assurance",
+        "description": "Every doctor on our platform is verified for their qualifications, experience, and commitment to ethical homeopathic practice."
+      },
+      "accessibility": {
+        "title": "Accessibility",
+        "description": "We believe everyone deserves access to natural healing. Our platform makes finding homeopathic care simple and affordable."
+      },
+      "trust_transparency": {
+        "title": "Trust & Transparency",
+        "description": "Verified credentials, clear consultation fees, and complete transparency help you make informed decisions about your healthcare."
+      }
+    },
+    "contact": {
+      "title": "Get in Touch",
+      "description": "Have questions or want to partner with us? We'd love to hear from you.",
+      "find_doctor": "Find a Doctor Near You"
+    }
+  },
+  "app_hero": {
+    "title_start": "Top",
+    "title_highlight": "Areas",
+    "title_end": "in Bangladesh",
+    "description": "Select your area to find the best verified homeopathic doctors near you.",
+    "view_all": "View All Doctors Nationwide",
+    "doctors": "Doctors",
+    "areas": {
+      "dhaka": "Dhaka",
+      "chittagong": "Chittagong",
+      "sylhet": "Sylhet",
+      "rajshahi": "Rajshahi",
+      "khulna": "Khulna",
+      "barishal": "Barishal",
+      "rangpur": "Rangpur",
+      "mymensingh": "Mymensingh"
+    }
+  },
+  "nav": {
+    "home": "Home",
+    "doctors": "Doctors",
+    "locations": "Locations",
+    "location_list": {
+      "mirpur": "Top Doctors in Mirpur",
+      "uttara": "Top Doctors in Uttara",
+      "farmgate": "Top Doctors in Farmgate",
+      "dhanmondi": "Top Doctors in Dhanmondi",
+      "mohammadpur": "Top Doctors in Mohammadpur",
+      "bashundhara": "Top Doctors in Bashundhara",
+      "wari": "Top Doctors in Wari",
+      "banani": "Top Doctors in Banani",
+      "gulshan": "Top Doctors in Gulshan",
+      "badda": "Top Doctors in Badda",
+      "jatrabari": "Top Doctors in Jatrabari",
+      "malibagh": "Top Doctors in Malibagh",
+      "view_all": "View All Areas (120+)"
+    },
+    "consultation": "Consultation",
+    "blogs": "Blogs",
+    "about": "About",
+    "contact": "Contact"
+  },
   "common": {
     "book_appointment": "Contact Doctor",
+    "book_appt": "Contact",
     "view_profile": "View Profile",
     "read_more": "Read More",
     "contact_support": "Contact Support",
     "faq": "FAQ",
     "still_have_questions": "Still have questions?",
     "frequently_asked_questions": "Frequently Asked Questions",
-    "faq_desc": "Find comprehensive answers to common questions about homeopathic treatment and healthcare services."
+    "faq_desc": "Find comprehensive answers to common questions about homeopathic treatment, our online consultation process, and healthcare services.",
+    "verified": "Verified",
+    "active": "Active",
+    "unavailable": "Unavailable",
+    "unknown": "Unknown",
+    "no_chamber": "No Chamber",
+    "exp": "Exp."
   },
   "locations": {
     "badge": "Find by Location",
@@ -38,7 +138,7 @@
     }
   },
   "featured_doctors": {
-    "badge": "Top Rated Practitioners",
+    "badge": "Experienced Practitioners",
     "title_main": "Meet Our",
     "title_highlight": "Expert",
     "title_suffix": "Homeopaths",
@@ -61,5 +161,464 @@
       "step_4_title": "Get Natural Healing",
       "step_4_desc": "Receive personalized homeopathic treatment for holistic wellness."
     }
+  },
+  "doctors_page": {
+    "title_default": "Best Homeopathic Doctors in Bangladesh",
+    "title_location": "Best Homeopathic Doctors in {location}",
+    "description": "Find and book appointments with the most experienced homeopathic doctors across Bangladesh. Natural healing through holistic treatment.",
+    "verified_doctors": "Verified Doctors",
+    "search_placeholder": "Search by name, specialty...",
+    "all_districts": "All Districts",
+    "all_areas": "All Areas",
+    "showing": "Showing",
+    "doctors_count": "doctors",
+    "no_doctors_found": "No doctors found",
+    "try_adjusting": "Try adjusting your search or filter criteria",
+    "clear_filters": "Clear Filters"
+  },
+  "blogs_page": {
+    "title": "Health & Wellness Blog",
+    "description": "Explore articles, tips, and insights about homeopathy and natural healing from our expert practitioners.",
+    "search_placeholder": "Search articles by title...",
+    "all_articles": "All Blogs",
+    "no_articles_found": "No blogs found",
+    "couldnt_find_articles": "We couldn't find any blogs matching your search criteria. Try a different term or select another category.",
+    "clear_all_filters": "Clear all filters"
+  },
+  "blog_details": {
+    "loading": "Loading blog...",
+    "not_found_title": "Blog Not Found",
+    "not_found_desc": "The blog you're looking for doesn't exist or has been removed.",
+    "back_to_blog": "Back to Blog",
+    "official_post": "Official Post",
+    "tags": "Tags",
+    "share_title": "Share this blog",
+    "share_desc": "Help others discover this content",
+    "related_articles": "Related Blogs",
+    "view_all_articles": "View All Blogs",
+    "no_related_articles": "No related blogs yet",
+    "browse_all_articles": "Browse all blogs",
+    "copied": "Copied!",
+    "copy_link": "Copy link"
+  },
+  "doctor_profile": {
+    "loading": "Loading profile...",
+    "not_found_title": "Doctor Not Found",
+    "not_found_desc": "The specialist you are looking for might be unavailable.",
+    "browse_doctors": "Browse Doctors",
+    "back_to_doctors": "Back to Doctors",
+    "verified": "Verified",
+    "active": "Active",
+    "unavailable": "Unavailable",
+    "years_exp": "Years Exp",
+    "patients": "Patients",
+    "success": "Success",
+    "per_consultation": "per consultation",
+    "about": "About",
+    "services": "Services Offered",
+    "experience": "Professional Experience",
+    "education": "Education & Training",
+    "chambers_locations": "Chambers & Locations",
+    "visiting_hours": "Visiting Hours",
+    "appointments": "Appointments",
+    "hotline": "HOTLINE",
+    "get_directions": "Get Directions",
+    "no_chambers": "No chambers found.",
+    "chambers": "Chambers",
+    "directions": "Directions",
+    "share_profile": "Share Profile",
+    "share_title": "Share Doctor Profile",
+    "share_desc": "Share this doctor's profile with friends and family",
+    "copy_link": "Copy Link",
+    "link_copied": "Link Copied!",
+    "share_whatsapp": "WhatsApp",
+    "share_facebook": "Facebook",
+    "share_telegram": "Telegram",
+    "share_twitter": "Twitter"
+  },
+  "contact_page": {
+    "title": "Contact Us",
+    "description": "Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.",
+    "breadcrumb": "Contact Us",
+    "success_title": "Message Sent!",
+    "success_desc": "We'll get back to you within 24 hours.",
+    "form_title": "Send us a Message",
+    "form_desc": "Fill out the form below and we'll get back to you shortly.",
+    "form": {
+      "name_label": "Full Name",
+      "name_placeholder": "Your full name",
+      "email_label": "Email Address",
+      "email_placeholder": "your{'@'}email.com",
+      "phone_label": "Phone Number",
+      "phone_placeholder": "+880 1XXX-XXXXXX",
+      "subject_label": "Subject",
+      "subject_placeholder": "How can we help?",
+      "message_label": "Message",
+      "message_placeholder": "Tell us more about your inquiry...",
+      "send_button": "Send Message",
+      "sending_button": "Sending..."
+    },
+    "errors": {
+      "name_required": "Name is required",
+      "email_required": "Email is required",
+      "email_invalid": "Invalid email address",
+      "phone_required": "Phone number is required",
+      "subject_required": "Subject is required",
+      "message_required": "Message is required",
+      "message_length": "Message must be at least 10 characters"
+    },
+    "info": {
+      "phone": "Phone",
+      "email": "Email",
+      "address": "Address",
+      "working_hours": "Working Hours",
+      "sat_thu": "Saturday - Thursday: 9AM - 8PM",
+      "fri": "Friday: 10AM - 6PM",
+      "dhaka_bd": "Dhaka, Bangladesh"
+    },
+    "cta": {
+      "title": "Need Immediate Help?",
+      "desc": "Our support team is available during business hours.",
+      "button": "Call Us Now"
+    }
+  },
+  "latest_blogs": {
+    "badge": "Health Tips",
+    "title_start": "Latest ",
+    "title_highlight": "Blogs",
+    "view_all": "View All Blogs"
+  },
+  "help_page": {
+    "nav_title": "Help Center",
+    "hero_title": "How can we ",
+    "hero_title_span": "help you?",
+    "hero_desc": "Find answers to common questions about finding doctors, appointments, and using the HomeoDoctorsBD platform.",
+    "faq_title": "Frequently Asked Questions",
+    "faq_desc": "Quick answers to the most common questions",
+    "still_help_title": "Still need help?",
+    "still_help_desc": "Can't find what you're looking for? Our support team is ready to assist you directly.",
+    "contact_btn": "Contact Support",
+    "call_btn": "Call Us",
+    "faqs": [
+      {
+        "category": "General",
+        "items": [
+          {
+            "q": "What is HomeoDoctorsBD?",
+            "a": "HomeoDoctorsBD is Bangladesh's leading platform dedicated to connecting patients with verified homeopathic doctors across the country."
+          },
+          {
+            "q": "Is HomeoDoctorsBD available all over Bangladesh?",
+            "a": "Yes! We cover all 64 districts of Bangladesh."
+          },
+          {
+            "q": "Is the service free for patients?",
+            "a": "Yes, browsing and finding doctors on HomeoDoctorsBD is completely free for patients."
+          }
+        ]
+      },
+      {
+        "category": "Finding a Doctor",
+        "items": [
+          {
+            "q": "How do I search for a homeopathic doctor?",
+            "a": "Visit the Doctors page and use the filters to search by district, specialty, or doctor name."
+          },
+          {
+            "q": "Are all doctors verified?",
+            "a": "Yes. Every doctor listed on HomeoDoctorsBD goes through a verification process."
+          },
+          {
+            "q": "Can I see a doctor's chamber locations?",
+            "a": "Absolutely. Each doctor's profile page shows all their chamber locations."
+          }
+        ]
+      },
+      {
+        "category": "Appointments & Contact",
+        "items": [
+          {
+            "q": "How do I book an appointment?",
+            "a": "Currently, you can contact the doctor directly using the hotline numbers listed on their profile."
+          },
+          {
+            "q": "What if a doctor's phone is not reachable?",
+            "a": "Please use the \"Contact Us\" form on our website and we will assist you."
+          }
+        ]
+      },
+      {
+        "category": "For Doctors",
+        "items": [
+          {
+            "q": "How can I register as a doctor?",
+            "a": "Doctors can register by contacting us directly at info{'@'}homeodoctorsbd.com."
+          },
+          {
+            "q": "Can I update my info?",
+            "a": "Yes. Our admin team can update your chamber locations and all profile information."
+          }
+        ]
+      }
+    ]
+  },
+  "privacy_page": {
+    "nav_title": "Privacy Policy",
+    "hero_title": "Your Privacy ",
+    "hero_title_span": "Matters to Us",
+    "hero_desc": "At HomeoDoctorsBD, we are committed to being transparent about how we handle your personal information. This policy explains what data we collect, why we collect it, and how we protect it.",
+    "last_updated": "Last updated: March 13, 2025",
+    "banner1": "We never sell your data",
+    "banner2": "Encrypted & secure connections",
+    "banner3": "You control your data",
+    "toc_title": "Table of Contents",
+    "contact_title": "Privacy Questions?",
+    "contact_desc": "If you have any questions about this Privacy Policy or how we handle your data, please reach out to us.",
+    "contact_btn": "Contact Our Privacy Team",
+    "sections": [
+      {
+        "icon": "i-lucide-database",
+        "title": "Information We Collect",
+        "content": [
+          {
+            "subtitle": "Information You Provide",
+            "text": "When you use HomeoDoctorsBD, we may collect information you provide directly, such as your name, phone number, email address, and location."
+          },
+          {
+            "subtitle": "Automatically Collected Information",
+            "text": "We automatically collect certain technical information when you visit our site, including your IP address and browser type."
+          },
+          {
+            "subtitle": "Doctor Profile Information",
+            "text": "For registered doctors, we collect professional information that is displayed publicly on the platform."
+          }
+        ]
+      },
+      {
+        "icon": "i-lucide-settings-2",
+        "title": "How We Use Your Information",
+        "content": [
+          {
+            "subtitle": "Platform Operation",
+            "text": "We use your information to operate and improve HomeoDoctorsBD."
+          },
+          {
+            "subtitle": "Communication",
+            "text": "We may use your contact information to send you important service updates."
+          },
+          {
+            "subtitle": "Analytics & Improvement",
+            "text": "We analyze aggregated usage data to improve the platform."
+          }
+        ]
+      },
+      {
+        "icon": "i-lucide-share-2",
+        "title": "Information Sharing",
+        "content": [
+          {
+            "subtitle": "We Do Not Sell Your Data",
+            "text": "HomeoDoctorsBD does not sell or trade your personal information."
+          },
+          {
+            "subtitle": "Public Doctor Profiles",
+            "text": "Doctor profile information is publicly visible on the platform by design."
+          },
+          {
+            "subtitle": "Service Providers",
+            "text": "We may share information with trusted service providers under strict confidentiality agreements."
+          },
+          {
+            "subtitle": "Legal Requirements",
+            "text": "We may disclose information when required by law or court order."
+          }
+        ]
+      },
+      {
+        "icon": "i-lucide-shield",
+        "title": "Data Security",
+        "content": [
+          {
+            "subtitle": "Security Measures",
+            "text": "We implement industry-standard security measures including encrypted connections (HTTPS)."
+          },
+          {
+            "subtitle": "No Absolute Guarantee",
+            "text": "No method of transmission over the internet is 100% secure."
+          }
+        ]
+      },
+      {
+        "icon": "i-lucide-cookie",
+        "title": "Cookies & Tracking",
+        "content": [
+          {
+            "subtitle": "What Are Cookies",
+            "text": "Cookies are small text files stored on your device."
+          },
+          {
+            "subtitle": "Cookie Control",
+            "text": "You can control and delete cookies through your browser settings."
+          }
+        ]
+      },
+      {
+        "icon": "i-lucide-user-check",
+        "title": "Your Rights",
+        "content": [
+          {
+            "subtitle": "Access & Correction",
+            "text": "You have the right to access and correct your personal information."
+          },
+          {
+            "subtitle": "Data Deletion",
+            "text": "You may request deletion of your personal data from our systems."
+          }
+        ]
+      },
+      {
+        "icon": "i-lucide-child",
+        "title": "Children's Privacy",
+        "content": [
+          {
+            "subtitle": "Age Restriction",
+            "text": "HomeoDoctorsBD is not directed at children under 13 years of age."
+          }
+        ]
+      },
+      {
+        "icon": "i-lucide-refresh-cw",
+        "title": "Policy Updates",
+        "content": [
+          {
+            "subtitle": "Changes to This Policy",
+            "text": "We may update this Privacy Policy from time to time to reflect changes in our practices."
+          }
+        ]
+      }
+    ]
+  },
+  "terms_page": {
+    "nav_title": "Terms of Service",
+    "hero_title": "Terms of ",
+    "hero_title_span": "Service",
+    "hero_desc": "Please read these terms carefully before using HomeoDoctorsBD. These terms govern your access to and use of our platform and services.",
+    "last_updated": "Last updated: March 13, 2025",
+    "key_things_title": "Key Things to Know",
+    "key_things": [
+      {
+        "icon": "i-lucide-stethoscope",
+        "color": "text-orange-600",
+        "bg": "bg-orange-500/10",
+        "text": "We are a directory, not a medical provider"
+      },
+      {
+        "icon": "i-lucide-scale",
+        "color": "text-blue-600",
+        "bg": "bg-blue-500/10",
+        "text": "Governed by Bangladesh law"
+      },
+      {
+        "icon": "i-lucide-user-check",
+        "color": "text-primary",
+        "bg": "bg-primary/10",
+        "text": "You are responsible for your use of the platform"
+      }
+    ],
+    "toc_title": "Table of Contents",
+    "agreement_title": "By Using Our Platform",
+    "agreement_desc": "You acknowledge that you have read, understood, and agree to be bound by these Terms of Service and our Privacy Policy.",
+    "find_doctor_btn": "Find a Doctor",
+    "contact_btn": "Questions? Contact Us",
+    "sections": [
+      {
+        "icon": "i-lucide-file-text",
+        "title": "Acceptance of Terms",
+        "content": "By accessing or using HomeoDoctorsBD, you agree to be bound by these Terms of Service."
+      },
+      {
+        "icon": "i-lucide-monitor",
+        "title": "Use of the Platform",
+        "content": "HomeoDoctorsBD provides an online directory to connect patients with registered homeopathic doctors in Bangladesh."
+      },
+      {
+        "icon": "i-lucide-stethoscope",
+        "title": "Medical Disclaimer",
+        "content": "HomeoDoctorsBD is a directory — we are NOT a healthcare provider. The information on doctor profiles is for informational purposes only."
+      },
+      {
+        "icon": "i-lucide-user-circle",
+        "title": "Doctor Listings",
+        "content": "Doctors listed on HomeoDoctorsBD have been reviewed. However, we do not guarantee their suitability for any particular patient."
+      },
+      {
+        "icon": "i-lucide-shield-alert",
+        "title": "Limitation of Liability",
+        "content": "HomeoDoctorsBD shall not be liable for any indirect or incidental damages arising from your use of the platform."
+      },
+      {
+        "icon": "i-lucide-copyright",
+        "title": "Intellectual Property",
+        "content": "All content on HomeoDoctorsBD is protected by applicable intellectual property laws."
+      },
+      {
+        "icon": "i-lucide-user-check",
+        "title": "User Responsibilities",
+        "content": "Users are responsible for maintaining account confidentiality and treating others with respect."
+      },
+      {
+        "icon": "i-lucide-link-2-off",
+        "title": "Third-Party Links",
+        "content": "The platform may contain links to third-party websites. Visiting any linked website is at your own risk."
+      },
+      {
+        "icon": "i-lucide-ban",
+        "title": "Termination",
+        "content": "HomeoDoctorsBD reserves the right to suspend or terminate any user's access at any time."
+      },
+      {
+        "icon": "i-lucide-refresh-cw",
+        "title": "Changes to Terms",
+        "content": "We may revise these Terms of Service at any time. Continued use indicates acceptance."
+      },
+      {
+        "icon": "i-lucide-scale",
+        "title": "Governing Law",
+        "content": "These Terms of Service shall be governed by the laws of Bangladesh."
+      },
+      {
+        "icon": "i-lucide-mail",
+        "title": "Contact Information",
+        "content": "If you have questions about these Terms, please contact us at info{'@'}homeodoctorsbd.com."
+      }
+    ]
+  },
+  "footer": {
+    "desc": "Your trusted homeopathy platform connecting patients with the best homeopathic doctors across Bangladesh. Natural healing through holistic treatment.",
+    "links_title_1": "Important Links",
+    "links_title_2": "Support",
+    "links_title_3": "Top Areas in Dhaka",
+    "links": {
+      "all_doctors": "All Doctors List",
+      "all_chambers": "All Chambers",
+      "find_doctors": "Find Doctors in Your Area",
+      "all_specialists": "All Specialist Doctors",
+      "contact": "Contact Us",
+      "about": "About Us",
+      "blog": "Blog",
+      "join_doctor": "Join as Doctor",
+      "help": "Help Center",
+      "terms": "Terms of Use",
+      "privacy": "Privacy Policy",
+      "doctor_reg": "Doctor Registration"
+    },
+    "top_areas": {
+      "mirpur": "Mirpur",
+      "dhanmondi": "Dhanmondi",
+      "gulshan": "Gulshan",
+      "uttara": "Uttara"
+    },
+    "rights": "All rights reserved.",
+    "developed_by": "Website Design & Maintenance"
   }
 }
