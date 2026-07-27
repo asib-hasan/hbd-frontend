@@ -120,7 +120,7 @@ useSeoMeta({
     ogDescription: pageDescription,
     ogType: 'website',
     ogSiteName: 'HomeoDoctorsBD',
-    twitterCard: 'summary_large_image',
+    twitterCard: 'summary',
     twitterTitle: pageTitle,
     twitterDescription: pageDescription,
 })

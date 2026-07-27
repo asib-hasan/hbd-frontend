@@ -58,7 +58,7 @@ useSeoMeta({
     description: pageDescription,
     ogDescription: pageDescription,
     ogImage: computed(() => doctor.value?.image || 'https://homeodoctorsbd.com/default-og-image.jpg'),
-    twitterCard: 'summary_large_image',
+    twitterCard: 'summary',
     twitterTitle: pageTitle,
     twitterDescription: pageDescription,
     twitterImage: computed(() => doctor.value?.image || 'https://homeodoctorsbd.com/default-og-image.jpg'),
