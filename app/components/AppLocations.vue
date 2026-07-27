@@ -38,7 +38,7 @@ const locations = [
             <!-- Featured Locations - Large Cards -->
             <div class="grid md:grid-cols-2 gap-6 mb-6">
                 <NuxtLink v-for="(location, index) in locations.filter(l => l.featured)" :key="location.slug"
-                    :to="localePath(`/doctors/${location.slug}`)"
+                    :to="localePath(`/doctors?district=${location.slug}`)"
                     class="group relative h-72 rounded-2xl overflow-hidden shadow-soft hover:shadow-elevated transition-all duration-500 hover:-translate-y-1 "
                     :style="{ animationDelay: `${index * 0.1}s` }">
                     <img :src="location.image" :alt="$t(`locations.cities.${location.slug}`)"
@@ -82,7 +82,7 @@ const locations = [
             <!-- Other Locations - Smaller Cards -->
             <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <NuxtLink v-for="(location, index) in locations.filter(l => !l.featured)" :key="location.slug"
-                    :to="localePath(`/doctors/${location.slug}`)"
+                    :to="localePath(`/doctors?district=${location.slug}`)"
                     class="group relative h-48 rounded-2xl overflow-hidden shadow-soft hover:shadow-card transition-all duration-500 hover:-translate-y-1 "
                     :style="{ animationDelay: `${(index + 2) * 0.1}s` }">
                     <img :src="location.image" :alt="$t(`locations.cities.${location.slug}`)"

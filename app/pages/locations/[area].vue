@@ -39,18 +39,25 @@ const displayAreaName = computed(() => {
 })
 
 const { data: ssrDistricts } = await useAsyncData('districts-list', () => fetchDistricts())
-const { data: ssrDoctors } = await useAsyncData('initial-doctors-area-list', () => fetchDoctorsByArea(areaSlug.value, 1))
+const { data: ssrDoctors } = await useAsyncData(
+    () => `doctors-area-${areaSlug.value}`,
+    () => fetchDoctorsByArea(areaSlug.value, 1),
+    { watch: [areaSlug] }
+)
 
 const rawDoctorsList = ref<any[]>([])
 
 if (ssrDistricts.value?.data) {
     districtsData.value = Array.isArray(ssrDistricts.value.data) ? ssrDistricts.value.data : [ssrDistricts.value.data]
 }
-if (ssrDoctors.value) {
-    apiResponse.value = ssrDoctors.value
-    rawDoctorsList.value = Array.isArray(ssrDoctors.value.data) ? ssrDoctors.value.data : (ssrDoctors.value.data?.data || [])
-    pending.value = false
-}
+
+watch(ssrDoctors, (newVal) => {
+    if (newVal) {
+        apiResponse.value = newVal
+        rawDoctorsList.value = Array.isArray(newVal.data) ? newVal.data : (newVal.data?.data || [])
+        pending.value = false
+    }
+}, { immediate: true })
 
 const doctors = computed<Doctor[]>(() => {
     return rawDoctorsList.value.map((d: any) => ({
@@ -225,6 +232,14 @@ watch(searchQuery, (newVal) => {
     searchTimeout = setTimeout(() => {
         loadDoctors()
     }, 500)
+})
+
+watch(areaSlug, async (newArea) => {
+    if (newArea) {
+        currentPage.value = 1
+        searchQuery.value = ""
+        await loadDoctors()
+    }
 })
 
 // Removed watch on currentPage, handled manually

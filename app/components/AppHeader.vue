@@ -117,7 +117,8 @@ const isActive = (href: string) => {
                             <div v-show="openDropdown === link.name" class="absolute top-full left-0 pt-2 w-72 z-50">
                                 <div class="bg-white border border-gray-200 shadow-lg rounded-lg py-2">
                                     <NuxtLink v-for="child in link.children" :key="child.name" :to="localePath(child.href)"
-                                        class="block px-4 py-2 text-base text-gray-700 hover:bg-gray-50 hover:text-primary transition-colors">
+                                        class="block px-4 py-2 text-base text-gray-700 hover:bg-gray-50 hover:text-primary transition-colors"
+                                        @click="openDropdown = null">
                                         {{ child.name }}
                                     </NuxtLink>
                                 </div>
