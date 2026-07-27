@@ -1,6 +1,6 @@
+<!-- 
 <script setup lang="ts">
 import PageHeader from '~/components/PageHeader.vue';
-
 
 const specialties = [
     {
@@ -187,4 +187,8 @@ useHead({
 
 
     </div>
+</template>
+-->
+<template>
+    <div></div>
 </template>

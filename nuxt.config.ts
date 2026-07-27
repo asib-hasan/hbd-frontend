@@ -54,6 +54,10 @@ export default defineNuxtConfig({
   sitemap: {
     sources: [
       '/api/_sitemap-urls'
+    ],
+    exclude: [
+      '/specialties',
+      '/*/specialties'
     ]
   },
 
