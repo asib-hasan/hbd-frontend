@@ -2,9 +2,10 @@
     <article class="group card-premium hover-lift">
         <NuxtLink :to="localePath(`/blog/${slug}`)">
             <div class="relative overflow-hidden rounded-t-2xl">
-                <img :src="photo || 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80'"
+                <NuxtImg :src="photo || 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80'"
                     :alt="locale === 'bn' ? (title_bn || title_en) : title_en"
-                    class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105" />
+                    format="webp" loading="lazy"
+                    class="w-full h-full h-48 object-cover transition-transform duration-500 group-hover:scale-105" />
                 <div v-if="category_name_en"
                     class="absolute top-4 left-4 bg-primary text-primary-foreground px-2.5 py-0.5 rounded-full text-xs font-semibold shadow-soft">
                     {{ locale === 'bn' ? (category_name_bn || category_name_en) : category_name_en }}

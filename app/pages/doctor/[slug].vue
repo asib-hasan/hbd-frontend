@@ -267,8 +267,8 @@ const handleShare = async () => {
                     <div class="flex flex-col md:flex-row gap-6">
                         <!-- Image Container -->
                         <div class="relative flex-shrink-0 w-40 h-40 md:w-48 md:h-48 rounded-2xl overflow-hidden shadow-soft border border-border/50">
-                            <img :src="doctor.image || userImg" @error="(e) => e.target.src = userImg"
-                                :alt="doctor.name_en" class="w-full h-full object-cover" />
+                            <NuxtImg :src="doctor.image || userImg" @error="(e: any) => e.target.src = userImg"
+                                :alt="doctor.name_en" format="webp" loading="lazy" class="w-full h-full object-cover" />
                         </div>
 
                         <!-- Details -->

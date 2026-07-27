@@ -53,12 +53,14 @@ const onImageError = (e: Event) => {
 
                             <!-- Image Section -->
                             <NuxtLink v-if="banner.url" :to="banner.url" :target="banner.url.startsWith('http') ? '_blank' : undefined" class="w-full h-full relative block bg-muted">
-                                <img :src="banner.photo" :alt="banner.title"
+                                <NuxtImg :src="banner.photo" :alt="banner.title"
+                                    format="webp" loading="lazy"
                                     class="absolute inset-0 w-full h-full object-cover group-hover/banner:scale-105 transition-transform duration-700"
                                     @error="onImageError" />
                             </NuxtLink>
                             <div v-else class="w-full h-full relative bg-muted">
-                                <img :src="banner.photo" :alt="banner.title"
+                                <NuxtImg :src="banner.photo" :alt="banner.title"
+                                    format="webp" loading="lazy"
                                     class="absolute inset-0 w-full h-full object-cover group-hover/banner:scale-105 transition-transform duration-700"
                                     @error="onImageError" />
                             </div>

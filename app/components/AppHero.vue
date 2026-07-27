@@ -61,7 +61,7 @@ const areas = computed(() => {
                         
                         <!-- Image Container -->
                         <div class="relative h-48 w-full overflow-hidden">
-                            <img :src="area.image" :alt="area.name" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out" />
+                            <NuxtImg :src="area.image" :alt="area.name" format="webp" loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out" />
                             <!-- Overlay Gradient -->
                             <div class="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/40 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-300" />
                         </div>

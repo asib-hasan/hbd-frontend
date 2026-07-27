@@ -7,10 +7,12 @@
             <!-- Left: Image Container -->
             <div class="relative shrink-0">
                 <div class="w-20 h-20 xs:w-24 xs:h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden bg-gray-50 border border-gray-100 p-1 shadow-sm group-hover:border-primary/30 transition-colors">
-                    <img 
+                    <NuxtImg 
                         :src="image || userImg" 
                         @error="(e: any) => e.target.src = userImg" 
                         :alt="name" 
+                        format="webp"
+                        loading="lazy"
                         class="w-full h-full object-cover rounded-xl group-hover:scale-105 transition-transform duration-500" 
                     />
                 </div>

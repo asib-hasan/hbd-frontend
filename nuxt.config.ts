@@ -82,6 +82,10 @@ export default defineNuxtConfig({
   },
   css: ['~/assets/css/main.css'],
 
+  routeRules: {
+    '/': { swr: 600 }
+  },
+
   nitro: {
     compressPublicAssets: true,
   },

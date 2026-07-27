@@ -50,7 +50,8 @@ const onImageError = (e: Event) => {
                     class="group flex flex-col bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-card transition-all duration-300 h-full">
                     
                     <div class="relative h-48 md:h-56 overflow-hidden">
-                        <img v-if="blog.photo" :src="blog.photo" :alt="locale === 'bn' ? (blog.title_bn || blog.title_en) : blog.title_en"
+                        <NuxtImg v-if="blog.photo" :src="blog.photo" :alt="locale === 'bn' ? (blog.title_bn || blog.title_en) : blog.title_en"
+                            format="webp" loading="lazy"
                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                             @error="onImageError" />
                         <div v-else class="w-full h-full bg-gray-100 flex items-center justify-center">
