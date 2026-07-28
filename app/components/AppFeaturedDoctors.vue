@@ -33,14 +33,6 @@ const doctors = computed(() => {
                         {{ $t('featured_doctors.desc') }}
                     </p>
                 </div>
-                <div class=" stagger-3">
-                    <NuxtLink :to="localePath('/doctors')">
-                        <UButton variant="outline" size="lg" class="gap-2 w-fit">
-                            {{ $t('featured_doctors.view_all') }}
-                            <UIcon name="i-lucide-arrow-right" class="w-5 h-5" />
-                        </UButton>
-                    </NuxtLink>
-                </div>
             </div>
 
             <!-- Loading State -->
@@ -52,6 +44,16 @@ const doctors = computed(() => {
             <div v-else class="grid lg:grid-cols-2 gap-5">
                 <DoctorCard v-for="(doctor, index) in doctors.slice(0, 6)" :key="doctor.id" v-bind="doctor"
                     :index="index" />
+            </div>
+
+            <!-- View All Doctors Button -->
+            <div class="text-center mt-12 stagger-3">
+                <NuxtLink :to="localePath('/doctors')">
+                    <UButton variant="outline" size="lg" class="gap-2">
+                        {{ $t('featured_doctors.view_all') }}
+                        <UIcon name="i-lucide-arrow-right" class="w-5 h-5" />
+                    </UButton>
+                </NuxtLink>
             </div>
         </div>
     </section>

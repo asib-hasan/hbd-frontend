@@ -9,7 +9,7 @@ const footerLinks = computed(() => ({
         { name: t("footer.links.about"), href: "/about" },
         { name: t("footer.links.blog"), href: "/blog" },
         { name: t("footer.links.contact"), href: "/contact" },
-        { name: t("footer.links.join_doctor"), href: "https://docs.google.com/forms/d/1GLUZs7eHcgMfOm3QBkNvXqo4ED5zqU1r4Pnl48yCyL4/" },
+        { name: "Join as Doctor", href: "https://docs.google.com/forms/d/1GLUZs7eHcgMfOm3QBkNvXqo4ED5zqU1r4Pnl48yCyL4/" },
     ],
     top_areas: [
         { name: t("footer.top_areas.mirpur"), href: "/locations/mirpur" },

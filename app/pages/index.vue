@@ -28,7 +28,7 @@ useHead({
 
         <AppFeaturedDoctors />
 
-        <AppHowItWorks />
+        <!-- <AppHowItWorks /> -->
 
         <!-- Latest Blogs -->
         <AppLatestBlogs />
