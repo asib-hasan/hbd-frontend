@@ -322,10 +322,6 @@ const handleShare = async () => {
                                     <UIcon name="i-lucide-users" class="w-4 h-4" />
                                     <span class="text-sm">{{ doctor.total_patients_seen || 0 }}+ {{ $t('doctor_profile.patients') }}</span>
                                 </div>
-                                <div class="flex items-center gap-2 text-muted-foreground">
-                                    <UIcon name="i-lucide-thumbs-up" class="w-4 h-4" />
-                                    <span class="text-sm">{{ doctor.success_rate || 0 }}% {{ $t('doctor_profile.success') }}</span>
-                                </div>
                             </div>
 
                             <div class="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-border">

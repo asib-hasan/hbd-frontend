@@ -166,10 +166,26 @@ useHead({
 })
 
 const router = useRouter()
-const clearFilters = () => {
+const clearFilters = async () => {
+    clearTimeout(searchTimeout)
+    
+    let watcherWillTrigger = false
+    if (searchQuery.value !== "") watcherWillTrigger = true
+    if (selectedDistrict.value !== "1") watcherWillTrigger = true
+    if (selectedArea.value !== "all") watcherWillTrigger = true
+
     searchQuery.value = ""
     selectedDistrict.value = "1"
     selectedArea.value = "all"
+    currentPage.value = 1
+
+    if (Object.keys(route.query).length > 0) {
+        await router.replace({ query: {} })
+    }
+
+    if (!watcherWillTrigger) {
+        await loadDoctors()
+    }
 }
 
 const loadingMore = ref(false)
@@ -229,9 +245,13 @@ let searchTimeout: any;
 watch(searchQuery, (newVal) => {
     currentPage.value = 1
     clearTimeout(searchTimeout)
-    searchTimeout = setTimeout(() => {
+    if (newVal === '') {
         loadDoctors()
-    }, 500)
+    } else {
+        searchTimeout = setTimeout(() => {
+            loadDoctors()
+        }, 500)
+    }
 })
 
 watch(areaSlug, async (newArea) => {
