@@ -48,7 +48,7 @@
                 <div class="flex flex-wrap items-center gap-2 mt-2">
                     <span v-if="experience" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-primary/10 text-primary text-xs sm:text-sm font-bold">
                         <UIcon name="i-lucide-award" class="w-4 h-4" />
-                        {{ experience }} {{ $t('common.exp') }}
+                        {{ formattedExperience }}
                     </span>
                     <span v-if="fee && fee !== '0 BDT' && fee !== '0.00 BDT'" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-amber-50 text-amber-800 text-xs sm:text-sm font-bold border border-amber-300/60">
                         <UIcon name="i-lucide-banknote" class="w-4 h-4" />
@@ -90,6 +90,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import userImg from '~/assets/images/user.webp'
 
 const { t, locale } = useI18n()
@@ -117,4 +118,16 @@ const props = defineProps<{
     qualifications?: string[]
     index?: number
 }>()
+
+const formattedExperience = computed(() => {
+    if (!props.experience) return ''
+    const expStr = String(props.experience).trim()
+    if (expStr.includes('বছর') || expStr.includes('year') || expStr.includes('Years')) {
+        return expStr
+    }
+    if (locale.value === 'bn') {
+        return `${expStr} বছরের অভিজ্ঞতা`
+    }
+    return `${expStr} Years Exp.`
+})
 </script>

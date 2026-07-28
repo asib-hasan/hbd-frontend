@@ -142,9 +142,9 @@ const isActive = (href: string) => {
                         </UButton>
                     </template>
                     <template v-else>
-                        <a href="https://docs.google.com/forms/d/1GLUZs7eHcgMfOm3QBkNvXqo4ED5zqU1r4Pnl48yCyL4/" target="_blank" rel="noopener noreferrer">
-                            <UButton color="primary" size="md" class="font-medium px-6 shadow-sm text-white">
-                                Join as Doctor
+                        <a href="https://docs.google.com/forms/d/1GLUZs7eHcgMfOm3QBkNvXqo4ED5zqU1r4Pnl48yCyL4/" target="_blank" rel="noopener noreferrer" class="cursor-pointer inline-block">
+                            <UButton color="primary" size="md" class="cursor-pointer font-medium px-6 shadow-sm text-white">
+                                {{ $t('nav.join_as_doctor') }}
                             </UButton>
                         </a>
                     </template>
@@ -205,9 +205,9 @@ const isActive = (href: string) => {
                             </UButton>
                         </template>
                         <template v-else>
-                            <a href="https://docs.google.com/forms/d/1GLUZs7eHcgMfOm3QBkNvXqo4ED5zqU1r4Pnl48yCyL4/" target="_blank" rel="noopener noreferrer" @click="isMenuOpen = false">
-                                <UButton color="primary" size="lg" block class="justify-center font-medium shadow-sm text-white">
-                                    Join as Doctor
+                            <a href="https://docs.google.com/forms/d/1GLUZs7eHcgMfOm3QBkNvXqo4ED5zqU1r4Pnl48yCyL4/" target="_blank" rel="noopener noreferrer" class="cursor-pointer w-full inline-block" @click="isMenuOpen = false">
+                                <UButton color="primary" size="lg" block class="cursor-pointer justify-center font-medium shadow-sm text-white">
+                                    {{ $t('nav.join_as_doctor') }}
                                 </UButton>
                             </a>
                         </template>
