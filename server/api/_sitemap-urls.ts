@@ -1,4 +1,6 @@
-export default defineEventHandler(async (event) => {
+import { defineSitemapEventHandler } from '#imports'
+
+export default defineSitemapEventHandler(async (event) => {
   const config = useRuntimeConfig(event)
   const apiBaseUrl = config.public.apiBaseUrl || 'http://127.0.0.1:8000/api'
   
@@ -18,7 +20,8 @@ export default defineEventHandler(async (event) => {
           loc: `/doctor/${doc.slug}`,
           lastmod: doc.updated_at || new Date().toISOString(),
           changefreq: 'weekly',
-          priority: 0.8
+          priority: 0.8,
+          _i18nTransform: true
         })
       }
     }
@@ -40,7 +43,8 @@ export default defineEventHandler(async (event) => {
           loc: `/blog/${blog.slug}`,
           lastmod: blog.updated_at || new Date().toISOString(),
           changefreq: 'monthly',
-          priority: 0.7
+          priority: 0.7,
+          _i18nTransform: true
         })
       }
     }
