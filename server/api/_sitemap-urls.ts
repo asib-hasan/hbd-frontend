@@ -8,9 +8,7 @@ export default defineSitemapEventHandler(async (event) => {
 
   try {
     // 1. Fetch dynamic doctors
-    const doctorsRes = await $fetch<any>(`${apiBaseUrl}/doctors`, {
-      params: { per_page: 1000 } // Fetch enough to cover the sitemap
-    })
+    const doctorsRes = await $fetch<any>(`${apiBaseUrl}/sitemap/doctors`)
     
     const doctors = Array.isArray(doctorsRes?.data) ? doctorsRes.data : (doctorsRes?.data?.data || [])
     
@@ -31,9 +29,7 @@ export default defineSitemapEventHandler(async (event) => {
 
   try {
     // 2. Fetch dynamic blogs
-    const blogsRes = await $fetch<any>(`${apiBaseUrl}/blogs`, {
-      params: { per_page: 1000 }
-    })
+    const blogsRes = await $fetch<any>(`${apiBaseUrl}/sitemap/blogs`)
     
     const blogs = Array.isArray(blogsRes?.data) ? blogsRes.data : (blogsRes?.data?.data || [])
     
