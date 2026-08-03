@@ -2,7 +2,7 @@
 definePageMeta({
   middleware: [
     function () {
-      return navigateTo('https://docs.google.com/forms/d/1GLUZs7eHcgMfOm3QBkNvXqo4ED5zqU1r4Pnl48yCyL4/', { external: true })
+      return navigateTo('/join')
     }
   ]
 })

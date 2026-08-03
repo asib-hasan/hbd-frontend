@@ -142,11 +142,11 @@ const isActive = (href: string) => {
                         </UButton>
                     </template>
                     <template v-else>
-                        <a href="https://docs.google.com/forms/d/1GLUZs7eHcgMfOm3QBkNvXqo4ED5zqU1r4Pnl48yCyL4/" target="_blank" rel="noopener noreferrer" class="cursor-pointer inline-block">
+                        <NuxtLink :to="localePath('/join')">
                             <UButton color="primary" size="md" class="cursor-pointer font-medium px-6 shadow-sm text-white">
                                 Join as Doctor
                             </UButton>
-                        </a>
+                        </NuxtLink>
                     </template>
                 </div>
 
@@ -205,11 +205,11 @@ const isActive = (href: string) => {
                             </UButton>
                         </template>
                         <template v-else>
-                            <a href="https://docs.google.com/forms/d/1GLUZs7eHcgMfOm3QBkNvXqo4ED5zqU1r4Pnl48yCyL4/" target="_blank" rel="noopener noreferrer" class="cursor-pointer w-full inline-block" @click="isMenuOpen = false">
+                            <NuxtLink :to="localePath('/join')" class="w-full inline-block" @click="isMenuOpen = false">
                                 <UButton color="primary" size="lg" block class="cursor-pointer justify-center font-medium shadow-sm text-white">
                                     Join as Doctor
                                 </UButton>
-                            </a>
+                            </NuxtLink>
                         </template>
                     </div>
                 </nav>
