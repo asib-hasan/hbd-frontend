@@ -42,12 +42,21 @@ export const useDoctors = () => {
         })
     }
 
+    const joinDoctor = async (bodyData: FormData) => {
+        return await $fetch<any>('/join-doctor', {
+            baseURL: apiBaseUrl,
+            method: 'POST',
+            body: bodyData,
+        })
+    }
+
     return {
         fetchAllDoctors,
         fetchDoctorsByArea,
         fetchFeaturedDoctors,
         fetchDistricts,
         fetchAreas,
-        fetchDoctor
+        fetchDoctor,
+        joinDoctor
     }
 }

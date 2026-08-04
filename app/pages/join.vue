@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import PageHeader from '~/components/PageHeader.vue';
 
 const { t } = useI18n()
+const localePath = useLocalePath()
+const { joinDoctor } = useDoctors()
 
 // Active section tab for multi-step / tabbed form view
 const activeTab = ref<'personal' | 'education_services' | 'experience_chambers' | 'additional'>('personal')
@@ -47,16 +48,16 @@ const formData = ref({
   // Personal & General Information
   name_en: '',
   name_bn: '',
-  primary_specialty: '', // Input text field (e.g. Constitutional Treatment, Cardiology, Dermatology)
+  primary_specialty: '',
   gender: 'Male',
   phone: '',
   email: '',
-  experience: '', // Years of Experience
-  district: '', // Input text field
-  area: '', // Input text field
+  experience: '',
+  district: '',
+  area: '',
   consultation_fee: '',
   follow_up_fee: '',
-  about_en: '', // English only
+  about_en: '',
   facebook_link: '',
   youtube_link: '',
 
@@ -199,11 +200,58 @@ const handleImageChange = (e: Event) => {
 
 const isSubmitting = ref(false)
 const showSuccessModal = ref(false)
+const errorMessage = ref('')
 
-const handleFormSubmit = () => {
-  // Front-end UI display test - payload logging
-  console.log('Doctor Registration Submitted Payload:', formData.value)
-  showSuccessModal.value = true
+const handleFormSubmit = async () => {
+  if (!formData.value.name_en || !formData.value.phone || !formData.value.consultation_fee) {
+    errorMessage.value = 'Please fill in mandatory fields: Full Name, Phone Number, and Consultation Fee.'
+    activeTab.value = 'personal'
+    return
+  }
+
+  isSubmitting.value = true
+  errorMessage.value = ''
+  try {
+    const body = new FormData()
+    body.append('name_en', formData.value.name_en)
+    body.append('name_bn', formData.value.name_bn)
+    body.append('primary_specialty', formData.value.primary_specialty)
+    body.append('gender', formData.value.gender)
+    body.append('phone', formData.value.phone)
+    body.append('email', formData.value.email)
+    body.append('experience', formData.value.experience)
+    body.append('district', formData.value.district)
+    body.append('area', formData.value.area)
+    body.append('consultation_fee', formData.value.consultation_fee)
+    body.append('follow_up_fee', formData.value.follow_up_fee)
+    body.append('about_en', formData.value.about_en)
+    body.append('facebook_link', formData.value.facebook_link)
+    body.append('youtube_link', formData.value.youtube_link)
+    body.append('total_patients_seen', formData.value.total_patients_seen)
+    body.append('success_rate', formData.value.success_rate)
+    body.append('rating', formData.value.rating)
+
+    body.append('education_data', JSON.stringify(formData.value.education_list))
+    body.append('service_data', JSON.stringify(formData.value.service_list))
+    body.append('experience_data', JSON.stringify(formData.value.experience_list))
+    body.append('chamber_data', JSON.stringify(formData.value.chamber_list))
+
+    if (formData.value.image_file) {
+      body.append('image', formData.value.image_file)
+    }
+
+    const res = await joinDoctor(body)
+    if (res && res.status === 'success') {
+      showSuccessModal.value = true
+    } else {
+      errorMessage.value = res?.message || 'Failed to submit registration.'
+    }
+  } catch (err: any) {
+    console.error('Registration submission error:', err)
+    errorMessage.value = err?.data?.message || err?.message || 'Error submitting registration. Please try again.'
+  } finally {
+    isSubmitting.value = false
+  }
 }
 
 useHead({
@@ -216,12 +264,6 @@ useHead({
 
 <template>
   <div class="min-h-screen bg-background pb-16">
-    <PageHeader
-      title="Join as a Doctor"
-      description="Register your homeopathic practice, display your credentials, chambers, and services to reach patients nationwide."
-      :breadcrumbs="[{ label: 'Join as Doctor' }]"
-    />
-
     <!-- Success Modal -->
     <Transition
       enter-active-class="transition duration-300 ease-out"
@@ -236,9 +278,9 @@ useHead({
           <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
             <UIcon name="i-lucide-check-circle-2" class="w-10 h-10" />
           </div>
-          <h3 class="text-2xl font-bold text-foreground mb-2">UI Registration Ready!</h3>
+          <h3 class="text-2xl font-bold text-foreground mb-2">Registration Submitted!</h3>
           <p class="text-muted-foreground mb-6">
-            The registration form structure and state are configured cleanly. When backend data submission rules are ready, we will connect the submission API.
+            Your registration details have been submitted and are pending admin review. Once approved by the administrator, your doctor profile will be activated on HomeoDoctorsBD.
           </p>
           <button
             @click="showSuccessModal = false"
@@ -250,7 +292,25 @@ useHead({
       </div>
     </Transition>
 
-    <div class="container mx-auto px-4 mt-8 max-w-6xl">
+    <!-- Top Breadcrumb Bar (Aligned with Header Logo) -->
+    <div class="pt-24 lg:pt-28 pb-2 mb-4">
+      <div class="container mx-auto px-4 lg:px-8">
+        <nav class="flex items-center gap-2 text-sm text-muted-foreground">
+          <NuxtLink :to="localePath('/')" class="hover:text-primary transition-colors">
+            {{ t('nav.home') || 'Home' }}
+          </NuxtLink>
+          <UIcon name="i-lucide-chevron-right" class="w-3.5 h-3.5" />
+          <span class="text-foreground font-medium">Join as Doctor</span>
+        </nav>
+      </div>
+    </div>
+
+    <div class="container mx-auto px-4 max-w-6xl">
+      <!-- Error Message Banner -->
+      <div v-if="errorMessage" class="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-2xl flex items-center justify-between text-sm">
+        <span>{{ errorMessage }}</span>
+        <button @click="errorMessage = ''" class="text-red-500 hover:text-red-800 font-bold">&times;</button>
+      </div>
       <!-- Mobile Step Progress Indicator (visible on mobile screens) -->
       <div class="sm:hidden mb-4 bg-white p-4 rounded-2xl border border-border/80 shadow-sm space-y-2">
         <div class="flex items-center justify-between text-xs font-semibold text-foreground">
@@ -366,7 +426,6 @@ useHead({
                   <input
                     v-model="formData.name_en"
                     type="text"
-                    required
                     placeholder="e.g. Dr. Anisur Rahman"
                     class="w-full h-11 pl-10 pr-4 bg-muted/20 border border-border/70 rounded-xl text-foreground text-sm placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary focus:bg-white transition-all"
                   />
@@ -398,7 +457,6 @@ useHead({
                   <input
                     v-model="formData.primary_specialty"
                     type="text"
-                    required
                     placeholder="e.g., Constitutional Treatment, Cardiology, Dermatology"
                     class="w-full h-11 pl-10 pr-4 bg-muted/20 border border-border/70 rounded-xl text-foreground text-sm placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary focus:bg-white transition-all"
                   />
@@ -413,7 +471,6 @@ useHead({
                 </label>
                 <select
                   v-model="formData.gender"
-                  required
                   class="w-full h-11 px-4 bg-muted/20 border border-border/70 rounded-xl text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary focus:bg-white transition-all"
                 >
                   <option value="Male">Male</option>
@@ -434,7 +491,6 @@ useHead({
                   <input
                     v-model="formData.phone"
                     type="tel"
-                    required
                     placeholder="e.g. 01711000000"
                     class="w-full h-11 pl-10 pr-4 bg-muted/20 border border-border/70 rounded-xl text-foreground text-sm placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary focus:bg-white transition-all"
                   />
@@ -470,7 +526,6 @@ useHead({
                     v-model="formData.experience"
                     type="number"
                     min="0"
-                    required
                     placeholder="e.g. 12"
                     class="w-full h-11 pl-10 pr-4 bg-muted/20 border border-border/70 rounded-xl text-foreground text-sm placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary focus:bg-white transition-all"
                   />
@@ -489,8 +544,7 @@ useHead({
                   <input
                     v-model="formData.district"
                     type="text"
-                    required
-                    placeholder="e.g., Dhaka, Chittagong, Sylhet"
+                    placeholder="e.g. Dhaka, Chittagong, Sylhet"
                     class="w-full h-11 pl-10 pr-4 bg-muted/20 border border-border/70 rounded-xl text-foreground text-sm placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary focus:bg-white transition-all"
                   />
                 </div>
@@ -508,8 +562,7 @@ useHead({
                   <input
                     v-model="formData.area"
                     type="text"
-                    required
-                    placeholder="e.g., Mirpur-10, Dhanmondi, Agrabad"
+                    placeholder="e.g. Mirpur-10, Dhanmondi, Agrabad"
                     class="w-full h-11 pl-10 pr-4 bg-muted/20 border border-border/70 rounded-xl text-foreground text-sm placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary focus:bg-white transition-all"
                   />
                 </div>
@@ -524,7 +577,6 @@ useHead({
                   v-model="formData.consultation_fee"
                   type="number"
                   step="0.01"
-                  required
                   placeholder="e.g. 1000"
                   class="w-full h-11 px-4 bg-muted/20 border border-border/70 rounded-xl text-foreground text-sm placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary focus:bg-white transition-all"
                 />
@@ -641,7 +693,6 @@ useHead({
                     <input
                       v-model="edu.degree_en"
                       type="text"
-                      required
                       placeholder="e.g. BHMS (Dhaka University), MD (Homeo)"
                       class="w-full h-10 px-3 bg-white border border-border/70 rounded-lg text-sm text-foreground focus:outline-none focus:border-primary"
                     />
@@ -651,7 +702,6 @@ useHead({
                     <input
                       v-model="edu.institution_en"
                       type="text"
-                      required
                       placeholder="e.g. Government Homeopathic Medical College"
                       class="w-full h-10 px-3 bg-white border border-border/70 rounded-lg text-sm text-foreground focus:outline-none focus:border-primary"
                     />
@@ -661,7 +711,6 @@ useHead({
                     <input
                       v-model="edu.passing_year"
                       type="number"
-                      required
                       placeholder="e.g. 2016"
                       class="w-full h-10 px-3 bg-white border border-border/70 rounded-lg text-sm text-foreground focus:outline-none focus:border-primary"
                     />
@@ -717,7 +766,6 @@ useHead({
                   <input
                     v-model="srv.service_name_en"
                     type="text"
-                    required
                     placeholder="e.g. Chronic Kidney Disease Management, Allergy & Asthma Treatment"
                     class="w-full h-10 px-3 bg-white border border-border/70 rounded-lg text-sm text-foreground focus:outline-none focus:border-primary"
                   />
@@ -797,7 +845,6 @@ useHead({
                     <input
                       v-model="exp.company_name_en"
                       type="text"
-                      required
                       placeholder="e.g. Central Homeopathic Hospital"
                       class="w-full h-10 px-3 bg-white border border-border/70 rounded-lg text-sm text-foreground focus:outline-none focus:border-primary"
                     />
@@ -807,7 +854,6 @@ useHead({
                     <input
                       v-model="exp.designation_en"
                       type="text"
-                      required
                       placeholder="e.g. Senior Homeopathic Consultant"
                       class="w-full h-10 px-3 bg-white border border-border/70 rounded-lg text-sm text-foreground focus:outline-none focus:border-primary"
                     />
@@ -817,7 +863,6 @@ useHead({
                     <input
                       v-model="exp.employment_period_en"
                       type="text"
-                      required
                       placeholder="e.g. 2018 - Present"
                       class="w-full h-10 px-3 bg-white border border-border/70 rounded-lg text-sm text-foreground focus:outline-none focus:border-primary"
                     />
@@ -884,7 +929,6 @@ useHead({
                     <input
                       v-model="chamber.name_en"
                       type="text"
-                      required
                       placeholder="e.g. Healing Touch Homeo Clinic"
                       class="w-full h-10 px-3 bg-white border border-border/70 rounded-lg text-sm text-foreground focus:outline-none focus:border-primary"
                     />
@@ -895,7 +939,6 @@ useHead({
                     <input
                       v-model="chamber.address_en"
                       type="text"
-                      required
                       placeholder="e.g. House #12, Road #5, Block-B, Mirpur-10, Dhaka"
                       class="w-full h-10 px-3 bg-white border border-border/70 rounded-lg text-sm text-foreground focus:outline-none focus:border-primary"
                     />
