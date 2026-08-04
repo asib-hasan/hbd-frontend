@@ -34,8 +34,8 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      // apiBaseUrl: 'https://admin.homeodoctorsbd.com/api'
-      apiBaseUrl: 'http://127.0.0.1:8000/api'
+      apiBaseUrl: 'https://admin.homeodoctorsbd.com/api'
+      // apiBaseUrl: 'http://127.0.0.1:8000/api'
     }
   },
 
