@@ -243,6 +243,11 @@ const handleFormSubmit = async () => {
     const res = await joinDoctor(body)
     if (res && res.status === 'success') {
       showSuccessModal.value = true
+      setTimeout(() => {
+        if (showSuccessModal.value) {
+          goToHome()
+        }
+      }, 4000)
     } else {
       errorMessage.value = res?.message || 'Failed to submit registration.'
     }
@@ -252,6 +257,11 @@ const handleFormSubmit = async () => {
   } finally {
     isSubmitting.value = false
   }
+}
+
+const goToHome = () => {
+  showSuccessModal.value = false
+  navigateTo(localePath('/'))
 }
 
 useHead({
@@ -283,10 +293,10 @@ useHead({
             Your registration details have been submitted and are pending admin review. Once approved by the administrator, your doctor profile will be activated on HomeoDoctorsBD.
           </p>
           <button
-            @click="showSuccessModal = false"
+            @click="goToHome"
             class="px-6 py-2.5 bg-primary text-primary-foreground font-semibold rounded-xl hover:bg-primary/90 transition-all"
           >
-            Close & Review Form
+            Go to Home Page
           </button>
         </div>
       </div>
